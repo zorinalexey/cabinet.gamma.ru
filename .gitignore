@@ -12,3 +12,5 @@ private/
 composer.lock
 .env
 .env.backup
+/.env
+/.env.backup
