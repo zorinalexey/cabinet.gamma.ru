@@ -10,7 +10,9 @@ use RuntimeException;
 
 class Controller extends BaseController
 {
-    use AuthorizesRequests, SoftDeletes, ValidatesRequests;
+    use AuthorizesRequests;
+    use SoftDeletes;
+    use ValidatesRequests;
 
     /**
      * @return void

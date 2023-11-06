@@ -225,7 +225,7 @@ Route::middleware(['auth', 'admin', 'web'])->prefix('admin')->group(function () 
     })->name('admin_edit_user_count_pif');
 
     Route::post('voting/delete/{id}', function ($id, Request $request) {
-        return (new ApiOmittedController)->removeVoting($id, $request);
+        return (new ApiOmittedController())->removeVoting($id, $request);
     });
 });
 

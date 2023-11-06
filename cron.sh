@@ -22,6 +22,10 @@ echo 'Запус обновлений пакетов composer'
 sudo -u $USER composer update
 echo 'Обновление пакетов composer завершено'
 
+git add .
+git commit -m 'auto-commit'
+git push origin main
+
 $PHP_PATH artisan migrate
 $PHP_PATH artisan config:clear
 $PHP_PATH artisan route:clear

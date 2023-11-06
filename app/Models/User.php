@@ -14,7 +14,10 @@ use Laravel\Sanctum\HasApiTokens;
 
 final class User extends AuthUser
 {
-    use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
+    use HasApiTokens;
+    use HasFactory;
+    use Notifiable;
+    use SoftDeletes;
 
     protected $dates = ['deleted_at'];
 
