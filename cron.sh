@@ -10,6 +10,8 @@ cd "$SCRIPT_PATH"
 
 echo "$SCRIPT_PATH"
 
+cp "$SCRIPT_PATH/.env" "$SCRIPT_PATH/.env.backup"
+
 echo 'Запус обновлений исходного кода'
 git pull origin main
 echo 'Обновление исходного кода завершено'
@@ -31,4 +33,5 @@ $PHP_PATH artisan config:clear
 $PHP_PATH artisan route:clear
 $PHP_PATH artisan config:cache
 $PHP_PATH artisan route:cache
+$PHP_PATH artisan storage:link
 $PHP_PATH artisan schedule:run
