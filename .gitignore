@@ -10,3 +10,4 @@
 .idea/
 private/
 ./composer.lock
+composer.lock
