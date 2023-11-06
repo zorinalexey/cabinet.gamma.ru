@@ -1,0 +1,95 @@
+{
+    "name": "laravel/laravel",
+    "type": "project",
+    "description": "The Laravel Framework.",
+    "keywords": ["framework", "laravel"],
+    "license": "MIT",
+    "require": {
+        "php": "^8.1",
+        "ext-curl": "*",
+        "ext-simplexml": "*",
+        "cloud-castle/sms-services-laravel": "^2.0",
+        "guzzlehttp/guzzle": "^7.2",
+        "kilylabs/qr-payment-php": "^0.1.0",
+        "laravel/framework": "^10.0",
+        "laravel/sanctum": "^3.2",
+        "laravel/socialite": "^5.0",
+        "laravel/tinker": "^2.8",
+        "lcobucci/jwt": "^3.2.2",
+        "league/oauth2-client": "^2.4.1",
+        "movemoveapp/laravel-dadata": "^1.0",
+        "phpoffice/phpword": "^1.0",
+        "psr/http-client": "^1.0.1",
+        "psr/http-factory": "^1.0.1",
+        "psr/http-message": "^1.0",
+        "ralouphie/getallheaders": "^3.0.3",
+        "ramsey/uuid": "^3.0 || ^4.0",
+        "symfony/deprecation-contracts": "^v3.2.1"
+    },
+    "require-dev": {
+        "roave/security-advisories": "dev-latest",
+        "fakerphp/faker": "^1.9.1",
+        "laravel/pint": "^1.0",
+        "laravel/sail": "^1.18",
+        "mockery/mockery": "^1.4.4",
+        "nunomaduro/collision": "^7.0",
+        "phpunit/phpunit": "^10.0",
+        "spatie/laravel-ignition": "^2.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/",
+            "Database\\Factories\\": "database/factories/",
+            "Database\\Seeders\\": "database/seeders/",
+            "Ekapusta\\OAuth2Esia\\": "resources/php-libs/oauth2-esia-master/src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "post-autoload-dump": [
+            "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
+            "@php artisan package:discover --ansi"
+        ],
+        "post-update-cmd": [
+            "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
+        ],
+        "post-root-package-install": [
+            "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
+        ],
+        "post-create-project-cmd": [
+            "@php artisan key:generate --ansi"
+        ]
+    },
+    "extra": {
+        "laravel": {
+            "dont-discover": [],
+            "providers": [
+                "MoveMoveIo\\DaData\\DaDataServiceProvider"
+            ],
+            "aliases": {
+                "DaDataAddress": "MoveMoveIo\\DaData\\Facades\\DaDataAddress",
+                "DaDataName": "MoveMoveIo\\DaData\\Facades\\DaDataName",
+                "DaDataEmail": "MoveMoveIo\\DaData\\Facades\\DaDataEmail",
+                "DaDataPhone": "MoveMoveIo\\DaData\\Facades\\DaDataPhone",
+                "DaDataCompany": "MoveMoveIo\\DaData\\Facades\\DaDataCompany",
+                "DaDataBank": "MoveMoveIo\\DaData\\Facades\\DaDataBank",
+                "DaDataPassport": "MoveMoveIo\\DaData\\Facades\\DaDataPassport"
+            }
+        }
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "preferred-install": "dist",
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true,
+            "php-http/discovery": true
+        }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}

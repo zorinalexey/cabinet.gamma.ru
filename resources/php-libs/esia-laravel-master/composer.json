@@ -1,0 +1,34 @@
+{
+    "name": "hapxu3/esia-laravel",
+    "description": "ESIA connector for Laravel framework",
+    "type": "library",
+    "keywords": [],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Evgenii Zhemchuzhnikov",
+            "email": "narhis_8@mail.ru"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": "^7.2",
+        "fr05t1k/esia": "^2.0",
+        "laravel/socialite": "^5.0",
+        "guzzlehttp/guzzle": "^6.0",
+        "illuminate/support": "^5.8 || ^6.0 || ^7.0 || ^8.0",
+        "ext-json": "*"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Hapxu3\\Esia\\EsiaServiceProvider"
+            ]
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Hapxu3\\Esia\\": "src"
+        }
+    }
+}
