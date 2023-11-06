@@ -10,7 +10,7 @@ echo $SCRIPTPATH
 cd $SCRIPTPATH
 
 echo 'Запус обновлений исходного кода'
-git pull --rebase
+git pull
 echo 'Обновление исходного кода завершено'
 echo 'Запус обновлений пакетов composer'
 sudo -u $USER composer update
