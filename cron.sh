@@ -10,7 +10,6 @@ cd "$SCRIPT_PATH"
 
 echo "$SCRIPT_PATH"
 
-
 echo 'Запус обновлений исходного кода'
 git pull origin main
 echo 'Обновление исходного кода завершено'
