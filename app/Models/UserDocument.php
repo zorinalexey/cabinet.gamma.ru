@@ -45,7 +45,9 @@ final class UserDocument extends Model
     {
         if ($this->sign_status && $this->is_sign) {
             return 'Документ подписан';
-        } elseif (! $this->sign_status && $this->is_sign) {
+        }
+
+        if (! $this->sign_status && $this->is_sign) {
             return 'Документ не подписан';
         }
 
