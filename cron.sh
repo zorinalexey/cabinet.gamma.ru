@@ -11,6 +11,7 @@ cd "$SCRIPT_PATH"
 echo "$SCRIPT_PATH"
 
 cp "$SCRIPT_PATH/.env" "$SCRIPT_PATH/.env.backup"
+cp "$SCRIPT_PATH/.env.production" "$SCRIPT_PATH/.env"
 
 echo 'Запус обновлений исходного кода'
 git pull origin main
