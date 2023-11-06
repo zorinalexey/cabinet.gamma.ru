@@ -18,9 +18,13 @@ if(!defined('ROOT_CATALOG')){
 |
 */
 
-require __DIR__.'/vendor/autoload.php';
+use Illuminate\Contracts\Console\Kernel;
+use Symfony\Component\Console\Input\ArgvInput;
+use Symfony\Component\Console\Output\ConsoleOutput;
 
-$app = require_once __DIR__.'/bootstrap/app.php';
+require ROOT_CATALOG.'/vendor/autoload.php';
+
+$app = require ROOT_CATALOG.'/bootstrap/app.php';
 
 /*
 |--------------------------------------------------------------------------
@@ -33,11 +37,11 @@ $app = require_once __DIR__.'/bootstrap/app.php';
 |
 */
 
-$kernel = $app->make(Illuminate\Contracts\Console\Kernel::class);
+$kernel = $app->make(Kernel::class);
 
 $status = $kernel->handle(
-    $input = new Symfony\Component\Console\Input\ArgvInput,
-    new Symfony\Component\Console\Output\ConsoleOutput
+    $input = new ArgvInput,
+    new ConsoleOutput
 );
 
 /*
