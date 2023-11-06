@@ -7,11 +7,10 @@ use App\Models\StaticPage;
 
 class PageController extends Controller
 {
-
     public function getPage(string $alias)
     {
         $content = StaticPage::where('alias', $alias)->first();
-        if (!$content) {
+        if (! $content) {
             return abort(404);
         }
 
@@ -23,6 +22,7 @@ class PageController extends Controller
         $news = StaticPage::all();
         $title = 'Ресурсы';
         $route = 'pages';
+
         return view('front.news', compact('news', 'title', 'route'));
     }
 }

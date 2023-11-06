@@ -14,26 +14,21 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-/**
- *
- */
 final class ProfileController extends Controller
 {
     /**
      * Страница профиля авторизованного пользователя
-     * @return Application|Factory|View|App|RedirectResponse
      */
     public function profile(): Application|Factory|View|App|RedirectResponse
     {
-        $title = 'Профиль инвестора <<' . Auth::user()->lastname . ' ' . Auth::user()->name . '>>';
+        $title = 'Профиль инвестора <<'.Auth::user()->lastname.' '.Auth::user()->name.'>>';
         $dadata = config('dadata');
+
         return view('front.profile', compact('title', 'dadata'));
     }
 
     /**
      * Добавить рублевый счет
-     * @param Request $request
-     * @return RedirectResponse
      */
     public function addRubleAccount(Request $request): RedirectResponse
     {
@@ -49,14 +44,12 @@ final class ProfileController extends Controller
         $account->payment_account = $data['ru_bank_pay_account'];
         $account->payment_recipient = $data['ru_bank_recipient'];
         $account->save();
+
         return redirect(route('profile'));
     }
 
     /**
      * Редактировать рублевый счет
-     * @param int $id
-     * @param Request $request
-     * @return RedirectResponse
      */
     public function editRubleAccount(int $id, Request $request): RedirectResponse
     {
@@ -71,24 +64,22 @@ final class ProfileController extends Controller
         $account->payment_account = $data['ru_bank_pay_account'];
         $account->payment_recipient = $data['ru_bank_recipient'];
         $account->save();
+
         return redirect(route('profile'));
     }
 
     /**
      * Удалить рублевый счет
-     * @param int $id
-     * @return RedirectResponse
      */
     public function dropRubleAccount(int $id): RedirectResponse
     {
         UserRubleAccount::find($id)->delete();
+
         return redirect(route('profile'));
     }
 
     /**
      * Добавить валютный счет
-     * @param Request $request
-     * @return RedirectResponse
      */
     public function addCurrencyAccount(Request $request): RedirectResponse
     {
@@ -110,14 +101,12 @@ final class ProfileController extends Controller
         $account->pay_beneficiary = $data['currency_pay_beneficiary'];
         $account->pay_address = $data['currency_pay_address'];
         $account->save();
+
         return redirect(route('profile'));
     }
 
     /**
      * Редактировать валютный счет
-     * @param int $id
-     * @param Request $request
-     * @return RedirectResponse
      */
     public function editCurrencyAccount(int $id, Request $request): RedirectResponse
     {
@@ -137,24 +126,22 @@ final class ProfileController extends Controller
         $account->pay_beneficiary = $data['currency_pay_beneficiary'];
         $account->pay_address = $data['currency_pay_address'];
         $account->save();
+
         return redirect(route('profile'));
     }
 
     /**
      * Удалить валютный счет
-     * @param int $id
-     * @return RedirectResponse
      */
     public function dropCurrencyAccount(int $id): RedirectResponse
     {
         UserCurrencyAccount::find($id)->delete();
+
         return redirect(route('profile'));
     }
 
     /**
      * Редактировать номер телефона инвестора
-     * @param Request $request
-     * @return RedirectResponse
      */
     public function editPhone(Request $request): RedirectResponse
     {
@@ -162,13 +149,12 @@ final class ProfileController extends Controller
         $user = Auth::user();
         $user->phone = $data['phone'];
         $user->save();
+
         return redirect(route('profile'));
     }
 
     /**
      * Редактировать адрес электронной почты инвестора
-     * @param Request $request
-     * @return RedirectResponse
      */
     public function editEmail(Request $request): RedirectResponse
     {
@@ -176,7 +162,7 @@ final class ProfileController extends Controller
         $user = Auth::user();
         $user->email = $data['email'];
         $user->save();
+
         return redirect(route('profile'));
     }
-
 }

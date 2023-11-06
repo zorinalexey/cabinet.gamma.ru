@@ -9,10 +9,7 @@ use SimpleXMLElement;
 
 abstract class Checker
 {
-
     /**
-     * @param string $className
-     * @return void
      * @throws JsonException
      */
     protected static function start(string $className): void
@@ -33,18 +30,16 @@ abstract class Checker
         }
     }
 
-    /**
-     * @return string
-     */
     protected static function getFilePuth(): string
     {
         $config = config('company_details');
-        $file = $config['root_catalog'] . DIRECTORY_SEPARATOR . 'private' . DIRECTORY_SEPARATOR .
-            'files' . DIRECTORY_SEPARATOR . static::$fileName;
+        $file = $config['root_catalog'].DIRECTORY_SEPARATOR.'private'.DIRECTORY_SEPARATOR.
+            'files'.DIRECTORY_SEPARATOR.static::$fileName;
         $dir = dirname($file);
-        if (!is_dir($dir) && !mkdir($dir, 0777, true) && !is_dir($dir)) {
+        if (! is_dir($dir) && ! mkdir($dir, 0777, true) && ! is_dir($dir)) {
             throw new RuntimeException(sprintf('Directory "%s" was not created', $dir));
         }
+
         return $file;
     }
 
@@ -54,5 +49,4 @@ abstract class Checker
     {
         return trim(preg_replace('~(\s{2,})~u', ' ', str_replace(["\t", "\n"], '', $str)));
     }
-
 }

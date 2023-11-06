@@ -15,6 +15,7 @@ class OmittedController extends Controller
     public function omitted_view(int $id)
     {
         $omitted = Omitted::find($id);
+
         return view('front.omitted_view', compact('omitted'));
     }
 
@@ -30,18 +31,15 @@ class OmittedController extends Controller
                 }
             }
         }
+
         return view('front.omitted_all', ['omitteds' => $omitteds]);
     }
 
-    /**
-     * @param int $id
-     * @return RedirectResponse
-     */
     public function upload(int $id): RedirectResponse
     {
         $document = OmittedDocument::find($id);
         $config = config('company_details');
-        $path = str_replace([$config['root_catalog'], '/storage/app/',], '', $document->link);
+        $path = str_replace([$config['root_catalog'], '/storage/app/'], '', $document->link);
         if ($document && Storage::drive('local')->exists($path)) {
             if ($this->downloadFile(Storage::drive('local')->path($path))) {
                 return redirect()->back();

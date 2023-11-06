@@ -7,9 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-/**
- *
- */
 final class Answer extends Model
 {
     use HasFactory, SoftDeletes;
@@ -25,7 +22,6 @@ final class Answer extends Model
 
     /**
      * Пользователь к которому относится ответ
-     * @return HasOne
      */
     public function user(): HasOne
     {
@@ -34,7 +30,6 @@ final class Answer extends Model
 
     /**
      * Вопрос к которому относится ответ
-     * @return HasOne
      */
     public function voting(): HasOne
     {
@@ -43,12 +38,9 @@ final class Answer extends Model
 
     /**
      * Голосование к которому относится ответ
-     * @return HasOne
      */
     public function omitted(): HasOne
     {
         return $this->hasOne(Omitted::class, 'id', 'omitted_id');
     }
-
-
 }

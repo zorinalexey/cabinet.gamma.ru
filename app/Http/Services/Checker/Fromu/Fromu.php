@@ -8,19 +8,11 @@ use Illuminate\Support\Facades\DB;
 use JsonException;
 use SimpleXMLElement;
 
-/**
- *
- */
 final class Fromu extends Checker
 {
-
-    /**
-     * @var string
-     */
     protected static string $fileName = 'fromu.xml';
 
     /**
-     * @return void
      * @throws JsonException
      */
     public static function updateData(): void
@@ -28,10 +20,6 @@ final class Fromu extends Checker
         self::start(FromuBase::class);
     }
 
-    /**
-     * @param SimpleXMLElement $data
-     * @return void
-     */
     protected static function saveData(SimpleXMLElement $data): void
     {
         $count = 0;

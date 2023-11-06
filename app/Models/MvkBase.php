@@ -14,5 +14,4 @@ class MvkBase extends Model
         'data',
         'remark',
     ];
-
 }

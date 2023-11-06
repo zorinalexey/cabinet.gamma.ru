@@ -8,9 +8,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-/**
- *
- */
 final class Voting extends Model
 {
     use HasFactory, SoftDeletes;
@@ -34,7 +31,6 @@ final class Voting extends Model
 
     /**
      * Ответы на вопрос голосования
-     * @return HasMany
      */
     public function answers(): HasMany
     {
@@ -43,7 +39,6 @@ final class Voting extends Model
 
     /**
      * Фонд голосования
-     * @return HasOne
      */
     public function fund(): HasOne
     {
@@ -52,7 +47,6 @@ final class Voting extends Model
 
     /**
      * Голосование к которому относится вопрос
-     * @return HasOne
      */
     public function omitted(): HasOne
     {

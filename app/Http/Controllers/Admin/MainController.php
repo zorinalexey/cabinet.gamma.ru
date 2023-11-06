@@ -14,6 +14,7 @@ class MainController extends Controller
         foreach ($collection as $user) {
             $users[] = $user;
         }
+
         return view('admin.main', compact('users', 'collection'));
     }
 }

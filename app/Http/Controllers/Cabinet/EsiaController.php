@@ -15,21 +15,19 @@ use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 
 final class EsiaController extends Controller
 {
-
-    /**
-     * @return RedirectResponse
-     */
     public function auth(): RedirectResponse
     {
         $provider = self::getProvider();
         $authUrl = $provider->getAuthorizationUrl();
         $_SESSION['oauth2.esia.state'] = $provider->getState();
+
         return redirect()->intended($authUrl);
     }
 
     private static function getProvider(): EsiaProvider
     {
         $config = config('esia');
+
         return new EsiaProvider([
             'clientId' => $config['clientId'],
             'redirectUri' => $config['redirectUrl'],
@@ -41,8 +39,6 @@ final class EsiaController extends Controller
     }
 
     /**
-     * @param Request $request
-     * @return RedirectResponse
      * @throws IdentityProviderException
      */
     public function login(Request $request): RedirectResponse
@@ -73,16 +69,18 @@ final class EsiaController extends Controller
         if ($userByEsiaOID || $authByPassport) {
             return redirect()->intended(route('cabinet'));
         }
+
         return redirect()->intended('/');
     }
 
-    private static function getUserPassport(array $esiaUser): array|null
+    private static function getUserPassport(array $esiaUser): ?array
     {
         foreach ($esiaUser['documents']['elements'] as $document) {
             if ($document['type'] == 'RF_PASSPORT' and $document['vrfStu'] == 'VERIFIED') {
                 return $document;
             }
         }
+
         return null;
     }
 }

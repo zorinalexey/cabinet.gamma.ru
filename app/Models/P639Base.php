@@ -14,5 +14,4 @@ class P639Base extends Model
         'data',
         'remark',
     ];
-
 }

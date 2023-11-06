@@ -11,15 +11,14 @@ use Illuminate\Support\Facades\Storage;
 
 final class InfinitumRepository
 {
-
     public static function appAccount(UserDocument $document, User $user, UserRubleAccount $account, Fund $fund)
     {
-        $anketa = Infinitum::where('search_hash', $user->id . '_anketa')->first();
+        $anketa = Infinitum::where('search_hash', $user->id.'_anketa')->first();
         $company_info = config('company_details');
         $xml = self::getGenerator();
         $xml->addElement('APPLICATION_FOR_ACCOUNT_OPEN', null, [
-            'version' => "1", 'xsi:noNamespaceSchemaLocation' => "file:///C:/Схемы/specdep_v142.4-0.xsd",
-            'xmlns:xsi' => "http://www.w3.org/2001/XMLSchema-instance"], null, false);
+            'version' => '1', 'xsi:noNamespaceSchemaLocation' => 'file:///C:/Схемы/specdep_v142.4-0.xsd',
+            'xmlns:xsi' => 'http://www.w3.org/2001/XMLSchema-instance'], null, false);
         //Header
         $xml->addElement('version', '1.4.2')
             ->addElement('header', null, null, null, false)
@@ -83,7 +82,7 @@ final class InfinitumRepository
 
         $xml->addElement('need_for_statement', 'Yes')
             ->addElement('account_type', '01')
-            ->addElement('account_person', $user->lastname . ' ' . $user->name . ' ' . $user->patronymic)
+            ->addElement('account_person', $user->lastname.' '.$user->name.' '.$user->patronymic)
             ->addElement('simple_electronic_signature', 'Yes');
 
         // consultants
@@ -116,7 +115,7 @@ final class InfinitumRepository
         $xml->closeElement();
 
         $xmlDom = $xml->getDomDocument();
-        $search_hash = $user->id . '_app_account_' . $account->id . '_fund_' . $fund->id;
+        $search_hash = $user->id.'_app_account_'.$account->id.'_fund_'.$fund->id;
         $documentName = 'Заявка на приобретение инвестиционных паев';
         self::save($documentName, $user, $xmlDom, $search_hash);
     }
@@ -129,12 +128,12 @@ final class InfinitumRepository
     private static function save(string $documentName, User $user, string $content, string $search_hash)
     {
         $documentName = mb_strtoupper($documentName);
-        $documentPath = 'infinitum/xml/' . $user->id . '/' . md5($search_hash) . '.xml';
+        $documentPath = 'infinitum/xml/'.$user->id.'/'.md5($search_hash).'.xml';
         Storage::drive('local')->put($documentPath, $content);
         if (Storage::drive('local')->exists($documentPath)) {
             $file = Storage::drive('local')->url($documentPath);
             $infinitumRepositoryFile = Infinitum::where('search_hash', $search_hash)->first();
-            if (!$infinitumRepositoryFile) {
+            if (! $infinitumRepositoryFile) {
                 $infinitumRepositoryFile = new Infinitum();
             }
             $infinitumRepositoryFile->path = str_replace('/storage', '', $file);
@@ -149,14 +148,14 @@ final class InfinitumRepository
     public static function requestAccount(UserDocument $document, User $user, UserRubleAccount $account, Fund $fund)
     {
         $xml = self::getGenerator();
-        $anketa = Infinitum::where('search_hash', $user->id . '_anketa')->first();
-        $appAccount = Infinitum::where('search_hash', $user->id . '_app_account_' . $account->id . '_fund_' . $fund->id)->first();
+        $anketa = Infinitum::where('search_hash', $user->id.'_anketa')->first();
+        $appAccount = Infinitum::where('search_hash', $user->id.'_app_account_'.$account->id.'_fund_'.$fund->id)->first();
         $company_info = config('company_details');
 
         $xml->addElement('APPLICATION_TO_ACQUISITION', null, [
             'xmlns:xsi' => 'http://www.w3.org/2001/XMLSchema-instance',
             'version' => '1',
-            'xsi:noNamespaceSchemaLocation' => 'file:///C:/Схемы/specdep_v142.4-0.xsd'
+            'xsi:noNamespaceSchemaLocation' => 'file:///C:/Схемы/specdep_v142.4-0.xsd',
         ], null, false);
 
         //Header
@@ -239,7 +238,7 @@ final class InfinitumRepository
             ->addElement('shareholder_info', null, null, null, false)
             ->addElement('shareholder_dtls', null, null, null, false)
             ->addElement('individual', null, null, null, false)
-            ->addElement('individual_name', $user->lastname . ' ' . $user->name . ' ' . $user->patronymic)
+            ->addElement('individual_name', $user->lastname.' '.$user->name.' '.$user->patronymic)
             ->addElement('individual_document', null, null, null, false)
             ->addElement('indv_doc_type', null, null, null, false)
             ->addElement('individual_document_type_code', '21')
@@ -301,7 +300,7 @@ final class InfinitumRepository
         $xml->addElement('add_info', ' ');
         $xml->closeElement();
         $xmlDom = $xml->getDomDocument();
-        $search_hash = $user->id . '_request_account_' . $account->id . '_fund_' . $fund->id;
+        $search_hash = $user->id.'_request_account_'.$account->id.'_fund_'.$fund->id;
         $documentName = 'ЗАЯВЛЕНИЕ ОБ ОТКРЫТИИ ЛИЦЕВОГО СЧЕТА ЗАРЕГИСТРИРОВАННОГО ЛИЦА';
         self::save($documentName, $user, $xmlDom, $search_hash);
     }
@@ -356,7 +355,6 @@ final class InfinitumRepository
             ->addElement('issuer_type', '02')
             ->closeElement();
 
-
         // agent_point_name
         $xml->addElement('agent_point_name', null, null, null, false)
             ->addElement('agent_name', null, null, null, false)
@@ -383,7 +381,7 @@ final class InfinitumRepository
             ->addElement('shareholder_info', null, null, null, false)
             ->addElement('shareholder_dtls', null, null, null, false)
             ->addElement('individual', null, null, null, false)
-            ->addElement('individual_name', $user->lastname . ' ' . $user->name . ' ' . $user->patronymic)
+            ->addElement('individual_name', $user->lastname.' '.$user->name.' '.$user->patronymic)
             ->addElement('nationality', 'РОССИЯ')
             ->addElement('individual_document', null, null, null, false)
             ->addElement('indv_doc_type', null, null, null, false)
@@ -407,7 +405,7 @@ final class InfinitumRepository
             ->closeElement()
             ->addElement('shareholder_contacts', null, null, null, false)
             ->addElement('phone_or_fax', null, null, null, false)
-            ->addElement('phone_num', '+' . preg_replace('~(\D)~u', '', $user->phone))
+            ->addElement('phone_num', '+'.preg_replace('~(\D)~u', '', $user->phone))
             ->addElement('phone_type', 'BIZZ')
             ->closeElement()
             ->closeElement()
@@ -424,7 +422,6 @@ final class InfinitumRepository
             ->closeElement()
             ->closeElement()
             ->closeElement();
-
 
         $xml->addElement('ownership', null, null, null, false)
             ->addElement('ownership_type', 'NTJN')
@@ -447,7 +444,7 @@ final class InfinitumRepository
         $xml->closeElement();
 
         $xmlDom = $xml->getDomDocument();
-        $search_hash = $user->id . '_anketa';
+        $search_hash = $user->id.'_anketa';
         $documentName = 'АНКЕТА ЗАРЕГИСТРИРОВАННОГО ФИЗИЧЕСКОГО ЛИЦА В РЕЕСТРЕ ВЛАДЕЛЬЦЕВ ИНВЕСТИЦИОННЫХ ПАЕВ';
         self::save($documentName, $user, $xmlDom, $search_hash);
     }

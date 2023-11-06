@@ -31,6 +31,7 @@ class UserService
         ]);
         $data['birth_date'] = date('Y-m-d H:i:s', strtotime($data['birth_date']));
         unset($data['_token']);
+
         return $data;
     }
 
@@ -39,7 +40,7 @@ class UserService
         $passportData = self::passport($request);
         $passportData['user_id'] = $user->id;
         $passport = UserPassport::where('user_id', $user->id)->first();
-        if (!$passport) {
+        if (! $passport) {
             UserPassport::create($passportData);
         } else {
             $passport->update($passportData);
@@ -74,6 +75,7 @@ class UserService
         ]);
         $data['when_issued'] = date('Y-m-d H:i:s', strtotime($data['when_issued']));
         unset($data['_token']);
+
         return $data;
     }
 
@@ -83,6 +85,7 @@ class UserService
             '_token' => ['required'],
             'snils' => ['required'],
         ]);
+
         return $data['snils'];
     }
 
@@ -92,6 +95,7 @@ class UserService
             '_token' => ['required'],
             'inn' => ['required'],
         ]);
+
         return $data['inn'];
     }
 
@@ -101,6 +105,7 @@ class UserService
             '_token' => ['required'],
             'reg_addr' => ['required'],
         ]);
+
         return $data['reg_addr'];
     }
 
@@ -110,12 +115,14 @@ class UserService
             '_token' => ['required'],
             'fact_addr' => ['required'],
         ]);
+
         return $data['fact_addr'];
     }
 
     public static function getOmittebAccess(UserFund $userFund, Fund $fund): bool
     {
         $percent = round($userFund->count_pif / $fund->current_count_pif * 100, 2);
+
         return $percent > $fund->omitted_min_percent;
     }
 }

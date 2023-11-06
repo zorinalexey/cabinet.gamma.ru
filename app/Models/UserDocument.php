@@ -7,18 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-/**
- *
- */
 final class UserDocument extends Model
 {
     use HasFactory, SoftDeletes;
 
     protected $dates = ['deleted_at'];
 
-    /**
-     * @return HasOne
-     */
     public function user(): HasOne
     {
         return $this->hasOne(User::class, 'id', 'user_id');
@@ -42,16 +36,18 @@ final class UserDocument extends Model
             $data['omitted'] = Omitted::find($matches['omitted']);
             $data['omitted']->status = $data['omitted']->status();
         }
+
         return $data;
     }
 
-    public function getStatus(): string|null
+    public function getStatus(): ?string
     {
         if ($this->sign_status && $this->is_sign) {
             return 'Документ подписан';
-        } elseif (!$this->sign_status && $this->is_sign) {
+        } elseif (! $this->sign_status && $this->is_sign) {
             return 'Документ не подписан';
         }
+
         return null;
     }
 }

@@ -14,5 +14,4 @@ class FromuBase extends Model
         'data',
         'remark',
     ];
-
 }

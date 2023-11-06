@@ -6,16 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Kily\Payment\QR\Gost;
 
-/**
- *
- */
 final class ProfileService
 {
-
-    /**
-     * @param Request $request
-     * @return array
-     */
     public static function getRubleAccountData(Request $request): array
     {
         return $request->validate([
@@ -33,7 +25,6 @@ final class ProfileService
     }
 
     /**
-     * @param Request $request
      * @return array
      */
     public static function getCurrencyAccountData(Request $request)
@@ -58,10 +49,6 @@ final class ProfileService
         ]);
     }
 
-    /**
-     * @param Request $request
-     * @return array
-     */
     public static function getDataEditPhone(Request $request): array
     {
         return $request->validate([
@@ -70,10 +57,6 @@ final class ProfileService
         ]);
     }
 
-    /**
-     * @param Request $request
-     * @return array
-     */
     public static function getDataEditEmail(Request $request): array
     {
         return $request->validate([
@@ -82,10 +65,6 @@ final class ProfileService
         ]);
     }
 
-    /**
-     * @param array $company_details
-     * @return Gost
-     */
     public static function getQrCode(array $company_details): Gost
     {
         $user = Auth::user();
@@ -101,15 +80,16 @@ final class ProfileService
         $qrCode->CorrespAcc = $company_details['cor_account'];
         $qrCode->PayeeINN = $company_details['inn'];
         $qrCode->KPP = $company_details['kpp'];
-        $qrCode->Purpose = 'Оплата паев ОПИФ рыночных финансовых инструментов АРОМАТ Наши акции, ' .
-            $user->lastname . ' ' .
-            $user->name . ' ' .
-            $user->patronymic .
+        $qrCode->Purpose = 'Оплата паев ОПИФ рыночных финансовых инструментов АРОМАТ Наши акции, '.
+            $user->lastname.' '.
+            $user->name.' '.
+            $user->patronymic.
             ', заявка № ____ от 20__г.';
         $qrCode->LastName = $user->lastname;
         $qrCode->FirstName = $user->name;
         $qrCode->MiddleName = $user->patronymic;
         $qrCode->PayerINN = $inn;
+
         return $qrCode;
     }
 }

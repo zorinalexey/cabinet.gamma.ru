@@ -12,9 +12,6 @@ use Illuminate\Foundation\Auth\User as AuthUser;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-/**
- *
- */
 final class User extends AuthUser
 {
     use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
@@ -63,7 +60,6 @@ final class User extends AuthUser
 
     /**
      * Все фонды пользователя
-     * @return HasMany
      */
     public function funds(): HasMany
     {
@@ -72,7 +68,6 @@ final class User extends AuthUser
 
     /**
      * Голосования пользователя
-     * @return HasMany
      */
     public function omitteds(): HasMany
     {
@@ -81,7 +76,6 @@ final class User extends AuthUser
 
     /**
      * Ответы пользователя на голосованиях
-     * @return HasMany
      */
     public function answers(): HasMany
     {
@@ -90,7 +84,6 @@ final class User extends AuthUser
 
     /**
      * Стоимость всех паев всех фондов у данного пользователя
-     * @return float
      */
     public function all_cost_pif(): float
     {
@@ -98,12 +91,12 @@ final class User extends AuthUser
         foreach ($this->funds as $fund) {
             $sum += $fund->count_pif * $fund->fund->current_cost_one_pif;
         }
+
         return $sum;
     }
 
     /**
      * Оповещения пользователя
-     * @return array
      */
     public function notifications(): array
     {
@@ -112,7 +105,6 @@ final class User extends AuthUser
 
     /**
      * Паспорт пользователя
-     * @return HasOne
      */
     public function passport(): HasOne
     {
@@ -121,8 +113,6 @@ final class User extends AuthUser
 
     /**
      * Количество всех паев фонда пользователя
-     * @param Fund $fund
-     * @return float
      */
     public function countPifUserByFund(Fund $fund): float
     {
@@ -131,6 +121,7 @@ final class User extends AuthUser
                 return $item->count_pif;
             }
         }
+
         return 0;
     }
 
@@ -143,46 +134,47 @@ final class User extends AuthUser
     {
         $docs = [];
         foreach ($this->documents as $document) {
-            if ($document->is_sign && !$document->sign_status) {
+            if ($document->is_sign && ! $document->sign_status) {
                 $docs[] = $document;
             }
         }
         if (count($docs) > 0) {
-            NotificationService::set('У Вас есть ' . count($docs) . ' не подписанных документов', 'doc');
+            NotificationService::set('У Вас есть '.count($docs).' не подписанных документов', 'doc');
         }
         $this->notice();
+
         return $docs;
     }
 
     private function notice(): void
     {
-        if (!$this->inn) {
+        if (! $this->inn) {
             NotificationService::set('У Вас не указан ИНН ', 'inn_account');
         }
-        if (!$this->snils) {
+        if (! $this->snils) {
             NotificationService::set('У Вас не указан СНИЛС ', 'snils_account');
         }
         if ($this->ruble_accounts->count() === 0) {
             NotificationService::set('У Вас не указан ни один рублевый счет', 'ruble_account');
         }
         if ($this->currency_accounts->count() === 0) {
-            #NotificationService::set('У Вас не указан ни один валютный счет', 'currency_account');
+            //NotificationService::set('У Вас не указан ни один валютный счет', 'currency_account');
         }
-        if (!$this->address_registration()) {
+        if (! $this->address_registration()) {
             NotificationService::set('У Вас не указан адрес регистрации', 'reg_addr');
         }
-        if (!$this->address_fact()) {
+        if (! $this->address_fact()) {
             NotificationService::set('У Вас не указан адрес проживания', 'fact_addr');
         }
     }
 
-    public function address_registration(): UserAddress|null
+    public function address_registration(): ?UserAddress
     {
         return UserAddress::where('user_id', $this->id)
             ->where('address_status', 0)->first();
     }
 
-    public function address_fact(): UserAddress|null
+    public function address_fact(): ?UserAddress
     {
         return UserAddress::where('user_id', $this->id)
             ->where('address_status', 1)->first();
@@ -208,9 +200,10 @@ final class User extends AuthUser
         return $this->hasOne(UserSnils::class, 'user_id', 'id');
     }
 
-    public function getOmittedDocument(Omitted $omitted): UserDocument|null
+    public function getOmittedDocument(Omitted $omitted): ?UserDocument
     {
-        $searchString = $this->id . '_omitted_' . $omitted->id;
+        $searchString = $this->id.'_omitted_'.$omitted->id;
+
         return UserDocument::where('search_hash', $searchString)->first();
     }
 
@@ -228,17 +221,15 @@ final class User extends AuthUser
         $data['fedsfm'] = $this->checkFedSfm();
         $data['mvk'] = $this->checkMvk();
         $data['p639'] = $this->checkP639();
+
         return $data;
     }
 
-    /**
-     * @return CheckUserPassport|null
-     */
-    private function checkPassport(): CheckUserPassport|null
+    private function checkPassport(): ?CheckUserPassport
     {
         $passport = $this->passport;
         $check = CheckUserPassport::where('user_id', $this->id)->first();
-        if (!$check) {
+        if (! $check) {
             $check = new CheckUserPassport();
         }
         $check->user_id = $this->id;
@@ -247,95 +238,87 @@ final class User extends AuthUser
             $check->check = true;
         }
         $check->save();
+
         return CheckUserPassport::where('user_id', $this->id)->first();
     }
 
-    /**
-     * @return CheckerFromu|null
-     */
-    private function checkFromu(): CheckerFromu|null
+    private function checkFromu(): ?CheckerFromu
     {
         $check = CheckerFromu::where('user_id', $this->id)->first();
-        if (!$check) {
+        if (! $check) {
             $check = new CheckerFromu();
         }
         $check->user_id = $this->id;
         $check->check = '';
-        $fio = mb_strtoupper(trim($this->lastname . ' ' . $this->name . ' ' . $this->patronymic));
+        $fio = mb_strtoupper(trim($this->lastname.' '.$this->name.' '.$this->patronymic));
         if ($checker = FromuBase::where('data', $fio)->first()) {
             $check->check = $checker->remark;
         }
         $check->save();
+
         return CheckerFromu::where('user_id', $this->id)->first();
     }
 
-    /**
-     * @return CheckerFedSfm|null
-     */
-    private function checkFedSfm(): CheckerFedSfm|null
+    private function checkFedSfm(): ?CheckerFedSfm
     {
         $check = CheckerFedSfm::where('user_id', $this->id)->first();
-        if (!$check) {
+        if (! $check) {
             $check = new CheckerFedSfm();
         }
         $check->user_id = $this->id;
         $check->check = null;
-        $fio = mb_strtoupper($this->lastname . ' ' . $this->name . ' ' . $this->patronymic);
+        $fio = mb_strtoupper($this->lastname.' '.$this->name.' '.$this->patronymic);
         $regAddr = $this->address_registration()->address ?? null;
         $factAddr = $this->address_fact()->address ?? null;
-        $checker = FedSfmBase::where('data', 'LIKE', '%' . $fio . '%' . $this->passport->series . ' ' . $this->passport->number . '%')
-            ->orWhere('data', 'LIKE', '%' . $fio . '%' . $regAddr . '%')
-            ->orWhere('data', 'LIKE', '%' . $fio . '%' . $factAddr . '%')
-            ->orWhere('data', 'LIKE', '%' . $fio . '%' . $this->passport->series . ' ' . $this->passport->number . '%' . $regAddr . '%')
-            ->orWhere('data', 'LIKE', '%' . $fio . '%' . $this->passport->series . ' ' . $this->passport->number . '%' . $factAddr . '%')
+        $checker = FedSfmBase::where('data', 'LIKE', '%'.$fio.'%'.$this->passport->series.' '.$this->passport->number.'%')
+            ->orWhere('data', 'LIKE', '%'.$fio.'%'.$regAddr.'%')
+            ->orWhere('data', 'LIKE', '%'.$fio.'%'.$factAddr.'%')
+            ->orWhere('data', 'LIKE', '%'.$fio.'%'.$this->passport->series.' '.$this->passport->number.'%'.$regAddr.'%')
+            ->orWhere('data', 'LIKE', '%'.$fio.'%'.$this->passport->series.' '.$this->passport->number.'%'.$factAddr.'%')
             ->first();
         if ($checker) {
             $check->check = $checker->remark;
         }
         $check->save();
+
         return CheckerFedSfm::where('user_id', $this->id)->first();
     }
 
-    /**
-     * @return CheckerMvk|null
-     */
-    private function checkMvk(): CheckerMvk|null
+    private function checkMvk(): ?CheckerMvk
     {
         $check = CheckerMvk::where('user_id', $this->id)->first();
-        if (!$check) {
+        if (! $check) {
             $check = new CheckerMvk();
         }
         $check->user_id = $this->id;
         $check->check = null;
-        $data = $this->lastname . ' ' . $this->name . ' ' . $this->patronymic . ' ';
-        $data .= date('d.m.Y', strtotime($this->birth_date)) . ' ';
+        $data = $this->lastname.' '.$this->name.' '.$this->patronymic.' ';
+        $data .= date('d.m.Y', strtotime($this->birth_date)).' ';
         $data .= $this->birth_place;
         if ($checker = MvkBase::where('data', mb_strtoupper($data))->first()) {
             $check->check = $checker->remark;
         }
         $check->save();
+
         return CheckerMvk::where('user_id', $this->id)->first();
     }
 
-    /**
-     * @return CheckerP639|null
-     */
-    private function checkP639(): CheckerP639|null
+    private function checkP639(): ?CheckerP639
     {
         $check = CheckerP639::where('user_id', $this->id)->first();
-        if (!$check) {
+        if (! $check) {
             $check = new CheckerP639();
         }
         $check->user_id = $this->id;
         $check->check = null;
-        $data = $this->lastname . ' ' . $this->name . ' ' . $this->patronymic . ' ';
-        $data .= date('d.m.Y', strtotime($this->birth_date)) . ' ';
-        $data .= $this->passport->series . ' ' . $this->passport->number;
+        $data = $this->lastname.' '.$this->name.' '.$this->patronymic.' ';
+        $data .= date('d.m.Y', strtotime($this->birth_date)).' ';
+        $data .= $this->passport->series.' '.$this->passport->number;
         if ($checker = P639Base::where('data', mb_strtoupper($data))->first()) {
             $check->check = $checker->remark;
         }
         $check->save();
+
         return CheckerP639::where('user_id', $this->id)->first();
     }
-
 }

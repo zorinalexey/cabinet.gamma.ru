@@ -11,26 +11,20 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
 
-/**
- *
- */
 final class FundController extends Controller
 {
-
     /**
      * Отобразить все фонды
-     * @return Application|Factory|View|\Illuminate\Foundation\Application
      */
     public function all(): Application|Factory|View|\Illuminate\Foundation\Application
     {
         $funds = FundService::getUserAccessFunds(Auth::user());
+
         return view('front.funds', $funds);
     }
 
     /**
      * Отобразить фонд по его id
-     * @param int $fundId
-     * @return Application|Factory|View|\Illuminate\Foundation\Application
      */
     public function viewFund(int $fundId): Application|Factory|View|\Illuminate\Foundation\Application
     {
@@ -38,7 +32,7 @@ final class FundController extends Controller
         $fund = Fund::where('id', $fundId)->first();
         $company_details = config('company_details');
         $qrCode = QrCodePayment::getQrCode($user);
+
         return view('front.single_fund', compact('fund', 'user', 'company_details', 'qrCode'));
     }
-
 }

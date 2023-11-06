@@ -5,7 +5,7 @@ use Illuminate\Http\Request;
 
 define('LARAVEL_START', microtime(true));
 
-if(!defined('ROOT_CATALOG')){
+if (! defined('ROOT_CATALOG')) {
     define('ROOT_CATALOG', dirname(__DIR__));
 }
 //ini_set('display_errors', 1);
@@ -22,7 +22,7 @@ if(!defined('ROOT_CATALOG')){
 |
 */
 
-if (file_exists($maintenance = __DIR__ . '/../storage/framework/maintenance.php')) {
+if (file_exists($maintenance = __DIR__.'/../storage/framework/maintenance.php')) {
     require $maintenance;
 }
 
@@ -37,7 +37,7 @@ if (file_exists($maintenance = __DIR__ . '/../storage/framework/maintenance.php'
 |
 */
 
-require __DIR__ . '/../vendor/autoload.php';
+require __DIR__.'/../vendor/autoload.php';
 
 /*
 |--------------------------------------------------------------------------
@@ -50,7 +50,7 @@ require __DIR__ . '/../vendor/autoload.php';
 |
 */
 
-$app = require __DIR__ . '/../bootstrap/app.php';
+$app = require __DIR__.'/../bootstrap/app.php';
 
 $kernel = $app->make(Kernel::class);
 

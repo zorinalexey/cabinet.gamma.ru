@@ -25,12 +25,11 @@ final class UserPassport extends Model
         'issued_by',
         'when_issued',
         'division_code',
-        'user_id'
+        'user_id',
     ];
 
     /**
      * Пользователь к которому относится паспорт
-     * @return HasOne
      */
     public function user(): HasOne
     {

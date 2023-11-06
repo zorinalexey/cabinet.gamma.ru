@@ -12,10 +12,11 @@ class NewsService
         $data = $request->validate([
             '_token' => ['required'],
             'title' => ['required'],
-            'content' => ['required']
+            'content' => ['required'],
         ]);
         unset($data['_token']);
         $data['alias'] = Str::slug($data['title'], '_');
+
         return $data;
     }
 }

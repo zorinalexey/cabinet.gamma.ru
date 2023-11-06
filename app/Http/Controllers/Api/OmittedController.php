@@ -11,7 +11,7 @@ final class OmittedController extends Controller
 {
     public function removeVoting(int $votingId, Request $request): void
     {
-        $omittedData = (object)$request['omitted'];
+        $omittedData = (object) $request['omitted'];
         $voting = Voting::where('id', $votingId)
             ->where('omitted_id', $omittedData->id);
         if ($voting) {

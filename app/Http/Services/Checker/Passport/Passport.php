@@ -6,44 +6,29 @@ use App\Models\NotValidPassport;
 use Illuminate\Support\Facades\DB;
 use RuntimeException;
 
-/**
- *
- */
 final class Passport
 {
-
-
-    /**
-     * @var string
-     */
     private static string $url = '';
 
-    /**
-     * @var string|null
-     */
-    private string|null $fileBz2 = null;
-    private string|null $dir = null;
-    private string|null $fileCsv = null;
+    private ?string $fileBz2 = null;
 
-    /**
-     *
-     */
+    private ?string $dir = null;
+
+    private ?string $fileCsv = null;
+
     public function __construct()
     {
         $config = config('company_details');
-        $dir = $config['root_catalog'] . DIRECTORY_SEPARATOR . 'private' .
-            DIRECTORY_SEPARATOR . 'files' . DIRECTORY_SEPARATOR . 'list' . DIRECTORY_SEPARATOR;
-        $this->fileBz2 =  $dir. 'passports.csv.bz2';
-        $this->fileCsv = $dir . 'list_of_expired_passports.csv';
+        $dir = $config['root_catalog'].DIRECTORY_SEPARATOR.'private'.
+            DIRECTORY_SEPARATOR.'files'.DIRECTORY_SEPARATOR.'list'.DIRECTORY_SEPARATOR;
+        $this->fileBz2 = $dir.'passports.csv.bz2';
+        $this->fileCsv = $dir.'list_of_expired_passports.csv';
         $this->dir = dirname($this->fileBz2);
     }
 
-    /**
-     * @return void
-     */
     public function uploadPassportData(): void
     {
-        if (!is_dir($this->dir) && !mkdir($this->dir, 0777, true) && !is_dir($this->dir)) {
+        if (! is_dir($this->dir) && ! mkdir($this->dir, 0777, true) && ! is_dir($this->dir)) {
             throw new RuntimeException(sprintf('Directory "%s" was not created', $this->dir));
         }
 
@@ -53,7 +38,7 @@ final class Passport
         ";
         system($command);
 
-        if (!file_exists($this->fileCsv) && file_exists($this->fileBz2)) {
+        if (! file_exists($this->fileCsv) && file_exists($this->fileBz2)) {
             $command = "
                 cd {$this->dir}
                 echo 'Распаковка архива запущена'
@@ -62,7 +47,7 @@ final class Passport
                 rm {$this->fileBz2}
             ";
             system($command);
-        }else{
+        } else {
             system("echo 'Имеется не обработанный файл базы'");
         }
     }
@@ -81,14 +66,14 @@ final class Passport
         $i = 0;
         $add = 0;
 
-        while (($data = fgetcsv($handle, 1000)) !== FALSE) {
+        while (($data = fgetcsv($handle, 1000)) !== false) {
             set_time_limit(600);
 
-            if (!isset($data[0])) {
+            if (! isset($data[0])) {
                 $data[0] = null;
             }
 
-            if (!isset($data[1])) {
+            if (! isset($data[1])) {
                 $data[1] = null;
             }
 
@@ -125,7 +110,6 @@ final class Passport
 
     public function __destruct()
     {
-        system('rm -r ' . $this->dir);
+        system('rm -r '.$this->dir);
     }
-
 }

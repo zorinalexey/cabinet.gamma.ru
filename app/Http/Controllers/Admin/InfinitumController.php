@@ -12,37 +12,31 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Storage;
 
 class InfinitumController extends Controller
-
 {
-
     /**
      * Просмотр списка
-     * @return View|Application|Factory|App
      */
     public function index(): View|Application|Factory|App
     {
         return view('admin.infinitum.list', [
             'download_files' => Infinitum::where('download', '>', 0)->paginate(25),
             'new_files' => Infinitum::where('download', false)->paginate(25),
-            'delete_files' => Infinitum::onlyTrashed()->paginate(25)
+            'delete_files' => Infinitum::onlyTrashed()->paginate(25),
         ]);
     }
 
     /**
      * Мягкое удаление
-     * @param string $id
-     * @return RedirectResponse
      */
     public function destroy(string $id): RedirectResponse
     {
         Infinitum::find($id)->delete();
+
         return redirect(route('admin_index', ['infinitum']));
     }
 
     /**
      * Полное удаление
-     * @param string $id
-     * @return RedirectResponse
      */
     public function delete(string $id): RedirectResponse
     {
@@ -50,22 +44,21 @@ class InfinitumController extends Controller
         if ($file) {
             $file->forceDelete();
         }
+
         return redirect(route('admin_index', ['infinitum']));
     }
 
     /**
      * Восстановить запись
-     * @param int $id
-     * @return RedirectResponse
      */
     public function restoreModel(int $id): RedirectResponse
     {
         Infinitum::withTrashed()->where('id', $id)->restore();
+
         return redirect()->back();
     }
 
     /**
-     * @param int $id
      * @return void|null
      */
     public function upload(int $id)
@@ -76,6 +69,7 @@ class InfinitumController extends Controller
             if ($this->downloadFile($xml)) {
                 $file->download++;
                 $file->save();
+
                 return redirect()->route('admin_index', ['infinitum']);
             }
         }

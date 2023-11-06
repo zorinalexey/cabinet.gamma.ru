@@ -10,7 +10,7 @@
 | the IoC container for the system binding all the various parts.
 |
 */
-if(!defined('ROOT_CATALOG')){
+if (! defined('ROOT_CATALOG')) {
     define('ROOT_CATALOG', dirname(__DIR__));
 }
 

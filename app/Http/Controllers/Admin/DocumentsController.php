@@ -13,10 +13,8 @@ use Illuminate\Support\Facades\Storage;
 
 final class DocumentsController extends Controller
 {
-
     /**
      * Просмотр списка
-     * @return View|Application|Factory|App
      */
     public function index(): View|Application|Factory|App
     {
@@ -39,12 +37,11 @@ final class DocumentsController extends Controller
             $deleteUserDocs[$doc->user_id][$i]['doc']->status = $doc->getStatus();
             $i++;
         }
+
         return view('admin.documents.list', compact('active_docs', 'delete_docs', 'activeUserDocs', 'deleteUserDocs'));
     }
 
-
     /**
-     * @param int $id
      * @return void|null
      */
     public function upload(int $id)
@@ -62,24 +59,21 @@ final class DocumentsController extends Controller
 
     /**
      * Восстановить запись
-     * @param int $id
-     * @return RedirectResponse
      */
     public function restoreModel(int $id): RedirectResponse
     {
         UserDocument::withTrashed()->where('id', $id)->restore();
+
         return redirect()->back();
     }
 
     /**
      * Мягкое удаление
-     * @param string $id
-     * @return RedirectResponse
      */
     public function destroy(string $id): RedirectResponse
     {
         UserDocument::find($id)->delete();
+
         return redirect(route('admin_index', ['documents']));
     }
-
 }

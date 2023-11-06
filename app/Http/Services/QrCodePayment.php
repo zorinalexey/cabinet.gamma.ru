@@ -7,7 +7,6 @@ use Kily\Payment\QR\Gost;
 
 class QrCodePayment
 {
-
     public static function getQrCode(User $user)
     {
         $company_info = config('company_details');
@@ -19,10 +18,10 @@ class QrCodePayment
         $qrCode->CorrespAcc = $company_info['cor_account'];
         $qrCode->PayeeINN = $company_info['inn'];
         $qrCode->KPP = $company_info['kpp'];
-        $qrCode->Purpose = 'Оплата паев ОПИФ рыночных финансовых инструментов АРОМАТ Наши акции, ' .
-            $user->lastname . ' ' .
-            $user->name . ' ' .
-            $user->patronymic .
+        $qrCode->Purpose = 'Оплата паев ОПИФ рыночных финансовых инструментов АРОМАТ Наши акции, '.
+            $user->lastname.' '.
+            $user->name.' '.
+            $user->patronymic.
             ', заявка № ____ от ___г.';
         $qrCode->LastName = $user->lastname;
         $qrCode->FirstName = $user->name;
@@ -30,6 +29,7 @@ class QrCodePayment
         if ($user->inn) {
             $qrCode->PayerINN = $user->inn->number;
         }
+
         return $qrCode;
     }
 }

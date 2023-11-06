@@ -9,15 +9,10 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application as App;
 use Illuminate\Http\RedirectResponse;
 
-/**
- *
- */
 final class CabinetController extends Controller
 {
-
     /**
      * Личный кабинет инвестора главная страница авторизованного пользователя
-     * @return Application|Factory|View|App|RedirectResponse
      */
     public function cabinet(): Application|Factory|View|App|RedirectResponse
     {
@@ -27,5 +22,4 @@ final class CabinetController extends Controller
     public function returnMoney()
     {
     }
-
 }

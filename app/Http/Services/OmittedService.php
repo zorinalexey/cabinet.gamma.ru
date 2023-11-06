@@ -12,19 +12,19 @@ use RuntimeException;
 
 class OmittedService
 {
-    public static function saveVoting(Request $request, Authenticatable|null $user, Omitted $omitted): void
+    public static function saveVoting(Request $request, ?Authenticatable $user, Omitted $omitted): void
     {
         $data = $request->validate([
             'omitted' => ['required'],
             '_token' => ['required'],
-            'answer' => ['required']
+            'answer' => ['required'],
         ]);
         foreach ($data['answer'] as $voting_id => $value) {
             $answer = Answer::where('omitted_id', $omitted->id)
                 ->where('user_id', $user->id)
                 ->where('voting_id', $voting_id)
                 ->first();
-            if (!$answer) {
+            if (! $answer) {
                 $answer = new Answer();
                 $answer->omitted_id = $omitted->id;
                 $answer->user_id = $user->id;
@@ -39,7 +39,7 @@ class OmittedService
         }
     }
 
-    public static function getVote(Authenticatable|null $user, Omitted $omitted): bool
+    public static function getVote(?Authenticatable $user, Omitted $omitted): bool
     {
         $check_sign = false;
         $check_date = false;
@@ -53,14 +53,15 @@ class OmittedService
         if ($answers) {
             $check_answers = true;
         }
-        $sign_doc = UserDocument::where('search_hash', $user->id . '_omitted_' . $omitted->id)->first();
+        $sign_doc = UserDocument::where('search_hash', $user->id.'_omitted_'.$omitted->id)->first();
         if ($sign_doc && $sign_doc->sign_status) {
             $check_sign = true;
         }
+
         return $check_answers && $check_date && $check_sign;
     }
 
-    public static function checkAnswer(int $user_id, int $omitted_id, int $voting_id): Answer|null
+    public static function checkAnswer(int $user_id, int $omitted_id, int $voting_id): ?Answer
     {
         return Answer::where('omitted_id', $omitted_id)
             ->where('user_id', $user_id)
@@ -68,7 +69,7 @@ class OmittedService
             ->first();
     }
 
-    public static function omitted(Request $request, Omitted|null $omitted = null): array
+    public static function omitted(Request $request, Omitted $omitted = null): array
     {
         $data = $request->validate([
             '_token' => ['required'],
@@ -77,21 +78,21 @@ class OmittedService
             'start_date' => ['required'],
             'end_date' => ['required'],
             'total_date' => ['required'],
-            'file' => ['required']
+            'file' => ['required'],
         ]);
         unset($data['_token']);
         $data['start_date'] = date('Y-m-d H:i:s', strtotime($data['start_date']));
         $data['end_date'] = date('Y-m-d H:i:s', strtotime($data['end_date']));
         $data['total_date'] = date('Y-m-d H:i:s', strtotime($data['total_date']));
         if ($data['file'] && $omitted) {
-            $path = config('company_details')['root_catalog'] . '/storage/app/omitteds/' . $omitted->id . '/' . $_FILES['file']['full_path'];
+            $path = config('company_details')['root_catalog'].'/storage/app/omitteds/'.$omitted->id.'/'.$_FILES['file']['full_path'];
             $dir = dirname($path);
-            if (!is_dir($dir) && !mkdir($dir, 0777, true) && !is_dir($dir)) {
+            if (! is_dir($dir) && ! mkdir($dir, 0777, true) && ! is_dir($dir)) {
                 throw new RuntimeException(sprintf('Directory "%s" was not created', $dir));
             }
             if (move_uploaded_file($_FILES['file']['tmp_name'], $path)) {
                 $omittedFile = OmittedDocument::where('omitted_id', $omitted->id)->first();
-                if (!$omittedFile) {
+                if (! $omittedFile) {
                     $omittedFile = new OmittedDocument();
                     $omittedFile->omitted_id = $omitted->id;
                 }
@@ -101,6 +102,7 @@ class OmittedService
             }
         }
         unset($data['file']);
+
         return $data;
     }
 
@@ -111,6 +113,7 @@ class OmittedService
             'votings' => ['required'],
         ]);
         unset($data['_token']);
+
         return $data['votings'];
     }
 }

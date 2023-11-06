@@ -63,7 +63,7 @@ Route::middleware(Guest::class)->group(function () {
     // Поиск на сайте
     Route::post('/search', [SearchController::class, 'view'])->name('search');
 
-    Route::post('api/getInn', function (Request $request){
+    Route::post('api/getInn', function (Request $request) {
         return (new FnsController())->getInn($request);
     });
 });
@@ -95,11 +95,12 @@ Route::get('/logout', [LoginController::class, 'logOut'])->middleware('web')->na
 // Админ панель
 Route::middleware(['auth', 'admin', 'web'])->prefix('admin')->group(function () {
 
-    Route::get('{part}/upload/{id}', function (string $part, int $id){
-        $class = '\\App\\Http\\Controllers\\Admin\\' . ucfirst($part) . 'Controller';
+    Route::get('{part}/upload/{id}', function (string $part, int $id) {
+        $class = '\\App\\Http\\Controllers\\Admin\\'.ucfirst($part).'Controller';
         if (class_exists($class) && method_exists($class, 'upload')) {
             return (new $class())->upload($id);
         }
+
         return abort(404);
     })->name('admin_upload');
 
@@ -115,88 +116,97 @@ Route::middleware(['auth', 'admin', 'web'])->prefix('admin')->group(function () 
 
     // Страница обновление записи модуля
     Route::post('{part}/update/{id}', function (string $part, int $id, Request $request) {
-        $class = '\\App\\Http\\Controllers\\Admin\\' . ucfirst($part) . 'Controller';
+        $class = '\\App\\Http\\Controllers\\Admin\\'.ucfirst($part).'Controller';
         if (class_exists($class) && method_exists($class, 'update')) {
             return (new $class())->update($request, $id);
         }
+
         return abort(404);
     })->name('admin_update');
 
     // Страница начала редактирования записи модуля
     Route::get('{part}/edit/{id}', function (string $part, int $id) {
-        $class = '\\App\\Http\\Controllers\\Admin\\' . ucfirst($part) . 'Controller';
+        $class = '\\App\\Http\\Controllers\\Admin\\'.ucfirst($part).'Controller';
         if (class_exists($class) && method_exists($class, 'edit')) {
             return (new $class())->edit($id);
         }
+
         return abort(404);
     })->name('admin_edit');
 
     // Страница мягкого удаления (с возможностью восстановления) записи модуля
     Route::get('{part}/destroy/{id}', function (string $part, int $id) {
-        $class = '\\App\\Http\\Controllers\\Admin\\' . ucfirst($part) . 'Controller';
+        $class = '\\App\\Http\\Controllers\\Admin\\'.ucfirst($part).'Controller';
         if (class_exists($class) && method_exists($class, 'destroy')) {
             return (new $class())->destroy($id);
         }
+
         return abort(404);
     })->name('admin_destroy');
 
     // Страница полного удаления записи модуля
     Route::get('{part}/delete/{id}', function (string $part, int $id) {
-        $class = '\\App\\Http\\Controllers\\Admin\\' . ucfirst($part) . 'Controller';
+        $class = '\\App\\Http\\Controllers\\Admin\\'.ucfirst($part).'Controller';
         if (class_exists($class) && method_exists($class, 'delete')) {
             return (new $class())->delete($id);
         }
+
         return abort(404);
     })->name('admin_delete');
 
     // Страница просмотра записи модуля
     Route::get('{part}/show/{id}', function (string $part, int $id) {
-        $class = '\\App\\Http\\Controllers\\Admin\\' . ucfirst($part) . 'Controller';
+        $class = '\\App\\Http\\Controllers\\Admin\\'.ucfirst($part).'Controller';
         if (class_exists($class) && method_exists($class, 'show')) {
             return (new $class())->show($id);
         }
+
         return abort(404);
     })->name('admin_show');
 
     // Страница сохранения записи модуля
     Route::post('{part}/store', function (string $part, Request $request) {
-        $class = '\\App\\Http\\Controllers\\Admin\\' . ucfirst($part) . 'Controller';
+        $class = '\\App\\Http\\Controllers\\Admin\\'.ucfirst($part).'Controller';
         if (class_exists($class) && method_exists($class, 'store')) {
             return (new $class())->store($request);
         }
+
         return abort(404);
     })->name('admin_store');
 
     // Страница начала создания записи модуля
     Route::get('{part}/create', function (string $part) {
-        $class = '\\App\\Http\\Controllers\\Admin\\' . ucfirst($part) . 'Controller';
+        $class = '\\App\\Http\\Controllers\\Admin\\'.ucfirst($part).'Controller';
         if (class_exists($class) && method_exists($class, 'create')) {
             return (new $class())->create();
         }
+
         return abort(404);
     })->name('admin_create');
 
     // Страница общего просмотра модуля
     Route::get('{part}', function (string $part) {
-        $class = '\\App\\Http\\Controllers\\Admin\\' . ucfirst($part) . 'Controller';
+        $class = '\\App\\Http\\Controllers\\Admin\\'.ucfirst($part).'Controller';
         if (class_exists($class) && method_exists($class, 'index')) {
             return (new $class())->index();
         }
+
         return abort(404);
     })->name('admin_index');
 
     // Страница восстановления модуля
     Route::get('{part}/restore/{id}', function (string $part, int $id) {
-        $class = '\\App\\Http\\Controllers\\Admin\\' . ucfirst($part) . 'Controller';
+        $class = '\\App\\Http\\Controllers\\Admin\\'.ucfirst($part).'Controller';
         if (class_exists($class) && method_exists($class, 'restoreModel')) {
             return (new $class())->restoreModel($id);
         }
+
         return abort(404);
     })->name('admin_restore');
 
     // Проверка по базам
     Route::get('users/check/{id}', function ($id) {
-        return UsersController::check((int)$id);
+        return UsersController::check((int) $id);
     })->name('admin_user_check');
 
     // Добавление фонда пользователя
@@ -282,7 +292,7 @@ Route::middleware(['auth', 'web'])->group(callback: function () {
     Route::post('/api/send/codeDocuments', [ApiFundController::class, 'sendCodeSignDocuments']);
     Route::post('/api/sign/documents', [ApiFundController::class, 'signDocuments']);
 
-    Route::get('/omitted/download/{id}', function (int $id){
+    Route::get('/omitted/download/{id}', function (int $id) {
         return (new OmittedController())->upload($id);
     })->name('user.omitted.upload.file');
 });

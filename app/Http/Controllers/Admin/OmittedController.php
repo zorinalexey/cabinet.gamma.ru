@@ -18,20 +18,17 @@ final class OmittedController extends Controller
 {
     /**
      * Просмотр списка
-     * @return View|Application|Factory|App
      */
     public function index(): View|Application|Factory|App
     {
         return view('admin.omitted.list', [
             'active_omitteds' => Omitted::paginate(25),
-            'delete_omitteds' => Omitted::onlyTrashed()->paginate(25)
+            'delete_omitteds' => Omitted::onlyTrashed()->paginate(25),
         ]);
     }
 
     /**
      * Сохранить
-     * @param Request $request
-     * @return RedirectResponse
      */
     public function store(Request $request): RedirectResponse
     {
@@ -42,25 +39,20 @@ final class OmittedController extends Controller
             $data = self::getVotingData($voting, $data, $omitted);
             Voting::create($data);
         }
+
         return redirect(route('admin_index', ['omitted']));
     }
 
     /**
      * Создать
-     * @return View|Application|Factory|App
      */
     public function create(): View|Application|Factory|App
     {
         $funds = Fund::all();
+
         return view('admin.omitted.create', compact('funds'));
     }
 
-    /**
-     * @param mixed $values
-     * @param array $data
-     * @param $omitted
-     * @return array
-     */
     private static function getVotingData(mixed $values, array $data, $omitted): array
     {
         $data['type_transaction'] = $values['type_transaction'];
@@ -70,13 +62,12 @@ final class OmittedController extends Controller
         $data['other_conditions'] = $values['other_conditions'];
         $data['omitted_id'] = $omitted->id;
         $data['fund_id'] = $omitted['fund_id'];
+
         return $data;
     }
 
     /**
      * Посмотреть
-     * @param string $id
-     * @return View|Application|Factory|App
      */
     public function show(string $id): View|Application|Factory|App
     {
@@ -85,22 +76,18 @@ final class OmittedController extends Controller
 
     /**
      * Редактировать
-     * @param string $id
-     * @return View|Application|Factory|App
      */
     public function edit(string $id): View|Application|Factory|App
     {
         $omitted = Omitted::find($id);
         $funds = Fund::all();
         $count = count($omitted->votings);
+
         return view('admin.omitted.edit', compact('omitted', 'funds', 'count'));
     }
 
     /**
      * Сохранить изменения
-     * @param Request $request
-     * @param string $id
-     * @return RedirectResponse
      */
     public function update(Request $request, string $id): RedirectResponse
     {
@@ -118,41 +105,39 @@ final class OmittedController extends Controller
                 Voting::create($data);
             }
         }
+
         return redirect(route('admin_index', ['omitted']));
     }
 
     /**
      * Мягкое удаление
-     * @param string $id
-     * @return RedirectResponse
      */
     public function destroy(string $id): RedirectResponse
     {
         $omitted = Omitted::find($id);
         $omitted->delete();
+
         return redirect(route('admin_index', ['omitted']));
     }
 
     /**
      * Полное удаление
-     * @param string $id
-     * @return RedirectResponse
      */
     public function delete(string $id): RedirectResponse
     {
         $omitted = Omitted::withTrashed()->find($id);
         $omitted->forceDelete();
+
         return redirect(route('admin_index', ['omitted']));
     }
 
     /**
      * Восстановить запись
-     * @param int $id
-     * @return RedirectResponse
      */
     public function restoreModel(int $id): RedirectResponse
     {
         Omitted::withTrashed()->where('id', $id)->restore();
+
         return redirect()->back();
     }
 }

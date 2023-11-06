@@ -34,16 +34,16 @@ class Fund extends Model
 
     /**
      * Расчет роста фонда в процентах
-     * @return float
      */
     public function growth_calculation_percent(): float
     {
         $current_cost = $this->current_count_pif * $this->current_cost_one_pif;
         $last_cost = $this->last_count_pif * $this->last_cost_one_pif;
-        if (!$last_cost) {
+        if (! $last_cost) {
             return 100;
         }
         $percent = $last_cost / 100;
+
         return round(($current_cost - $last_cost) / $percent, 2);
     }
 
@@ -52,22 +52,20 @@ class Fund extends Model
         return $this->hasMany(UserFund::class, 'fund_id', 'id');
     }
 
-
     /**
      * Расчет роста фонда в натуральных единицах
-     * @return float
      */
     public function growth_calculation_sum(): float
     {
         $current_cost = $this->current_count_pif * $this->current_cost_one_pif;
         $last_cost = $this->last_count_pif * $this->last_cost_one_pif;
         $sum = $last_cost - $current_cost;
+
         return -$sum;
     }
 
     /**
      * Общая стоимость всех активов фонда
-     * @return float
      */
     public function cost(): float
     {
@@ -76,11 +74,9 @@ class Fund extends Model
 
     /**
      * Проверка доступности фонда для определенного пользователя
-     * @param User $user
-     * @return bool
      */
     public function access(User $user): bool
     {
-        return $this->access_users && in_array((string)$user->id, json_decode($this->access_users, true), true);
+        return $this->access_users && in_array((string) $user->id, json_decode($this->access_users, true), true);
     }
 }

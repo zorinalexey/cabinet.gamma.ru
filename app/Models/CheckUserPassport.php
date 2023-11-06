@@ -12,7 +12,6 @@ class CheckUserPassport extends Model
 
     protected $fillable = [
         'user_id',
-        'check'
+        'check',
     ];
-
 }

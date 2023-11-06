@@ -17,46 +17,42 @@ use JsonException;
 
 final class FundsController extends Controller
 {
-
     /**
      * Просмотр списка
-     * @return View|Application|Factory|App
      */
     public function index(): View|Application|Factory|App
     {
         return view('admin.funds.list', [
             'active_funds' => Fund::paginate(25),
-            'delete_funds' => Fund::onlyTrashed()->paginate(25)
+            'delete_funds' => Fund::onlyTrashed()->paginate(25),
         ]);
     }
 
     /**
      * Сохранить
-     * @param Request $request
-     * @return RedirectResponse
+     *
      * @throws JsonException
      */
     public function store(Request $request): RedirectResponse
     {
         $data = FundService::getCreateFund($request);
         Fund::create($data);
+
         return redirect(route('admin_index', ['funds']));
     }
 
     /**
      * Создать
-     * @return View|Application|Factory|App
      */
     public function create(): View|Application|Factory|App
     {
         $users = User::all();
+
         return view('admin.funds.create', compact('users'));
     }
 
     /**
      * Посмотреть
-     * @param string $id
-     * @return View|Application|Factory|App
      */
     public function show(string $id): View|Application|Factory|App
     {
@@ -65,22 +61,19 @@ final class FundsController extends Controller
 
     /**
      * Редактировать
-     * @param string $id
-     * @return View|Application|Factory|App
      */
     public function edit(string $id): View|Application|Factory|App
     {
         $fund = Fund::find($id);
         $fund->access_users = json_decode($fund->access_users) ?: [];
         $users = User::all();
+
         return view('admin.funds.edit', compact('fund', 'users'));
     }
 
     /**
      * Сохранить изменения
-     * @param Request $request
-     * @param string $id
-     * @return RedirectResponse
+     *
      * @throws JsonException
      */
     public function update(Request $request, string $id): RedirectResponse
@@ -88,13 +81,12 @@ final class FundsController extends Controller
         $fund = Fund::find($id);
         $data = FundService::getEditFund($request);
         $fund->update($data);
+
         return redirect(route('admin_index', ['funds']));
     }
 
     /**
      * Мягкое удаление
-     * @param string $id
-     * @return RedirectResponse
      */
     public function destroy(string $id): RedirectResponse
     {
@@ -106,13 +98,12 @@ final class FundsController extends Controller
             }
             $fund->delete();
         }
+
         return redirect(route('admin_index', ['funds']));
     }
 
     /**
      * Полное удаление
-     * @param string $id
-     * @return RedirectResponse
      */
     public function delete(string $id): RedirectResponse
     {
@@ -124,13 +115,12 @@ final class FundsController extends Controller
             }
             $fund->forceDelete();
         }
+
         return redirect(route('admin_index', ['funds']));
     }
 
     /**
      * Восстановить запись
-     * @param int $id
-     * @return RedirectResponse
      */
     public function restoreModel(int $id): RedirectResponse
     {
@@ -139,6 +129,7 @@ final class FundsController extends Controller
         if ($fund) {
             UserFund::withTrashed()->where('fund_id', $id)->restore();
         }
+
         return redirect()->back();
     }
 }

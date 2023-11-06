@@ -11,17 +11,14 @@ final class NoLogin
 {
     /**
      * Handle an incoming request.
-     *
-     * @param Request $request
-     * @param Closure $next
-     * @return Response
      */
     public function handle(Request $request, Closure $next): Response
     {
         $user = Auth::user();
-        if (!$user) {
+        if (! $user) {
             return $next($request);
         }
+
         return redirect()->to(route('cabinet'));
     }
 }

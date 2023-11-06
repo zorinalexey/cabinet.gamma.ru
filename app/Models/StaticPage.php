@@ -15,6 +15,7 @@ final class StaticPage extends Model
     public function short_content(): string
     {
         $content = preg_replace('~<(.+)>~', '', $this->content);
-        return mb_substr($content, 0, 350) . '...';
+
+        return mb_substr($content, 0, 350).'...';
     }
 }

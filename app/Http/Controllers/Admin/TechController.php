@@ -16,37 +16,32 @@ final class TechController extends Controller
         return view('admin.tech.index');
     }
 
-
-    /**
-     * @param Request $request
-     * @return RedirectResponse
-     */
     public function store(Request $request): RedirectResponse
     {
         $config = config('company_details');
-        $dir = $config['root_catalog'] . '/private/files';
+        $dir = $config['root_catalog'].'/private/files';
         $files = $_FILES;
-        if (isset($files['mvk']) && !$files['mvk']['error']) {
-            $file = $dir . '/mvk.xml';
+        if (isset($files['mvk']) && ! $files['mvk']['error']) {
+            $file = $dir.'/mvk.xml';
             $this->uploadFile($file, $files['mvk']['tmp_name']);
         }
-        if (isset($files['p639']) && !$files['p639']['error']) {
-            $file = $dir . '/p639.xml';
+        if (isset($files['p639']) && ! $files['p639']['error']) {
+            $file = $dir.'/p639.xml';
             $this->uploadFile($file, $files['p639']['tmp_name']);
         }
-        if (isset($files['fedsfm']) && !$files['fedsfm']['error']) {
-            $file = $dir . '/fedsfm.xml';
+        if (isset($files['fedsfm']) && ! $files['fedsfm']['error']) {
+            $file = $dir.'/fedsfm.xml';
             $this->uploadFile($file, $files['fedsfm']['tmp_name']);
         }
-        if (isset($files['pod_ft']) && !$files['pod_ft']['error']) {
-            $file = $dir . '/pod_ft.xml';
+        if (isset($files['pod_ft']) && ! $files['pod_ft']['error']) {
+            $file = $dir.'/pod_ft.xml';
             $this->uploadFile($file, $files['pod_ft']['tmp_name']);
         }
-        if (isset($files['fromu']) && !$files['fromu']['error']) {
-            $file = $dir . '/fromu.xml';
+        if (isset($files['fromu']) && ! $files['fromu']['error']) {
+            $file = $dir.'/fromu.xml';
             $this->uploadFile($file, $files['fromu']['tmp_name']);
         }
+
         return redirect()->back();
     }
-
 }

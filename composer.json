@@ -1,8 +1,7 @@
 {
-    "name": "laravel/laravel",
+    "name": "am-gamma/cabinet",
     "type": "project",
-    "description": "The Laravel Framework.",
-    "keywords": ["framework", "laravel"],
+    "description": "Official web-site of GAMMA-GROUP company",
     "license": "MIT",
     "require": {
         "php": "^8.1",
@@ -27,13 +26,12 @@
         "symfony/deprecation-contracts": "^v3.2.1"
     },
     "require-dev": {
-        "roave/security-advisories": "dev-latest",
         "fakerphp/faker": "^1.9.1",
-        "laravel/pint": "^1.0",
-        "laravel/sail": "^1.18",
+        "laravel/pint": "^1.13",
         "mockery/mockery": "^1.4.4",
         "nunomaduro/collision": "^7.0",
         "phpunit/phpunit": "^10.0",
+        "roave/security-advisories": "dev-latest",
         "spatie/laravel-ignition": "^2.0"
     },
     "autoload": {

@@ -11,32 +11,25 @@ use PhpOffice\PhpWord\Element\Section;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\SimpleType\Jc;
 
-/**
- *
- */
 class Documents
 {
-
     /**
      * Генерация анкеты зарегистрированного лица в репозитории спец.деп
-     * @param User $user
-     * @param UserRubleAccount $account
-     * @param Fund $fund
-     * @param string|bool|null $signCode
-     * @return string|null
+     *
+     * @param  string|bool|null  $signCode
      */
-    public static function createBlank(User $user, UserRubleAccount $account, Fund $fund, string|null $signCode = null): string|null
+    public static function createBlank(User $user, UserRubleAccount $account, Fund $fund, string $signCode = null): ?string
     {
         $tableStyle = [
             'borderColor' => '000000',
             'borderSize' => 6,
             'cellMargin' => 50,
-            'valign' => 'center'
+            'valign' => 'center',
         ];
         $doc = self::startDocument();
         DocumentService::$docx = $doc;
         DocumentService::$user = $user;
-        DocumentService::$hash = $user->id . '_anketa_account_' . $account->id . '_fund_' . $fund->id;
+        DocumentService::$hash = $user->id.'_anketa_account_'.$account->id.'_fund_'.$fund->id;
         $document_name = 'АНКЕТА ЗАРЕГИСТРИРОВАННОГО ФИЗИЧЕСКОГО ЛИЦА В РЕЕСТРЕ ВЛАДЕЛЬЦЕВ ИНВЕСТИЦИОННЫХ ПАЕВ';
         $section = self::specDepHeader($doc, $signCode);
         $section->addTextBreak();
@@ -44,7 +37,7 @@ class Documents
         $section->addText('В РЕЕСТРЕ ВЛАДЕЛЬЦЕВ ИНВЕСТИЦИОННЫХ ПАЕВ', ['bold' => true], ['align' => 'center']);
         $section->addTextBreak();
         $section->addText('Открытый паевой инвестиционный фонд рыночных финансовых инструментов', ['size' => 9, 'bold' => true], ['align' => 'center']);
-        $section->addText('«' . $fund->name . '»', ['size' => 9, 'bold' => true], ['align' => 'center']);
+        $section->addText('«'.$fund->name.'»', ['size' => 9, 'bold' => true], ['align' => 'center']);
         $section->addText('(Название ПИФ в соответствии с Правилами доверительного управления)', ['size' => 6], ['align' => 'center']);
         $table = $section->addTable($tableStyle);
         $row = $table->addRow();
@@ -61,7 +54,7 @@ class Documents
         $table->addRow()->addCell(9600, ['bgColor' => 'E0E0E0'])->addText('Сведения о зарегистрированном лице:', ['bold' => true]);
         $row = $table->addRow();
         $row->addCell(2600)->addText('Фамилия, имя и, если имеется, отчество:', ['bold' => true]);
-        $row->addCell(7000)->addText($user->lastname . ' ' . $user->name . ' ' . $user->patronymic);
+        $row->addCell(7000)->addText($user->lastname.' '.$user->name.' '.$user->patronymic);
         $row = $table->addRow();
         $row->addCell(2600)->addText('Гражданство либо указание на его отсутствие:', ['bold' => true]);
         $row->addCell(7000)->addText('Российская Федерация');
@@ -217,7 +210,7 @@ class Documents
         $row->addCell(2600)->addText('Образец подписи законного представителя:', ['bold' => true, 'align' => 'center']);
         $row->addCell(7000);
         $section->addTextBreak();
-        $section->addText('Согласие на обработку персональных данных зарегистрированного физического лица', ['bold' => true,], ['align' => 'center']);
+        $section->addText('Согласие на обработку персональных данных зарегистрированного физического лица', ['bold' => true], ['align' => 'center']);
         $section->addTextBreak();
         $section->addText('     Настоящим в соответствии с Федеральным законом от 27.07.2006 № 152-ФЗ «О персональных данных»  своей волей и в своем интересе даю согласие на обработку всех, указанных в настоящей анкете, моих персональных данных Оператору ОАО «Специализированный депозитарий «ИНФИНИТУМ» (115162, г. Москва, ул. Шаболовка, дом 31, корп. Б), а также ');
         $section->addText('Общество с ограниченной ответственностью Управляющая компания «ИНВЕСТ-ВС» (129090, Москва, вн. тер. г. муниципальный округ Красносельский, туп. Спасский, д. 8, стр. 1, этаж 2, помещение I, комн.№8),', ['size' => 8]);
@@ -231,9 +224,9 @@ class Documents
         $row->addCell(2600)->addText('Подпись зарегистрированного физического лица или его законного представителя:', ['bold' => true]);
         $cell = $row->addCell(7000, ['valign' => 'bottom']);
         if (is_string($signCode)) {
-            $cell->addText('__________' . $signCode . '_____________/ ' . $user->lastname . ' ' . $user->name . ' ' . $user->patronymic, null, ['align' => 'center']);
+            $cell->addText('__________'.$signCode.'_____________/ '.$user->lastname.' '.$user->name.' '.$user->patronymic, null, ['align' => 'center']);
         } else {
-            $cell->addText('_____________________________/ ' . $user->lastname . ' ' . $user->name . ' ' . $user->patronymic, null, ['align' => 'center']);
+            $cell->addText('_____________________________/ '.$user->lastname.' '.$user->name.' '.$user->patronymic, null, ['align' => 'center']);
         }
         $cell->addText('подпись                                            ФИО', ['size' => 8], ['align' => 'center']);
         $section->addTextBreak();
@@ -255,26 +248,21 @@ class Documents
         $cell->addText('подпись                                            ФИО', ['size' => 8], ['align' => 'center']);
         $section->addTextBreak();
         $section->addFooter();
+
         return self::saveDocument($user, $account, $fund, $document_name, $signCode);
     }
 
-    /**
-     *
-     * @return PhpWord
-     */
     private static function startDocument(): PhpWord
     {
         $doc = new PhpWord();
         $doc->setDefaultFontName('Times New Roman');
         $doc->setDefaultFontSize(10);
+
         return $doc;
     }
 
     /**
      * Заголовок документов для спец. депозитария Инфинитум
-     * @param PhpWord $doc
-     * @param string|bool|null $signCode
-     * @return Section
      */
     private static function specDepHeader(PhpWord $doc, string|bool|null $signCode): Section
     {
@@ -282,67 +270,55 @@ class Documents
             'valign' => 'center',
             'borderColor' => '000000',
             'borderSize' => 6,
-            'cellMargin' => 50
+            'cellMargin' => 50,
         ];
         $sectionStyle = [
             'marginTop' => 600,
-            'marginBottom' => 300
+            'marginBottom' => 300,
         ];
         $company_details = config('company_details');
         $section = $doc->addSection($sectionStyle);
         $table = $section->addTable();
         $row = $table->addRow();
-        $row->addCell(3000, ['valign' => 'center'])->addImage($company_details['root_catalog'] . '/public/images/infinitum_logo.png', ['width' => 120]);
+        $row->addCell(3000, ['valign' => 'center'])->addImage($company_details['root_catalog'].'/public/images/infinitum_logo.png', ['width' => 120]);
         $cell = $row->addCell(4600, $cellStyle);
-        $cell->addText('ПРИНЯТО: ' . mb_strtoupper($company_details['company_name']), ['size' => 10], ['align' => 'center']);
+        $cell->addText('ПРИНЯТО: '.mb_strtoupper($company_details['company_name']), ['size' => 10], ['align' => 'center']);
         $cell->addText('(наименование организации)', ['size' => 6], ['align' => 'center']);
         $cell->addText('Подпись проверил', ['bold' => true], ['align' => 'center']);
-        $cell->addText($company_details['office-holder'] . ', ', ['size' => 10], ['align' => 'center']);
-        if (!is_string($signCode)) {
-            $cell->addText($company_details['job-title'] . '  ____________________', ['size' => 10], ['align' => 'center']);
+        $cell->addText($company_details['office-holder'].', ', ['size' => 10], ['align' => 'center']);
+        if (! is_string($signCode)) {
+            $cell->addText($company_details['job-title'].'  ____________________', ['size' => 10], ['align' => 'center']);
         } else {
-            $cell->addText($company_details['job-title'] . '  _______' . random_int(100000, 999999) . '_______', ['size' => 10], ['align' => 'center']);
+            $cell->addText($company_details['job-title'].'  _______'.random_int(100000, 999999).'_______', ['size' => 10], ['align' => 'center']);
         }
         $cell->addText('(Ф.И.О., должность ответственного исполнителя)        (подпись)', ['size' => 6], ['align' => 'center']);
         if (is_string($signCode)) {
-            $cell->addText('вх. № ' . DocumentService::setDocumentNumber() . ' от «' . date('d') . '» ' . date('m.Y') . ' г.');
+            $cell->addText('вх. № '.DocumentService::setDocumentNumber().' от «'.date('d').'» '.date('m.Y').' г.');
         } else {
-            $cell->addText('вх. № ' . DocumentService::setDocumentNumber() . ' от «___» __________ 20___ г.');
+            $cell->addText('вх. № '.DocumentService::setDocumentNumber().' от «___» __________ 20___ г.');
         }
         $row->addCell(2000, $cellStyle)->addText('М.П.', null, ['align' => 'center']);
+
         return $section;
     }
 
-    /**
-     * @param User $user
-     * @param UserRubleAccount $account
-     * @param Fund $fund
-     * @param string $document_name
-     * @return string
-     */
-    private static function saveDocument(User $user, UserRubleAccount $account, Fund $fund, string $document_name, string|null $signCode = null): string
+    private static function saveDocument(User $user, UserRubleAccount $account, Fund $fund, string $document_name, string $signCode = null): string
     {
         $config = config('company_details');
-        $path = $config['root_catalog'] . '/public/storage/user_' . $user->id .
-            '/bank_' . $account->id . '/fund_' . $fund->id . '/' . Str::slug($document_name, '_') . '.docx';
+        $path = $config['root_catalog'].'/public/storage/user_'.$user->id.
+            '/bank_'.$account->id.'/fund_'.$fund->id.'/'.Str::slug($document_name, '_').'.docx';
         $file = DocumentService::toPdf($path);
         DocumentService::addUserDocuments($document_name, $file, true, $signCode);
+
         return $file;
     }
 
-    /**
-     * @param User $user
-     * @param UserRubleAccount $account
-     * @param Fund $fund
-     * @param string|bool|null $signCode
-     * @return string
-     */
-    public static function appPurchase(User $user, UserRubleAccount $account, Fund $fund, string|bool|null $signCode = null): string
+    public static function appPurchase(User $user, UserRubleAccount $account, Fund $fund, string|bool $signCode = null): string
     {
         $doc = self::startDocument();
         DocumentService::$docx = $doc;
         DocumentService::$user = $user;
-        DocumentService::$hash = $user->id . '_app_account_' . $account->id . '_fund_' . $fund->id;
+        DocumentService::$hash = $user->id.'_app_account_'.$account->id.'_fund_'.$fund->id;
         $document_name = mb_strtoupper('Заявка на приобретение инвестиционных паев');
         $bold = ['bold' => true];
         $number = DocumentService::setDocumentNumber();
@@ -361,11 +337,11 @@ class Documents
         $alignCenter = ['alignment' => Jc::CENTER, 'align' => 'center'];
         $doc->setDefaultFontSize(8);
         $section = $doc->addSection();
-        #$section->addImage(ROOT_CATALOG. '/public/images/document_header.png', ['width' => 470, 'height' => 60]);
-        #$section->addTextBreak();
+        //$section->addImage(ROOT_CATALOG. '/public/images/document_header.png', ['width' => 470, 'height' => 60]);
+        //$section->addTextBreak();
         $table = $section->addTable();
         $text = $table->addRow(600)->addCell(3000, ['valign' => 'center'])->addTextRun();
-        $text->addText('Заявка № ' . $number, $bold);
+        $text->addText('Заявка № '.$number, $bold);
         $table->addCell(4000, ['valign' => 'center'])->addText('На приобретение инвестиционных паев', $bold);
         $table->addCell(600)->addText('');
         $table->addCell(2000, $styleCell)->addText('Для физических лиц');
@@ -426,7 +402,7 @@ class Documents
             'borderBottomColor' => $colorLine,
             'borderBottomSize' => 6,
             'borderLeftColor' => $colorLine,
-            'borderLeftSize' => 6,]);
+            'borderLeftSize' => 6, ]);
         $table->addCell(1600, $styleCell)->addText('Отчество');
         $table->addCell(6000, $styleCell)->addText($user->patronymic, $bold);
 
@@ -490,7 +466,7 @@ class Documents
         $table->addCell(3500, $styleCell)->addText('Телефон', $bold);
         $table->addCell(2000, $styleCell)->addText($user->phone, $bold);
         $table->addCell(700)->addText('Или', ['valign' => 'center']);
-        $table->addCell(3400, $styleCell)->addText('Адрес эл почты: ' . $user->email, $bold);
+        $table->addCell(3400, $styleCell)->addText('Адрес эл почты: '.$user->email, $bold);
 
         $section->addTextBreak();
         $table = $section->addTable();
@@ -506,7 +482,7 @@ class Documents
             'borderBottomColor' => $colorLine,
             'borderBottomSize' => 6,
             'borderLeftColor' => $colorLine,
-            'borderLeftSize' => 6,]);
+            'borderLeftSize' => 6, ]);
         $table->addCell(1600, $styleCell)->addText('Документ, подтверждающий полномочия');
         $table->addCell(900, $styleCell)->addText('');
         $table->addCell(800, $styleCell)->addText('ФИО / Наименование');
@@ -525,7 +501,7 @@ class Documents
             'borderRightColor' => $colorLine,
             'borderRightSize' => 6,
             'borderBottomColor' => $colorLine,
-            'borderBottomSize' => 6,])->addTextRun();
+            'borderBottomSize' => 6, ])->addTextRun();
         $text->addText('Для физических лиц', $bold);
         $text->addTextBreak();
         $text->addText('Документ, удостоверяющий личность', ['size' => 6]);
@@ -548,7 +524,7 @@ class Documents
             'borderBottomColor' => $colorLine,
             'borderBottomSize' => 6,
         ])->addText('Кем, когда выдан');
-        $table->addCell(5000, $styleCell)->addText($user->passport->issued_by . ', дата выдачи ' . date('d.m.Y', strtotime($user->passport->when_issued)), $bold);
+        $table->addCell(5000, $styleCell)->addText($user->passport->issued_by.', дата выдачи '.date('d.m.Y', strtotime($user->passport->when_issued)), $bold);
 
         $table->addRow(400);
         $text = $table->addCell(3600, $styleCell)->addTextRun();
@@ -603,9 +579,9 @@ class Documents
         if ($user->inn) {
             $inn = $user->inn->number;
         }
-        $appRek = $user->lastname . ' ' . $user->name . ' ' . $user->patronymic . ', ИНН ' . $inn . ', ' . $account->bank_name . ', '
-            . $account->bank_country . ', БИК ' . $account->bic . ', к/с ' . $account->cor_account . ', р/с '
-            . $account->payment_account;
+        $appRek = $user->lastname.' '.$user->name.' '.$user->patronymic.', ИНН '.$inn.', '.$account->bank_name.', '
+            .$account->bank_country.', БИК '.$account->bic.', к/с '.$account->cor_account.', р/с '
+            .$account->payment_account;
         $table->addCell(4800, $styleCell)->addTextRun()->addText($appRek, $bold);
 
         $table->addRow(400);
@@ -615,13 +591,13 @@ class Documents
         $table = $section->addTable();
         $table->addRow();
         $text = $table->addCell(1750, $styleCell)->addTextRun();
-        $text->addText("Подпись", $bold, $alignCenter);
+        $text->addText('Подпись', $bold, $alignCenter);
         $text->addTextBreak();
-        $text->addText("Заявителя / ", $bold, $alignCenter);
+        $text->addText('Заявителя / ', $bold, $alignCenter);
         $text->addTextBreak();
-        $text->addText("Уполномоченного", $bold, $alignCenter);
+        $text->addText('Уполномоченного', $bold, $alignCenter);
         $text->addTextBreak();
-        $text->addText("представителя", $bold, $alignCenter);
+        $text->addText('представителя', $bold, $alignCenter);
 
         $text = $table->addCell(1750, $styleCell)->addTextRun();
         $text->addText('', null, $alignCenter);
@@ -635,16 +611,16 @@ class Documents
         $text->addText('', null, $alignCenter);
         $text->addTextBreak();
         $text->addText('', null, $alignCenter);
-        $text->addText($user->lastname . ' ' . $user->name . ' ' . $user->patronymic, null, $alignCenter);
+        $text->addText($user->lastname.' '.$user->name.' '.$user->patronymic, null, $alignCenter);
 
         $table->addCell(300)->addText();
 
         $text = $table->addCell(1750, $styleCell)->addTextRun();
-        $text->addText("Подпись ", $bold, $alignCenter);
+        $text->addText('Подпись ', $bold, $alignCenter);
         $text->addTextBreak();
-        $text->addText("лица принявшего", $bold, $alignCenter);
+        $text->addText('лица принявшего', $bold, $alignCenter);
         $text->addTextBreak();
-        $text->addText("заявку", $bold, $alignCenter);
+        $text->addText('заявку', $bold, $alignCenter);
 
         $company_details = config('company_details');
 
@@ -666,46 +642,47 @@ class Documents
         $section->addTextBreak();
         $text = $section->addTextRun();
         $text->addText('ВНИМАНИЕ: ', $bold);
-        $text->addText('В случае оплаты приобретаемых инвестиционных паев Фонда после подачи данной заявки - следует ' .
-            'обязательно указывать номер данной Заявки в Платежном документе (графа - назначение платежа). При каждой ' .
-            'последующей оплате рекомендуется связаться с Управляющим Фондом для уточнения реквизитов банковского счета' . '
+        $text->addText('В случае оплаты приобретаемых инвестиционных паев Фонда после подачи данной заявки - следует '.
+            'обязательно указывать номер данной Заявки в Платежном документе (графа - назначение платежа). При каждой '.
+            'последующей оплате рекомендуется связаться с Управляющим Фондом для уточнения реквизитов банковского счета'.'
              Фонда', ['size' => 6]
         );
+
         return self::saveDocument($user, $account, $fund, $document_name, $signCode);
     }
 
-    public static function requestOpenAccount(User $user, UserRubleAccount $account, Fund $fund, string|bool|null $signCode = null): string|null
+    public static function requestOpenAccount(User $user, UserRubleAccount $account, Fund $fund, string|bool $signCode = null): ?string
     {
         $doc = self::startDocument();
         DocumentService::$docx = $doc;
         DocumentService::$user = $user;
-        DocumentService::$hash = $user->id . '_request_account_' . $account->id . '_fund_' . $fund->id;
+        DocumentService::$hash = $user->id.'_request_account_'.$account->id.'_fund_'.$fund->id;
         $number = DocumentService::setDocumentNumber();
         $document_name = mb_strtoupper('ЗАЯВЛЕНИЕ ОБ ОТКРЫТИИ ЛИЦЕВОГО СЧЕТА ЗАРЕГИСТРИРОВАННОГО ЛИЦА');
-        $tableStyle = array(
+        $tableStyle = [
             'borderColor' => '000000',
             'borderSize' => 6,
-            'cellMargin' => 50
-        );
+            'cellMargin' => 50,
+        ];
         $section = self::specDepHeader($doc, $signCode);
         $section->addTextBreak();
-        $section->addText('ЗАЯВЛЕНИЕ № ' . $number . ' ОБ ОТКРЫТИИ ЛИЦЕВОГО СЧЕТА ЗАРЕГИСТРИРОВАННОГО ЛИЦА', ['bold' => true], ['align' => 'center']);
+        $section->addText('ЗАЯВЛЕНИЕ № '.$number.' ОБ ОТКРЫТИИ ЛИЦЕВОГО СЧЕТА ЗАРЕГИСТРИРОВАННОГО ЛИЦА', ['bold' => true], ['align' => 'center']);
         $section->addTextBreak();
         if (is_string($signCode)) {
-            $section->addText('«' . date('d') . '» ' . date('m.Y') . ' г.', null, ['align' => 'right']);
+            $section->addText('«'.date('d').'» '.date('m.Y').' г.', null, ['align' => 'right']);
         } else {
             $section->addText('«___» ___________ 20___ г.', null, ['align' => 'right']);
         }
         $section->addTextBreak();
         $section->addText('Открытый паевой инвестиционный фонд рыночных финансовых инструментов', ['bold' => true], ['align' => 'center']);
-        $section->addText('«' . $fund->name . '»', ['bold' => true], ['align' => 'center']);
+        $section->addText('«'.$fund->name.'»', ['bold' => true], ['align' => 'center']);
         $section->addText(' (Название ПИФ в соответствии с Правилами доверительного управления)', ['size' => 8], ['align' => 'center']);
         $section->addTextBreak();
         $table = $section->addTable($tableStyle);
         $table->addRow()->addCell(9600, ['valign' => 'center', 'bgColor' => 'E0E0E0'])->addText('Сведения о лице, которому открывается лицевой счет:', ['bold' => true]);
         $table->addRow();
         $table->addCell(3000, ['valign' => 'center'])->addText('Фамилия, имя и, если имеется, отчество (полное наименование)', ['bold' => true]);
-        $table->addCell(6600, ['valign' => 'center'])->addText($user->lastname . ' ' . $user->name . ' ' . $user->patronymic, ['bold' => true]);
+        $table->addCell(6600, ['valign' => 'center'])->addText($user->lastname.' '.$user->name.' '.$user->patronymic, ['bold' => true]);
         $text = $table->addRow()->addCell(3000, ['valign' => 'center'])->addTextRun();
         $text->addText('Идентификационный номер налогоплательщика – для физических лиц', ['bold' => true]);
         $text->addText(' (при наличии)1', ['size' => 8]);
@@ -743,7 +720,7 @@ class Documents
         if ($user->address_fact()) {
             $address = $user->address_fact()->address;
         }
-        $table->addCell(2000)->addCheckBox('ch6', ' - письмо по адресу: ' . $address);
+        $table->addCell(2000)->addCheckBox('ch6', ' - письмо по адресу: '.$address);
         $section->addTextBreak();
         $table = $section->addTable($tableStyle)->addRow();
         $text = $table->addCell(4800)->addTextRun();
@@ -752,9 +729,9 @@ class Documents
         $text->addTextBreak();
         $text->addTextBreak();
         if (is_string($signCode)) {
-            $text->addText('________' . $signCode . '___________ / ' . $user->lastname . ' ' . $user->name . ' ' . $user->patronymic);
+            $text->addText('________'.$signCode.'___________ / '.$user->lastname.' '.$user->name.' '.$user->patronymic);
         } else {
-            $text->addText('_________________ / ' . $user->lastname . ' ' . $user->name . ' ' . $user->patronymic);
+            $text->addText('_________________ / '.$user->lastname.' '.$user->name.' '.$user->patronymic);
         }
         $text->addTextBreak();
         $text->addText('          подпись                                 Ф.И.О.', null, ['align' => 'center']);
@@ -774,11 +751,9 @@ class Documents
         $footer = $section->addFooter();
         $footer->addText('__________________', ['bold' => true]);
         $footer->addText('1  - ИНН физического лица указывается в обязательном порядке при осуществлении обмена электронными документами, '
-            . 'подписанными квалифицированной и неквалифицированной электронной подписью физического лица. ИНН может не указываться при'
-            . ' осуществлении обмена электронными документами, подписанными простой электронной подписью физического лица.', ['size' => 8]);
+            .'подписанными квалифицированной и неквалифицированной электронной подписью физического лица. ИНН может не указываться при'
+            .' осуществлении обмена электронными документами, подписанными простой электронной подписью физического лица.', ['size' => 8]);
 
         return self::saveDocument($user, $account, $fund, $document_name, $signCode);
     }
-
-
 }

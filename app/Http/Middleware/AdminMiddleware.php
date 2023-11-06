@@ -13,9 +13,7 @@ final class AdminMiddleware
     /**
      * Handle an incoming request.
      *
-     * @param Request $request
-     * @param Closure(Request): (Abort404) $next
-     * @return Abort404
+     * @param  Closure(Request): (Abort404)  $next
      */
     public function handle(Request $request, Closure $next): Response
     {
@@ -23,6 +21,7 @@ final class AdminMiddleware
         if ($user->role > 1) {
             return $next($request);
         }
+
         return abort(404);
     }
 }

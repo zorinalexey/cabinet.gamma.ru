@@ -29,8 +29,9 @@ class VotingController extends Controller
             'user' => $user,
             'fund' => $fund,
             'paper_ballot_link' => $paper_ballot_link,
-            'vote' => OmittedService::getVote($user, $omitted)
+            'vote' => OmittedService::getVote($user, $omitted),
         ];
+
         return view('front.voting', $bladeVars);
     }
 
@@ -39,7 +40,7 @@ class VotingController extends Controller
         $data = $request->validate([
             'omitted' => ['required'],
             '_token' => ['required'],
-            'answer' => ['required']
+            'answer' => ['required'],
         ]);
         $omitted = Omitted::find($data['omitted']);
         $user = Auth::user();
@@ -57,8 +58,9 @@ class VotingController extends Controller
             'user' => $user,
             'fund' => $fund,
             'paper_ballot_link' => $paper_ballot_link,
-            'vote' => OmittedService::getVote($user, $omitted)
+            'vote' => OmittedService::getVote($user, $omitted),
         ];
+
         return view('front.voting', $bladeVars);
     }
 }

@@ -15,6 +15,7 @@ class UserFundService
             'count_pif' => ['required'],
         ]);
         unset($data['_token']);
+
         return $data;
     }
 }

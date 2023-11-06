@@ -18,12 +18,9 @@ class Infinitum extends Model
         'name',
         'user_id',
         'download',
-        'search_hash'
+        'search_hash',
     ];
 
-    /**
-     * @return HasOne
-     */
     public function user(): HasOne
     {
         return $this->hasOne(User::class, 'id', 'user_id');

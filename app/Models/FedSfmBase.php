@@ -14,5 +14,4 @@ class FedSfmBase extends Model
         'data',
         'remark',
     ];
-
 }

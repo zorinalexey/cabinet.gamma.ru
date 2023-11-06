@@ -10,9 +10,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-/**
- *
- */
 final class Omitted extends Model
 {
     use HasFactory, SoftDeletes;
@@ -38,7 +35,6 @@ final class Omitted extends Model
 
     /**
      * Фонд голосования
-     * @return HasOne
      */
     public function fund(): HasOne
     {
@@ -47,7 +43,6 @@ final class Omitted extends Model
 
     /**
      * Документы голосования
-     * @return HasOne
      */
     public function documents(): HasOne
     {
@@ -56,7 +51,6 @@ final class Omitted extends Model
 
     /**
      * Вопросы голосования
-     * @return HasMany
      */
     public function votings(): HasMany
     {
@@ -65,7 +59,6 @@ final class Omitted extends Model
 
     /**
      * Ответы голосования
-     * @return HasMany
      */
     public function answers(): HasMany
     {
@@ -74,9 +67,6 @@ final class Omitted extends Model
 
     /**
      * Ответы пользователя на голосование
-     * @param Voting $voting
-     * @param User $user
-     * @return array
      */
     public function userAnswers(Voting $voting, User $user): array
     {
@@ -86,12 +76,10 @@ final class Omitted extends Model
                 $user_answers[] = $answer;
             }
         }
+
         return $user_answers;
     }
 
-    /**
-     * @return string
-     */
     public function status(): string
     {
         $is_public = false;
@@ -109,11 +97,11 @@ final class Omitted extends Model
         if ($is_public && $start_date && $end_date) {
             return 'Открыт';
         }
+
         return 'Закрыт';
     }
 
     /**
-     * @param Collection $answers
      * @return int[]
      */
     public function getAnswersPercent(Collection $answers): array
@@ -133,6 +121,7 @@ final class Omitted extends Model
         if ($data['false']) {
             $data['false'] = round($data['false'] / $cuntVoitings * 100, 2);
         }
+
         return $data;
     }
 
@@ -146,6 +135,7 @@ final class Omitted extends Model
                 $users[] = $user;
             }
         }
+
         return $users;
     }
 }
