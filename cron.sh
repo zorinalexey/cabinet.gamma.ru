@@ -16,4 +16,9 @@ echo 'Запус обновлений пакетов composer'
 sudo -u $USER composer update
 echo 'Обновление пакетов composer завершено'
 
+/usr/bin/php8.2 artisan migrate
+/usr/bin/php8.2 artisan config:clear
+/usr/bin/php8.2 artisan route:clear
+/usr/bin/php8.2 artisan config:cache
+/usr/bin/php8.2 artisan route:cache
 /usr/bin/php8.2 artisan schedule:run
