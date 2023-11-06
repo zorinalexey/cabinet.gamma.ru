@@ -12,7 +12,7 @@ echo "$SCRIPT_PATH"
 
 
 echo 'Запус обновлений исходного кода'
-git pull
+git pull origin main
 echo 'Обновление исходного кода завершено'
 
 echo "$SCRIPT_PATH/composer.json"
