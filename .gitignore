@@ -6,9 +6,9 @@
 ./private/
 /storage/*.key
 /vendor
-./.env
 .idea/
 private/
 ./composer.lock
 composer.lock
 .env
+.env.backup
