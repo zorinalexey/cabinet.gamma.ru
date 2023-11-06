@@ -1,8 +1,8 @@
-./.env.backup
-./.env
-./composer.lock
-/vendor
-/private
-/storage/app
-/public/storage
-/.idea
+.env.backup
+.env
+composer.lock
+vendor
+private
+storage/app
+public/storage
+.idea
