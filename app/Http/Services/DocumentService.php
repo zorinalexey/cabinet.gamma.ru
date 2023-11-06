@@ -30,6 +30,7 @@ final class DocumentService
 
     /**
      * @throws JsonException
+     * @throws Exception
      */
     public static function setSignCodeOfDocument(UserDocument $document): void
     {
@@ -274,7 +275,7 @@ final class DocumentService
             }
             self::$docx->save($path);
         } catch (Exception $e) {
-            return print_r($e, true);
+
         }
         if (is_file($path)) {
             exec('unoconv -fpdf "'.$path.'"');

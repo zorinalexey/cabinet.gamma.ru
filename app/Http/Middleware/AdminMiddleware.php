@@ -18,10 +18,10 @@ final class AdminMiddleware
     public function handle(Request $request, Closure $next): Response
     {
         $user = Auth::user();
-        if ($user->role > 1) {
+        if ($user && $user->role > 1) {
             return $next($request);
         }
 
-        return abort(404);
+        abort(404);
     }
 }
