@@ -8,6 +8,7 @@
         "ext-curl": "*",
         "ext-simplexml": "*",
         "cloud-castle/sms-services-laravel": "^2.0",
+        "free2one/php-accessor": "~0.4",
         "guzzlehttp/guzzle": "^7.2",
         "kilylabs/qr-payment-php": "^0.1.0",
         "laravel/framework": "^10.0",
