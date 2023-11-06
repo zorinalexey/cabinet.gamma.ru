@@ -34,4 +34,6 @@ $PHP_PATH artisan route:clear
 $PHP_PATH artisan config:cache
 $PHP_PATH artisan route:cache
 $PHP_PATH artisan storage:link
+
+echo "Запуск выполнения команд по расписанию"
 $PHP_PATH artisan schedule:run
