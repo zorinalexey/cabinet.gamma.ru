@@ -33,8 +33,8 @@ class ConfigTest extends Unit
 
     /**
      * Data provider for @return array
-     * @see ConfigTest::testConstruct()
      *
+     * @see ConfigTest::testConstruct()
      */
     public function dataProviderForConstructor(): array
     {
@@ -119,8 +119,6 @@ class ConfigTest extends Unit
     }
 
     /**
-     * @param $config
-     * @param string|null $expectedException
      * @throws \Esia\Exceptions\InvalidConfigurationException
      *
      * @dataProvider dataProviderForConstructor

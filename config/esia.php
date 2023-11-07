@@ -9,12 +9,12 @@ return [
     'scope' => [
         'id_doc',
         'openid',
-        'fullname'
+        'fullname',
     ],
     'signer' => CliSignerPKCS7::class,
     'certPath' => env('ESIA_CERT_PATH'),
     'privateKeyPath' => env('ESIA_PRIVATE_KEY_PATH'),
     'privateKeyPassword' => env('ESIA_PRIVATE_KEY_PASSWORD', null),
     'tmpPath' => '/var/tmp',
-    'toolPath'=>'/usr/bin/openssl'
+    'toolPath' => '/usr/bin/openssl',
 ];

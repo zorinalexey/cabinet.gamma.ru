@@ -4,12 +4,11 @@ namespace MoveMoveIo\DaData\Enums;
 
 /**
  * Class CompanyScope
- * @package MoveMoveIo\DaData\Enums
  */
 class CompanyScope
 {
-
     const FOUNDERS = 1;
+
     const MANAGERS = 2;
 
     /**
@@ -19,5 +18,4 @@ class CompanyScope
         self::FOUNDERS => 'FOUNDERS',
         self::MANAGERS => 'MANAGERS',
     ];
-
 }

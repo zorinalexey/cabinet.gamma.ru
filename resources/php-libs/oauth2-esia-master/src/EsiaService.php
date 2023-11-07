@@ -24,8 +24,7 @@ class EsiaService implements EsiaServiceInterface
     }
 
     /**
-     * @param string $generatedState
-     *
+     * @param  string  $generatedState
      * @return string
      */
     public function getAuthorizationUrl($generatedState)
@@ -34,13 +33,12 @@ class EsiaService implements EsiaServiceInterface
     }
 
     /**
-     * @param string $generatedState
-     * @param string $passedState
-     * @param string $passedCode
+     * @param  string  $generatedState
+     * @param  string  $passedState
+     * @param  string  $passedCode
+     * @return array
      *
      * @throws UnexpectedValueException
-     *
-     * @return array
      */
     public function getResourceOwner($generatedState, $passedState, $passedCode)
     {

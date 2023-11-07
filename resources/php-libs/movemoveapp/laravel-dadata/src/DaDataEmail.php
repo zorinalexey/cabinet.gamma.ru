@@ -4,19 +4,15 @@ namespace MoveMoveIo\DaData;
 
 /**
  * Class DaDataEmail
- * @package MoveMoveIo\DaData
  */
 class DaDataEmail extends DaDataService
 {
-
     /**
      * Standardization email
      *
      * Corrects typos and checks for a disposable address. Classifies addresses
      * into personal, corporate and role-based.
      *
-     * @param string $email
-     * @return array
      * @throws \Exception
      */
     public function standardization(string $email): array
@@ -27,9 +23,6 @@ class DaDataEmail extends DaDataService
     /**
      * Auto detection by part of email
      *
-     * @param string $email
-     * @param int $count
-     * @return array
      * @throws \Exception
      */
     public function prompt(string $email, int $count = 10): array
@@ -39,5 +32,4 @@ class DaDataEmail extends DaDataService
             'count' => $count,
         ]);
     }
-
 }

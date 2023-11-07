@@ -21,11 +21,11 @@ class EsiaAccessToken extends AccessToken implements ScopedTokenInterface
         $this->parsedToken = (new Parser())->parse($this->accessToken);
         $this->resourceOwnerId = $this->parsedToken->getClaim('urn:esia:sbj_id');
 
-        if (!$this->parsedToken->validate(new ValidationData())) {
+        if (! $this->parsedToken->validate(new ValidationData())) {
             throw new InvalidArgumentException('Access token is invalid: '.var_export($options, true));
         }
 
-        if ($publicKeyPath && !$this->parsedToken->verify($signer, new Key(file_get_contents($publicKeyPath)))) {
+        if ($publicKeyPath && ! $this->parsedToken->verify($signer, new Key(file_get_contents($publicKeyPath)))) {
             throw new InvalidArgumentException('Access token can not be verified: '.var_export($options, true));
         }
     }

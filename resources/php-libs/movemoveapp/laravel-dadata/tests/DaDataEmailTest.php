@@ -6,11 +6,9 @@ use MoveMoveIo\DaData\Facades\DaDataEmail;
 
 /**
  * Class DaDataEmailTest
- * @package MoveMoveIo\DaData\Tests
  */
 class DaDataEmailTest extends TestCase
 {
-
     /**
      * @test
      */
@@ -29,13 +27,13 @@ class DaDataEmailTest extends TestCase
     {
         return [
             [
-                "source" => "serega@yandex/ru",
-                "email" => "serega@yandex.ru",
-                "local" => "serega",
-                "domain" => "yandex.ru",
-                "type" => "PERSONAL",
-                "qc" => 4,
-            ]
+                'source' => 'serega@yandex/ru',
+                'email' => 'serega@yandex.ru',
+                'local' => 'serega',
+                'domain' => 'yandex.ru',
+                'type' => 'PERSONAL',
+                'qc' => 4,
+            ],
         ];
     }
 
@@ -56,30 +54,29 @@ class DaDataEmailTest extends TestCase
     public function PromptProvider(): array
     {
         return [
-            "suggestions" => [
+            'suggestions' => [
                 [
-                    "value" => "anton@gmail.com",
-                    "unrestricted_value" => "anton@gmail.com",
-                    "data" => [
-                        "local" => "anton",
-                        "domain" => "gmail.com",
-                        "type" => null,
-                        "source" => null,
-                        "qc" => null,
-                    ]
+                    'value' => 'anton@gmail.com',
+                    'unrestricted_value' => 'anton@gmail.com',
+                    'data' => [
+                        'local' => 'anton',
+                        'domain' => 'gmail.com',
+                        'type' => null,
+                        'source' => null,
+                        'qc' => null,
+                    ],
                 ], [
-                    "value" => "anton@mail.ru",
-                    "unrestricted_value" => "anton@mail.ru",
-                    "data" => [
-                        "local" => "anton",
-                        "domain" => "mail.ru",
-                        "type" => null,
-                        "source" => null,
-                        "qc" => null,
-                    ]
-                ]
-            ]
+                    'value' => 'anton@mail.ru',
+                    'unrestricted_value' => 'anton@mail.ru',
+                    'data' => [
+                        'local' => 'anton',
+                        'domain' => 'mail.ru',
+                        'type' => null,
+                        'source' => null,
+                        'qc' => null,
+                    ],
+                ],
+            ],
         ];
     }
-
 }

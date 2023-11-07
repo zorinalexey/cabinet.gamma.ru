@@ -4,11 +4,9 @@ namespace MoveMoveIo\DaData\Providers;
 
 /**
  * Class SuggestDaDataProvider
- * @package MoveMoveIo\DaData\Providers
  */
 class SuggestDaDataProvider
 {
-
     use Client;
 
     /**
@@ -49,10 +47,7 @@ class SuggestDaDataProvider
     /**
      * SuggestDaDataProvider constructor.
      *
-     * @param string $token
-     * @param string $secret
-     * @param int $timeout
-     * @param string $v
+     * @param  string  $v
      */
     public function __construct(string $token, string $secret, int $timeout = 10, $v = '4_1')
     {
@@ -64,9 +59,6 @@ class SuggestDaDataProvider
     }
 
     /**
-     * @param string $method
-     * @param array $data
-     * @return array
      * @throws \Exception
      */
     public function post(string $method, array $data = []): array
@@ -83,9 +75,6 @@ class SuggestDaDataProvider
     }
 
     /**
-     * @param string $method
-     * @param array $data
-     * @return array
      * @throws \Exception
      */
     public function get(string $method, array $data = []): array
@@ -98,6 +87,4 @@ class SuggestDaDataProvider
 
         return $this->getData($headers, $url, $data, $this->timeout);
     }
-
-
 }

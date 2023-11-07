@@ -5,11 +5,10 @@ namespace Ekapusta\OAuth2Esia\Interfaces\Security;
 interface SignerInterface
 {
     /**
-     * @param string $message
+     * @param  string  $message
+     * @return string
      *
      * @throws \Ekapusta\OAuth2Esia\Security\Signer\Exception\SignException
-     *
-     * @return string
      */
     public function sign($message);
 }

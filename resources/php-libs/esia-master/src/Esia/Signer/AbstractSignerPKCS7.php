@@ -35,6 +35,7 @@ abstract class AbstractSignerPKCS7
      * @var string
      */
     protected $privateKeyPassword;
+
     /**
      * Temporary directory for message signing (must me writable)
      *
@@ -46,12 +47,11 @@ abstract class AbstractSignerPKCS7
      * SignerPKCS7 constructor.
      */
     public function __construct(
-        string  $certPath,
-        string  $privateKeyPath,
+        string $certPath,
+        string $privateKeyPath,
         ?string $privateKeyPassword,
-        string  $tmpPath
-    )
-    {
+        string $tmpPath
+    ) {
         $this->certPath = $certPath;
         $this->privateKeyPath = $privateKeyPath;
         $this->privateKeyPassword = $privateKeyPassword;
@@ -64,22 +64,22 @@ abstract class AbstractSignerPKCS7
      */
     protected function checkFilesExists(): void
     {
-        if (!file_exists($this->certPath)) {
+        if (! file_exists($this->certPath)) {
             throw new NoSuchCertificateFileException('Certificate does not exist');
         }
-        if (!is_readable($this->certPath)) {
+        if (! is_readable($this->certPath)) {
             throw new CannotReadCertificateException('Cannot read the certificate');
         }
-        if (!file_exists($this->privateKeyPath)) {
+        if (! file_exists($this->privateKeyPath)) {
             throw new NoSuchKeyFileException('Private key does not exist');
         }
-        if (!is_readable($this->privateKeyPath)) {
+        if (! is_readable($this->privateKeyPath)) {
             throw new CannotReadPrivateKeyException('Cannot read the private key');
         }
-        if (!file_exists($this->tmpPath)) {
+        if (! file_exists($this->tmpPath)) {
             throw new NoSuchTmpDirException('Temporary folder is not found');
         }
-        if (!is_writable($this->tmpPath)) {
+        if (! is_writable($this->tmpPath)) {
             throw new NoSuchTmpDirException('Temporary folder is not writable');
         }
     }

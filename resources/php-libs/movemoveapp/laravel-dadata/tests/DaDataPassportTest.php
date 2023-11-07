@@ -6,11 +6,9 @@ use MoveMoveIo\DaData\Facades\DaDataPassport;
 
 /**
  * Class DaDataPassportTest
- * @package MoveMoveIo\DaData\Tests
  */
 class DaDataPassportTest extends TestCase
 {
-
     /**
      * @test
      */
@@ -29,11 +27,11 @@ class DaDataPassportTest extends TestCase
     {
         return [
             [
-                "source" => "4509 235857",
-                "series" => "45 09",
-                "number" => "235857",
-                "qc" => 0
-            ]
+                'source' => '4509 235857',
+                'series' => '45 09',
+                'number' => '235857',
+                'qc' => 0,
+            ],
         ];
     }
 
@@ -54,28 +52,27 @@ class DaDataPassportTest extends TestCase
     public function FmsProvider(): array
     {
         return [
-            "suggestions" => [
+            'suggestions' => [
                 [
-                    "value" => "ОВД ЗЮЗИНО Г. МОСКВЫ",
-                    "unrestricted_value" => "ОВД ЗЮЗИНО Г. МОСКВЫ",
-                    "data" => [
-                        "code" => "772-053",
-                        "name" => "ОВД ЗЮЗИНО Г. МОСКВЫ",
-                        "region_code" => "77",
-                        "type" => "2",
+                    'value' => 'ОВД ЗЮЗИНО Г. МОСКВЫ',
+                    'unrestricted_value' => 'ОВД ЗЮЗИНО Г. МОСКВЫ',
+                    'data' => [
+                        'code' => '772-053',
+                        'name' => 'ОВД ЗЮЗИНО Г. МОСКВЫ',
+                        'region_code' => '77',
+                        'type' => '2',
                     ],
                 ], [
-                    "value" => "ОВД ЗЮЗИНО Г. МОСКВЫ ПАСПОРТНЫЙ СТОЛ 1",
-                    "unrestricted_value" => "ОВД ЗЮЗИНО Г. МОСКВЫ ПАСПОРТНЫЙ СТОЛ 1",
-                    "data" => [
-                        "code" => "772-053",
-                        "name" => "ОВД ЗЮЗИНО Г. МОСКВЫ ПАСПОРТНЫЙ СТОЛ 1",
-                        "region_code" => "77",
-                        "type" => "2",
+                    'value' => 'ОВД ЗЮЗИНО Г. МОСКВЫ ПАСПОРТНЫЙ СТОЛ 1',
+                    'unrestricted_value' => 'ОВД ЗЮЗИНО Г. МОСКВЫ ПАСПОРТНЫЙ СТОЛ 1',
+                    'data' => [
+                        'code' => '772-053',
+                        'name' => 'ОВД ЗЮЗИНО Г. МОСКВЫ ПАСПОРТНЫЙ СТОЛ 1',
+                        'region_code' => '77',
+                        'type' => '2',
                     ],
                 ],
-            ]
+            ],
         ];
     }
-
 }

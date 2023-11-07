@@ -7,8 +7,8 @@ namespace MoveMoveIo\DaData\Enums;
  */
 class CompanyType
 {
-
     const LEGAL = 0;
+
     const INDIVIDUAL = 1;
 
     /**
@@ -18,5 +18,4 @@ class CompanyType
         self::LEGAL => 'LEGAL',
         self::INDIVIDUAL => 'INDIVIDUAL',
     ];
-
 }

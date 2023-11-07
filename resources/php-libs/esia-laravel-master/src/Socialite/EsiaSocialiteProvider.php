@@ -22,27 +22,21 @@ class EsiaSocialiteProvider extends AbstractProvider implements ProviderInterfac
 
     /**
      * EsiaSocialiteProvider constructor.
-     * @param Request $request
-     * @param $clientId
-     * @param $clientSecret
-     * @param $redirectUrl
-     * @param array $certParams
-     * @param array $scope
-     * @param array $guzzle
-     * @param bool $isTest
+     *
+     * @param  array  $guzzle
+     *
      * @throws InvalidConfigurationException
      */
     public function __construct(
         Request $request,
-                $clientId,
-                $clientSecret,
-                $redirectUrl,
-        array   $certParams,
-        array   $scope,
-        bool    $isTest = true,
-                $guzzle = []
-    )
-    {
+        $clientId,
+        $clientSecret,
+        $redirectUrl,
+        array $certParams,
+        array $scope,
+        bool $isTest = true,
+        $guzzle = []
+    ) {
         parent::__construct($request, $clientId, $clientSecret, $redirectUrl, $guzzle);
         $this->isTest = $isTest;
         $this->scopes = $scope;
@@ -52,9 +46,8 @@ class EsiaSocialiteProvider extends AbstractProvider implements ProviderInterfac
     }
 
     /**
-     * @param string $privateKeyPath
-     * @param string $certPath
      * @return Config
+     *
      * @throws InvalidConfigurationException
      */
     protected function makeConfig(string $privateKeyPath, string $certPath)
@@ -70,7 +63,7 @@ class EsiaSocialiteProvider extends AbstractProvider implements ProviderInterfac
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     protected function getAuthUrl($state)
     {
@@ -92,7 +85,8 @@ class EsiaSocialiteProvider extends AbstractProvider implements ProviderInterfac
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
+     *
      * @throws AbstractEsiaException
      */
     public function getAccessTokenResponse($code)
@@ -109,8 +103,6 @@ class EsiaSocialiteProvider extends AbstractProvider implements ProviderInterfac
 
     /**
      * Url safe for base64
-     * @param string $string
-     * @return string
      */
     private function base64UrlSafeDecode(string $string): string
     {
@@ -120,7 +112,6 @@ class EsiaSocialiteProvider extends AbstractProvider implements ProviderInterfac
     }
 
     /**
-     * @return string
      * @throws SignFailException
      */
     public function buildUrl(): string
@@ -129,7 +120,7 @@ class EsiaSocialiteProvider extends AbstractProvider implements ProviderInterfac
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     protected function getTokenUrl()
     {
@@ -139,7 +130,8 @@ class EsiaSocialiteProvider extends AbstractProvider implements ProviderInterfac
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
+     *
      * @throws AbstractEsiaException
      */
     protected function getUserByToken($token)
@@ -148,13 +140,13 @@ class EsiaSocialiteProvider extends AbstractProvider implements ProviderInterfac
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     protected function mapUserToObject(array $user)
     {
         return (new User)->setRaw($user)->map([
             'id' => $user['oid'],
-            'name' => $user['lastName'] . ' ' . $user['firstName'] . ' ' . $user['middleName'],
+            'name' => $user['lastName'].' '.$user['firstName'].' '.$user['middleName'],
         ]);
     }
 }

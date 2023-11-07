@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Facade;
 
 /**
  * Class DaDataAddress
- * @package MoveMoveIo\DaData\Facades
+ *
  * @method \MoveMoveIo\DaData\DaDataAddress standardization(string $address)
  * @method \MoveMoveIo\DaData\DaDataAddress prompt(string $query, int $count, int $language, array $locations, array $locations_geo, array $locations_boost, array $from_bound, array $to_bound)
  * @method \MoveMoveIo\DaData\DaDataAddress geolocate(float $lat, float $lon, int $count, int $radius_meters, int $language)
@@ -30,4 +30,3 @@ class DaDataAddress extends Facade
         return 'da_data_address';
     }
 }
-

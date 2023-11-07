@@ -7,19 +7,15 @@ use MoveMoveIo\DaData\Enums\Parts;
 
 /**
  * Class DaDataName
- * @package MoveMoveIo\DaData
  */
 class DaDataName extends DaDataService
 {
-
     /**
      * Standardization full name
      *
      * Splits the full name from the line into separate fields (last name, first name, patronymic).
      * Determines gender and declines by case.
      *
-     * @param string $name
-     * @return array
      * @throws \Exception
      */
     public function standardization(string $name): array
@@ -32,11 +28,6 @@ class DaDataName extends DaDataService
      *
      *
      *
-     * @param string $name
-     * @param int $count
-     * @param int $gender
-     * @param array $parts
-     * @return array
      * @throws \Exception
      */
     public function prompt(string $name, int $count = 10, int $gender = Gender::UNKNOWN, array $parts = []): array
@@ -56,5 +47,4 @@ class DaDataName extends DaDataService
             'parts' => array_values($parts),
         ]);
     }
-
 }

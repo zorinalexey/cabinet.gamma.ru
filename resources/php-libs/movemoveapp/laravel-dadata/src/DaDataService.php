@@ -7,11 +7,9 @@ use MoveMoveIo\DaData\Providers\SuggestDaDataProvider;
 
 /**
  * Class DaDataService
- * @package MoveMoveIo\DaData
  */
 class DaDataService
 {
-
     /**
      * @var string|null
      */
@@ -42,7 +40,7 @@ class DaDataService
      */
     public function __construct()
     {
-        if (file_exists(config_path() . '/dadata.php')) {
+        if (file_exists(config_path().'/dadata.php')) {
             $this->token = config('dadata.token');
             $this->secret = config('dadata.secret');
             $this->timeout = config('dadata.timeout');
@@ -53,54 +51,36 @@ class DaDataService
         }
     }
 
-    /**
-     * @return string|null
-     */
     public function getToken(): ?string
     {
         return $this->token;
     }
 
-    /**
-     * @return string|null
-     */
     public function getSecret(): ?string
     {
         return $this->secret;
     }
 
-    /**
-     * @return int|null
-     */
     public function getTimeout(): ?int
     {
         return $this->timeout;
     }
 
-    /**
-     * @param string $v
-     * @return CleanerDaDataProvider
-     */
     public function cleanerApi(string $v = 'v1'): CleanerDaDataProvider
     {
-        if (!$this->cleanerApi instanceof CleanerDaDataProvider) {
+        if (! $this->cleanerApi instanceof CleanerDaDataProvider) {
             $this->cleanerApi = new CleanerDaDataProvider($this->token, $this->secret, $this->timeout, $v);
         }
 
         return $this->cleanerApi;
     }
 
-    /**
-     * @param string $v
-     * @return SuggestDaDataProvider
-     */
     public function suggestApi(string $v = '4_1'): SuggestDaDataProvider
     {
-        if (!$this->suggestApi instanceof SuggestDaDataProvider) {
+        if (! $this->suggestApi instanceof SuggestDaDataProvider) {
             $this->suggestApi = new SuggestDaDataProvider($this->token, $this->secret, $this->timeout, $v);
         }
 
         return $this->suggestApi;
     }
-
 }

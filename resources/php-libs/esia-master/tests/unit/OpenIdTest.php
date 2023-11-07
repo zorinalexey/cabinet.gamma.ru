@@ -54,10 +54,10 @@ class OpenIdTest extends Unit
         $config = new Config($this->config);
 
         $oid = '123';
-        $oidBase64 = base64_encode('{ "urn:esia:sbj_id" : ' . $oid . '}');
+        $oidBase64 = base64_encode('{ "urn:esia:sbj_id" : '.$oid.'}');
 
         $client = $this->buildClientWithResponses([
-            new Response(200, [], '{ "access_token": "test.' . $oidBase64 . '.test"}'),
+            new Response(200, [], '{ "access_token": "test.'.$oidBase64.'.test"}'),
         ]);
         $openId = new OpenId($config, $client);
 
@@ -68,9 +68,6 @@ class OpenIdTest extends Unit
 
     /**
      * Client with prepared responses
-     *
-     * @param array $responses
-     * @return ClientInterface
      */
     protected function buildClientWithResponses(array $responses): ClientInterface
     {
@@ -179,7 +176,7 @@ class OpenIdTest extends Unit
     {
         $config = $this->openId->getConfig();
 
-        $url = $config->getLogoutUrl() . '?client_id=' . $config->getClientId();
+        $url = $config->getLogoutUrl().'?client_id='.$config->getClientId();
         $logoutUrl = $this->openId->buildLogoutUrl();
         self::assertSame($url, $logoutUrl);
     }
@@ -192,7 +189,7 @@ class OpenIdTest extends Unit
         $config = $this->openId->getConfig();
 
         $redirectUrl = 'test.example.com';
-        $url = $config->getLogoutUrl() . '?client_id=' . $config->getClientId() . '&redirect_url=' . $redirectUrl;
+        $url = $config->getLogoutUrl().'?client_id='.$config->getClientId().'&redirect_url='.$redirectUrl;
         $logoutUrl = $this->openId->buildLogoutUrl($redirectUrl);
         self::assertSame($url, $logoutUrl);
     }

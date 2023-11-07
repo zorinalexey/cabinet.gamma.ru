@@ -85,6 +85,7 @@ class OpenId
      * ```
      *
      * @return string|false
+     *
      * @throws SignFailException
      */
     public function buildUrl()
@@ -92,13 +93,13 @@ class OpenId
         $timestamp = $this->getTimeStamp();
         $state = $this->buildState();
         $message = $this->config->getScopeString()
-            . $timestamp
-            . $this->config->getClientId()
-            . $state;
+            .$timestamp
+            .$this->config->getClientId()
+            .$state;
 
         $clientSecret = $this->signer->sign($message);
 
-        $url = $this->config->getCodeUrl() . '?%s';
+        $url = $this->config->getCodeUrl().'?%s';
 
         $params = [
             'client_id' => $this->config->getClientId(),
@@ -131,14 +132,14 @@ class OpenId
         try {
             return sprintf(
                 '%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
-                random_int(0, 0xffff),
-                random_int(0, 0xffff),
-                random_int(0, 0xffff),
-                random_int(0, 0x0fff) | 0x4000,
-                random_int(0, 0x3fff) | 0x8000,
-                random_int(0, 0xffff),
-                random_int(0, 0xffff),
-                random_int(0, 0xffff)
+                random_int(0, 0xFFFF),
+                random_int(0, 0xFFFF),
+                random_int(0, 0xFFFF),
+                random_int(0, 0x0FFF) | 0x4000,
+                random_int(0, 0x3FFF) | 0x8000,
+                random_int(0, 0xFFFF),
+                random_int(0, 0xFFFF),
+                random_int(0, 0xFFFF)
             );
         } catch (Exception $e) {
             throw new CannotGenerateRandomIntException('Cannot generate random integer', $e);
@@ -150,7 +151,7 @@ class OpenId
      */
     public function buildLogoutUrl(string $redirectUrl = null): string
     {
-        $url = $this->config->getLogoutUrl() . '?%s';
+        $url = $this->config->getLogoutUrl().'?%s';
         $params = [
             'client_id' => $this->config->getClientId(),
         ];
@@ -177,9 +178,9 @@ class OpenId
 
         $clientSecret = $this->signer->sign(
             $this->config->getScopeString()
-            . $timestamp
-            . $this->config->getClientId()
-            . $state
+            .$timestamp
+            .$this->config->getClientId()
+            .$state
         );
 
         $body = [
@@ -211,7 +212,7 @@ class OpenId
         $token = $payload['access_token'];
         $this->config->setToken($token);
 
-        # get object id from token
+        // get object id from token
         $chunks = explode('.', $token);
         $payload = json_decode($this->base64UrlSafeDecode($chunks[1]), true);
         $this->config->setOid($payload['urn:esia:sbj_id']);
@@ -227,12 +228,12 @@ class OpenId
         try {
             if ($this->config->getToken()) {
                 /** @noinspection CallableParameterUseCaseInTypeContextInspection */
-                $request = $request->withHeader('Authorization', 'Bearer ' . $this->config->getToken());
+                $request = $request->withHeader('Authorization', 'Bearer '.$this->config->getToken());
             }
             $response = $this->client->sendRequest($request);
             $responseBody = json_decode($response->getBody()->getContents(), true);
 
-            if (!is_array($responseBody)) {
+            if (! is_array($responseBody)) {
                 throw new RuntimeException(
                     sprintf(
                         'Cannot decode response body. JSON error (%d): %s',
@@ -301,7 +302,7 @@ class OpenId
      */
     public function getContactInfo(): array
     {
-        $url = $this->config->getPersonUrl() . '/ctts';
+        $url = $this->config->getPersonUrl().'/ctts';
         $payload = $this->sendRequest(new Request('GET', $url));
 
         if ($payload && $payload['size'] > 0) {
@@ -342,7 +343,7 @@ class OpenId
      */
     public function getAddressInfo(): array
     {
-        $url = $this->config->getPersonUrl() . '/addrs';
+        $url = $this->config->getPersonUrl().'/addrs';
         $payload = $this->sendRequest(new Request('GET', $url));
 
         if ($payload['size'] > 0) {
@@ -363,7 +364,7 @@ class OpenId
      */
     public function getDocInfo(): array
     {
-        $url = $this->config->getPersonUrl() . '/docs';
+        $url = $this->config->getPersonUrl().'/docs';
 
         $payload = $this->sendRequest(new Request('GET', $url));
 

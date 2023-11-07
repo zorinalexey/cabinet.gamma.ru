@@ -22,7 +22,7 @@ class OpensslPkcs7 extends Signer
         }
 
         $privateKey = openssl_pkey_get_private($keyContent, $this->privateKeyPassword);
-        if (!is_resource($privateKey)) {
+        if (! is_resource($privateKey)) {
             throw SignException::canNotReadPrivateKey($this->privateKeyPath);
         }
 
@@ -31,7 +31,8 @@ class OpensslPkcs7 extends Signer
         file_put_contents($messageFile, $message);
 
         try {
-            set_error_handler(function () {});
+            set_error_handler(function () {
+            });
             $signResult = openssl_pkcs7_sign(
                 $messageFile,
                 $signFile,
@@ -43,7 +44,7 @@ class OpensslPkcs7 extends Signer
         } finally {
             restore_error_handler();
         }
-        if (false === $signResult) {
+        if ($signResult === false) {
             throw SignException::signFailedAsOf(openssl_error_string());
         }
 

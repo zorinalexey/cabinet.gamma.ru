@@ -22,8 +22,7 @@ interface ProviderInterface
     /**
      * Requests an access token using a specified grant and option set.
      *
-     * @param mixed $grant
-     *
+     * @param  mixed  $grant
      * @return AccessToken
      */
     public function getAccessToken($grant, array $options = []);

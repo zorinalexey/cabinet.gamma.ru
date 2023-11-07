@@ -14,18 +14,18 @@ class CliSignerPKCS7 extends AbstractSignerPKCS7 implements SignerInterface
         $this->checkFilesExists();
 
         // random unique directories for sign
-        $messageFile = $this->tmpPath . DIRECTORY_SEPARATOR . $this->getRandomString();
-        $signFile = $this->tmpPath . DIRECTORY_SEPARATOR . $this->getRandomString();
+        $messageFile = $this->tmpPath.DIRECTORY_SEPARATOR.$this->getRandomString();
+        $signFile = $this->tmpPath.DIRECTORY_SEPARATOR.$this->getRandomString();
         file_put_contents($messageFile, $message);
 
         $this->run(
-            'openssl ' .
-            'smime -engine gost -sign -binary -outform DER -noattr ' .
-            '-signer ' . escapeshellarg($this->certPath) . ' ' .
-            '-inkey ' . escapeshellarg($this->privateKeyPath) . ' ' .
-            '-passin ' . escapeshellarg('pass:' . $this->privateKeyPassword) . ' ' .
-            '-in ' . escapeshellarg($messageFile) . ' ' .
-            '-out ' . escapeshellarg($signFile)
+            'openssl '.
+            'smime -engine gost -sign -binary -outform DER -noattr '.
+            '-signer '.escapeshellarg($this->certPath).' '.
+            '-inkey '.escapeshellarg($this->privateKeyPath).' '.
+            '-passin '.escapeshellarg('pass:'.$this->privateKeyPassword).' '.
+            '-in '.escapeshellarg($messageFile).' '.
+            '-out '.escapeshellarg($signFile)
         );
 
         $signed = file_get_contents($signFile);
@@ -38,6 +38,7 @@ class CliSignerPKCS7 extends AbstractSignerPKCS7 implements SignerInterface
 
         unlink($signFile);
         unlink($messageFile);
+
         return $sign;
     }
 
@@ -62,10 +63,10 @@ class CliSignerPKCS7 extends AbstractSignerPKCS7 implements SignerInterface
         fclose($pipes[1]);
 
         $code = proc_close($process);
-        if (0 !== $code || $result === false) {
+        if ($code !== 0 || $result === false) {
             $errors = $errors ?: 'unknown';
             $this->logger->error('Sign fail');
-            $this->logger->error('SSL error: ' . $errors);
+            $this->logger->error('SSL error: '.$errors);
             throw new SignFailException($errors);
         }
     }

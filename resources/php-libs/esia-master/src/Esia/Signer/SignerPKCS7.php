@@ -28,22 +28,22 @@ class SignerPKCS7 extends AbstractSignerPKCS7 implements SignerInterface
         $cert = openssl_x509_read($certContent);
 
         if ($cert === false) {
-            throw new CannotReadCertificateException('Cannot read the certificate: ' . openssl_error_string());
+            throw new CannotReadCertificateException('Cannot read the certificate: '.openssl_error_string());
         }
 
-        $this->logger->debug('Cert: ' . print_r($cert, true), ['cert' => $cert]);
+        $this->logger->debug('Cert: '.print_r($cert, true), ['cert' => $cert]);
 
         $privateKey = openssl_pkey_get_private($keyContent, $this->privateKeyPassword);
 
         if ($privateKey === false) {
-            throw new CannotReadPrivateKeyException('Cannot read the private key: ' . openssl_error_string());
+            throw new CannotReadPrivateKeyException('Cannot read the private key: '.openssl_error_string());
         }
 
-        $this->logger->debug('Private key: : ' . print_r($privateKey, true), ['privateKey' => $privateKey]);
+        $this->logger->debug('Private key: : '.print_r($privateKey, true), ['privateKey' => $privateKey]);
 
         // random unique directories for sign
-        $messageFile = $this->tmpPath . DIRECTORY_SEPARATOR . $this->getRandomString();
-        $signFile = $this->tmpPath . DIRECTORY_SEPARATOR . $this->getRandomString();
+        $messageFile = $this->tmpPath.DIRECTORY_SEPARATOR.$this->getRandomString();
+        $signFile = $this->tmpPath.DIRECTORY_SEPARATOR.$this->getRandomString();
         file_put_contents($messageFile, $message);
         $signResult = openssl_pkcs7_sign(
             $messageFile,
@@ -58,16 +58,16 @@ class SignerPKCS7 extends AbstractSignerPKCS7 implements SignerInterface
             $this->logger->debug('Sign success');
         } else {
             $this->logger->error('Sign fail');
-            $this->logger->error('SSL error: ' . openssl_error_string());
+            $this->logger->error('SSL error: '.openssl_error_string());
             throw new SignFailException('Cannot sign the message');
         }
 
         $signed = file_get_contents($signFile);
 
-        # split by section
+        // split by section
         $signed = explode("\n\n", $signed);
 
-        # get third section which contains sign and join into one line
+        // get third section which contains sign and join into one line
         $sign = str_replace("\n", '', $this->urlSafe($signed[3]));
 
         unlink($signFile);

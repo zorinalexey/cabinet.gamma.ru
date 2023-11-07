@@ -6,7 +6,6 @@ use MoveMoveIo\DaData\Facades\DaDataEmail;
 
 class DaDataPhoneTest extends TestCase
 {
-
     /**
      * @test
      */
@@ -25,13 +24,13 @@ class DaDataPhoneTest extends TestCase
     {
         return [
             [
-                "source" => "serega@yandex/ru",
-                "email" => "serega@yandex.ru",
-                "local" => "serega",
-                "domain" => "yandex.ru",
-                "type" => "PERSONAL",
-                "qc" => 4,
-            ]
+                'source' => 'serega@yandex/ru',
+                'email' => 'serega@yandex.ru',
+                'local' => 'serega',
+                'domain' => 'yandex.ru',
+                'type' => 'PERSONAL',
+                'qc' => 4,
+            ],
         ];
     }
 
@@ -41,30 +40,29 @@ class DaDataPhoneTest extends TestCase
     public function PromptProvider(): array
     {
         return [
-            "suggestions" => [
+            'suggestions' => [
                 [
-                    "value" => "anton@mail.ru",
-                    "unrestricted_value" => "anton@mail.ru",
-                    "data" => [
-                        "local" => "anton",
-                        "domain" => "mail.ru",
-                        "type" => null,
-                        "source" => null,
-                        "qc" => null,
-                    ]
+                    'value' => 'anton@mail.ru',
+                    'unrestricted_value' => 'anton@mail.ru',
+                    'data' => [
+                        'local' => 'anton',
+                        'domain' => 'mail.ru',
+                        'type' => null,
+                        'source' => null,
+                        'qc' => null,
+                    ],
                 ], [
-                    "value" => "anton@gmail.com",
-                    "unrestricted_value" => "anton@gmail.com",
-                    "data" => [
-                        "local" => "anton",
-                        "domain" => "gmail.com",
-                        "type" => null,
-                        "source" => null,
-                        "qc" => null,
-                    ]
-                ]
-            ]
+                    'value' => 'anton@gmail.com',
+                    'unrestricted_value' => 'anton@gmail.com',
+                    'data' => [
+                        'local' => 'anton',
+                        'domain' => 'gmail.com',
+                        'type' => null,
+                        'source' => null,
+                        'qc' => null,
+                    ],
+                ],
+            ],
         ];
     }
-
 }

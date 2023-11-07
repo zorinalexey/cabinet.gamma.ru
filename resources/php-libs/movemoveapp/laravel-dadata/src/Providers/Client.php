@@ -8,17 +8,10 @@ use Symfony\Component\HttpFoundation\Response as ResponseCode;
 
 /**
  * Trait Client
- * @package MoveMoveIo\DaData\Providers
  */
 trait Client
 {
-
     /**
-     * @param array $headers
-     * @param string $url
-     * @param array $data
-     * @param int $timeout
-     * @return array
      * @throws \Exception
      */
     public function postData(array $headers, string $url, array $data, int $timeout): array
@@ -29,8 +22,6 @@ trait Client
     }
 
     /**
-     * @param Response $response
-     * @return array
      * @throws \Exception
      */
     protected function data(Response $response): array
@@ -45,11 +36,6 @@ trait Client
     }
 
     /**
-     * @param array $headers
-     * @param string $url
-     * @param array $data
-     * @param int $timeout
-     * @return array
      * @throws \Exception
      */
     public function getData(array $headers, string $url, array $data, int $timeout): array
@@ -58,6 +44,4 @@ trait Client
 
         return $this->data($response);
     }
-
-
 }

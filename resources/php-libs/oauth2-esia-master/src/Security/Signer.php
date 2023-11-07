@@ -7,13 +7,15 @@ use Ekapusta\OAuth2Esia\Interfaces\Security\SignerInterface;
 abstract class Signer implements SignerInterface
 {
     protected $certificatePath;
+
     protected $privateKeyPath;
+
     protected $privateKeyPassword;
 
     /**
-     * @param string $certificatePath
-     * @param string $privateKeyPath
-     * @param string $privateKeyPassword
+     * @param  string  $certificatePath
+     * @param  string  $privateKeyPath
+     * @param  string  $privateKeyPassword
      */
     public function __construct($certificatePath, $privateKeyPath, $privateKeyPassword = null)
     {

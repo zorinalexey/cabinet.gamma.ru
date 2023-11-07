@@ -54,10 +54,10 @@ class EsiaProvider extends AbstractProvider implements ProviderInterface
         }
 
         parent::__construct($options, $collaborators);
-        if (!filter_var($this->remoteUrl, FILTER_VALIDATE_URL)) {
+        if (! filter_var($this->remoteUrl, FILTER_VALIDATE_URL)) {
             throw new InvalidArgumentException('Remote URL is not provided!');
         }
-        if (!file_exists($this->remotePublicKey)) {
+        if (! file_exists($this->remotePublicKey)) {
             throw new InvalidArgumentException('Remote public key is not provided!');
         }
 

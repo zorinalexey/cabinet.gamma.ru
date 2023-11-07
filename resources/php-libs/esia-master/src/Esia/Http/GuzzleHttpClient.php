@@ -39,9 +39,7 @@ class GuzzleHttpClient implements ClientInterface
      *
      * {@link https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-7-http-message-meta.md#why-value-objects}
      *
-     * @param RequestInterface $request
      *
-     * @return ResponseInterface
      *
      * @throws ClientExceptionInterface If an error happens during processing the request.
      */

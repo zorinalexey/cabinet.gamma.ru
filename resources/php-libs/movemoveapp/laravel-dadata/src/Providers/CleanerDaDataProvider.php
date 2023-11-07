@@ -4,11 +4,9 @@ namespace MoveMoveIo\DaData\Providers;
 
 /**
  * Class CleanerDaDataProvider
- * @package MoveMoveIo\DaData\Providers
  */
 class CleanerDaDataProvider
 {
-
     use Client;
 
     /**
@@ -44,10 +42,7 @@ class CleanerDaDataProvider
     /**
      * CleanerDaDataProvider constructor.
      *
-     * @param string $token
-     * @param string $secret
-     * @param int $timeout
-     * @param string $v
+     * @param  string  $v
      */
     public function __construct(string $token, string $secret, int $timeout = 10, $v = 'v1')
     {
@@ -59,9 +54,6 @@ class CleanerDaDataProvider
     }
 
     /**
-     * @param string $method
-     * @param array $data
-     * @return array
      * @throws \Exception
      */
     public function post(string $method, array $data = []): array
@@ -75,5 +67,4 @@ class CleanerDaDataProvider
 
         return $this->postData($headers, $url, $data, $this->timeout);
     }
-
 }

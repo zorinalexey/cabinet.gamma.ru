@@ -4,11 +4,10 @@ namespace MoveMoveIo\DaData\Tests;
 
 class TestCase extends \Orchestra\Testbench\TestCase
 {
-
     protected function getPackageProviders($app)
     {
         return [
-            'MoveMoveIo\DaData\DaDataServiceProvider'
+            'MoveMoveIo\DaData\DaDataServiceProvider',
         ];
     }
 
@@ -24,5 +23,4 @@ class TestCase extends \Orchestra\Testbench\TestCase
             'DaDataPassport' => 'MoveMoveIo\DaData\Facades\DaDataPassport',
         ];
     }
-
 }

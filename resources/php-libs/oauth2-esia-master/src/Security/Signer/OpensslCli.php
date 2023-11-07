@@ -10,6 +10,7 @@ use RuntimeException;
 class OpensslCli extends Signer
 {
     private $toolPath;
+
     private $postParams = '';
 
     public function __construct(

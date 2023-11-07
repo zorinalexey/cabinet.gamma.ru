@@ -9,7 +9,9 @@ use Lcobucci\JWT\Signer\Key;
 final class OpenSslCliJwtSigner extends BaseSigner
 {
     private $toolPath;
+
     private $algorythmId;
+
     private $postParams = '';
 
     public function __construct($toolPath = 'openssl', $algorythmId = 'GOST3410_2012_256')
@@ -17,7 +19,7 @@ final class OpenSslCliJwtSigner extends BaseSigner
         $this->toolPath = $toolPath;
         $this->algorythmId = $algorythmId;
 
-        if (false !== stristr($this->getAlgorithmId(), 'gost')) {
+        if (stristr($this->getAlgorithmId(), 'gost') !== false) {
             $this->postParams = '-engine gost';
         }
     }

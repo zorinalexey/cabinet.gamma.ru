@@ -8,11 +8,9 @@ use MoveMoveIo\DaData\Facades\DaDataName;
 
 /**
  * Class DaDataNameTest
- * @package MoveMoveIo\DaData\Tests
  */
 class DaDataNameTest extends TestCase
 {
-
     /**
      * @test
      */
@@ -31,17 +29,17 @@ class DaDataNameTest extends TestCase
     {
         return [
             [
-                "source" => "Срегей владимерович иванов",
-                "result" => "Иванов Сергей Владимирович",
-                "result_genitive" => "Иванова Сергея Владимировича",
-                "result_dative" => "Иванову Сергею Владимировичу",
-                "result_ablative" => "Ивановым Сергеем Владимировичем",
-                "surname" => "Иванов",
-                "name" => "Сергей",
-                "patronymic" => "Владимирович",
-                "gender" => "М",
-                "qc" => 1,
-            ]
+                'source' => 'Срегей владимерович иванов',
+                'result' => 'Иванов Сергей Владимирович',
+                'result_genitive' => 'Иванова Сергея Владимировича',
+                'result_dative' => 'Иванову Сергею Владимировичу',
+                'result_ablative' => 'Ивановым Сергеем Владимировичем',
+                'surname' => 'Иванов',
+                'name' => 'Сергей',
+                'patronymic' => 'Владимирович',
+                'gender' => 'М',
+                'qc' => 1,
+            ],
         ];
     }
 
@@ -62,32 +60,31 @@ class DaDataNameTest extends TestCase
     public function PromptProvider(): array
     {
         return [
-            "suggestions" => [
+            'suggestions' => [
                 [
-                    "value" => "Виктор",
-                    "unrestricted_value" => "Виктор",
-                    "data" => [
-                        "surname" => null,
-                        "name" => "Виктор",
-                        "patronymic" => null,
-                        "gender" => "MALE",
-                        "source" => null,
-                        "qc" => "0",
-                    ]
+                    'value' => 'Виктор',
+                    'unrestricted_value' => 'Виктор',
+                    'data' => [
+                        'surname' => null,
+                        'name' => 'Виктор',
+                        'patronymic' => null,
+                        'gender' => 'MALE',
+                        'source' => null,
+                        'qc' => '0',
+                    ],
                 ], [
-                    "value" => "Виктория",
-                    "unrestricted_value" => "Виктория",
-                    "data" => [
-                        "surname" => null,
-                        "name" => "Виктория",
-                        "patronymic" => null,
-                        "gender" => "FEMALE",
-                        "source" => null,
-                        "qc" => "0",
-                    ]
-                ]
-            ]
+                    'value' => 'Виктория',
+                    'unrestricted_value' => 'Виктория',
+                    'data' => [
+                        'surname' => null,
+                        'name' => 'Виктория',
+                        'patronymic' => null,
+                        'gender' => 'FEMALE',
+                        'source' => null,
+                        'qc' => '0',
+                    ],
+                ],
+            ],
         ];
     }
-
 }

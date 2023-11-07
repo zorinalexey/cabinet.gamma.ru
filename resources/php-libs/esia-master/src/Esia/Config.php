@@ -7,15 +7,23 @@ use Esia\Exceptions\InvalidConfigurationException;
 class Config
 {
     private $clientId;
+
     private $redirectUrl;
+
     private $privateKeyPath;
+
     private $certPath;
 
     private $portalUrl = 'http://esia-portal1.test.gosuslugi.ru/';
+
     private $tokenUrlPath = 'aas/oauth2/te';
+
     private $codeUrlPath = 'aas/oauth2/ac';
+
     private $personUrlPath = 'rs/prns';
+
     private $logoutUrlPath = 'idp/ext/Logout';
+
     private $privateKeyPassword = '';
 
     private $scope = [
@@ -32,9 +40,11 @@ class Config
     private $tmpPath = '/var/tmp';
 
     private $responseType = 'code';
+
     private $accessType = 'offline';
 
     private $token = '';
+
     private $oid = '';
 
     /**
@@ -46,21 +56,21 @@ class Config
     {
         // Required params
         $this->clientId = $config['clientId'] ?? $this->clientId;
-        if (!$this->clientId) {
+        if (! $this->clientId) {
             throw new InvalidConfigurationException('Please provide clientId');
         }
 
         $this->redirectUrl = $config['redirectUrl'] ?? $this->redirectUrl;
-        if (!$this->redirectUrl) {
+        if (! $this->redirectUrl) {
             throw new InvalidConfigurationException('Please provide redirectUrl');
         }
 
         $this->privateKeyPath = $config['privateKeyPath'] ?? $this->privateKeyPath;
-        if (!$this->privateKeyPath) {
+        if (! $this->privateKeyPath) {
             throw new InvalidConfigurationException('Please provide privateKeyPath');
         }
         $this->certPath = $config['certPath'] ?? $this->certPath;
-        if (!$this->certPath) {
+        if (! $this->certPath) {
             throw new InvalidConfigurationException('Please provide certPath');
         }
 
@@ -72,7 +82,7 @@ class Config
         $this->privateKeyPassword = $config['privateKeyPassword'] ?? $this->privateKeyPassword;
         $this->oid = $config['oid'] ?? $this->oid;
         $this->scope = $config['scope'] ?? $this->scope;
-        if (!is_array($this->scope)) {
+        if (! is_array($this->scope)) {
             throw new InvalidConfigurationException('scope must be array of strings');
         }
 
@@ -162,7 +172,7 @@ class Config
      */
     public function getTokenUrl(): string
     {
-        return $this->portalUrl . $this->tokenUrlPath;
+        return $this->portalUrl.$this->tokenUrlPath;
     }
 
     /**
@@ -170,19 +180,19 @@ class Config
      */
     public function getCodeUrl(): string
     {
-        return $this->portalUrl . $this->codeUrlPath;
+        return $this->portalUrl.$this->codeUrlPath;
     }
 
     /**
-     * @return string
      * @throws InvalidConfigurationException
      */
     public function getPersonUrl(): string
     {
-        if (!$this->oid) {
+        if (! $this->oid) {
             throw new InvalidConfigurationException('Please provide oid');
         }
-        return $this->portalUrl . $this->personUrlPath . '/' . $this->oid;
+
+        return $this->portalUrl.$this->personUrlPath.'/'.$this->oid;
     }
 
     /**
@@ -190,6 +200,6 @@ class Config
      */
     public function getLogoutUrl(): string
     {
-        return $this->portalUrl . $this->logoutUrlPath;
+        return $this->portalUrl.$this->logoutUrlPath;
     }
 }

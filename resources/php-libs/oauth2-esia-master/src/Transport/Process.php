@@ -33,7 +33,7 @@ class Process
         fclose($pipes[2]);
 
         $code = proc_close($process);
-        if (0 != $code) {
+        if ($code != 0) {
             throw new RuntimeException("Operation failed with code#$code as of: $stderr");
         }
     }

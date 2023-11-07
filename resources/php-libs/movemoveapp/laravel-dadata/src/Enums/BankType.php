@@ -4,16 +4,19 @@ namespace MoveMoveIo\DaData\Enums;
 
 /**
  * Class BankType
- * @package MoveMoveIo\DaData\Enums
  */
 class BankType
 {
-
     const BANK = 0;
+
     const NKO = 1;
+
     const BANK_BRANCH = 2;
+
     const NKO_BRANCH = 3;
+
     const RKC = 4;
+
     const OTHER = 5;
 
     /**
@@ -27,5 +30,4 @@ class BankType
         self::RKC => 'RKC',
         self::OTHER => 'OTHER',
     ];
-
 }

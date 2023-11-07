@@ -6,11 +6,9 @@ use Carbon\Laravel\ServiceProvider;
 
 /**
  * Class DaDataServiceProvider
- * @package MoveMoveIo\DaData
  */
 class DaDataServiceProvider extends ServiceProvider
 {
-
     /**
      * Register services.
      *
@@ -57,9 +55,7 @@ class DaDataServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->publishes([
-            __DIR__ . '/../config/dadata.php' => config_path('dadata.php'),
+            __DIR__.'/../config/dadata.php' => config_path('dadata.php'),
         ]);
     }
-
-
 }
