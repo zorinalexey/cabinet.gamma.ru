@@ -35,9 +35,10 @@ final class UserDocument extends Model
         }
         if (preg_match('~(.+)_omitted_(?<omitted>\d+)~', $this->search_hash, $matches)) {
             $data['omitted'] = Omitted::find($matches['omitted']);
-            $data['omitted']->status = $data['omitted']?->status()?:null;
+            if($data['omitted']){
+                $data['omitted']->status = $data['omitted']?->status()?:null;
+            }
         }
-
         return $data;
     }
 
