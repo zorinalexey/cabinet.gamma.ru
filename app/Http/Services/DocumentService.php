@@ -277,18 +277,22 @@ final class DocumentService
         } catch (Exception $e) {
 
         }
+
         if (is_file($path)) {
             exec('unoconv -fpdf "'.$path.'"');
-            unlink($path);
         }
+
         if (is_file($pdfPath)) {
             $storeFile = str_replace([$config['root_catalog'], '/public/storage/'], '', $pdfPath);
             if (Storage::disk('local')->put($storeFile, file_get_contents($pdfPath))) {
+                unlink($path);
                 return Storage::disk('local')->url($storeFile);
             }
         }
 
-        return $path;
+        $docxFile = str_replace([$config['root_catalog'], '/public/storage/'], '', $path);
+
+        return Storage::disk('local')->url($docxFile);
     }
 
     public static function addUserDocuments(string $name, ?string $file, bool $is_sign = null, string $signCode = null): void
@@ -329,14 +333,10 @@ final class DocumentService
         return self::$doc_number;
     }
 
-    public static function getLink(User $user, UserRubleAccount $account, Fund $fund, UserDocument $document, string $document_name): ?string
+    public static function getLink(User $user, UserRubleAccount $account, Fund $fund, UserDocument|null $document, string $document_name): ?string
     {
-        $config = config('company_details');
-        $link = $config['root_catalog'].'/public/storage/blankets/user_'.$user->id.
-            '/bank_'.$account->id.'/fund_'.$fund->id.'/'.Str::slug($document_name, '_').'.pdf';
-        $storeFile = str_replace([$config['root_catalog'], '/public/storage/'], '', $link);
-        if (Storage::disk('local')->exists($storeFile) && $document->sign_status) {
-            return Storage::disk('local')->url($storeFile);
+        if ($document && Storage::disk('local')->exists($document->path) && $document->sign_status) {
+            return Storage::disk('local')->url($document->path);
         }
 
         return null;

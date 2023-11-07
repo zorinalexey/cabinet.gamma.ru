@@ -17,8 +17,9 @@ final class GetDocumentService
         $user = User::find($user_account->id);
         $fund = Fund::find($fund_account->id);
         $account = UserRubleAccount::find($bank_account->id);
-        $document_hash = $user->id.'_infinitum_user_blank_'.$account->id.'_fund_'.$fund->id;
-        $document = UserDocument::where('search_hash', $document_hash)->first();
+        $document_hash = $user->id.'_anketa_account_'.$account->id.'_fund_'.$fund->id;
+        $document = UserDocument::query()->where('search_hash', $document_hash)->first();
+
         if ($user && $document && $link = self::getLink($user, $account, $fund, $document, $document_name)) {
             return $link;
         }
@@ -26,7 +27,7 @@ final class GetDocumentService
         return Documents::createBlank($user, $account, $fund);
     }
 
-    private static function getLink(User $user, UserRubleAccount $account, Fund $fund, UserDocument $document, string $document_name): ?string
+    private static function getLink(User $user, UserRubleAccount $account, Fund $fund, UserDocument|null $document, string $document_name): ?string
     {
         $link = DocumentService::getLink($user, $account, $fund, $document, $document_name);
         if ($link) {
@@ -59,6 +60,7 @@ final class GetDocumentService
         $account = UserRubleAccount::find($bank_account->id);
         $document_hash = $user->id.'_request_account_'.$account->id.'_fund_'.$fund->id;
         $document = UserDocument::where('search_hash', $document_hash)->first();
+
         if ($user && $document && $link = self::getLink($user, $account, $fund, $document, $document_name)) {
             return $link;
         }
