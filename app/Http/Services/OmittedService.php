@@ -81,9 +81,9 @@ class OmittedService
             'file' => ['required'],
         ]);
         unset($data['_token']);
-        $data['start_date'] = date('Y-m-d H:i:s', strtotime($data['start_date']));
-        $data['end_date'] = date('Y-m-d H:i:s', strtotime($data['end_date']));
-        $data['total_date'] = date('Y-m-d H:i:s', strtotime($data['total_date']));
+        $data['start_date'] = date('Y-m-d H:i:s', strtotime(str_replace(',', '', $data['start_date'])));
+        $data['end_date'] = date('Y-m-d H:i:s', strtotime(str_replace(',', '', $data['end_date'])));
+        $data['total_date'] = date('Y-m-d H:i:s', strtotime(str_replace(',', '', $data['total_date'])));
         if ($data['file'] && $omitted) {
             $path = config('company_details')['root_catalog'].'/storage/app/omitteds/'.$omitted->id.'/'.$_FILES['file']['full_path'];
             $dir = dirname($path);

@@ -5,15 +5,6 @@
     <script src="/js/jquery.maskedinput.min.js"></script>
     <script>
         count = {{$count}};
-        $(function () {
-            $('input[name="start_date"]').mask("99.99.9999 99:99");
-        });
-        $(function () {
-            $('input[name="end_date"]').mask("99.99.9999 99:99");
-        });
-        $(function () {
-            $('input[name="total_date"]').mask("99.99.9999 99:99");
-        });
 
         function remove(id) {
             count--;
@@ -134,21 +125,21 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="control-label">Дата начала голосования</label>
-                                        <input type="text" class="form-control" value="{{date('d.m.Y H:i', strtotime($omitted->start_date))}}" name="start_date" placeholder="Дата начала голосования" required>
+                                        <input type="datetime-local" class="form-control" value="{{date('d.m.Y H:i', strtotime($omitted->start_date))}}" name="start_date" placeholder="Дата начала голосования" required>
                                         <small class="form-control-feedback">Введите дату начала голосования (меньше текущей даты)</small>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="control-label">Дата окончания голосования</label>
-                                        <input type="text" class="form-control" value="{{date('d.m.Y H:i', strtotime($omitted->end_date))}}" name="end_date" placeholder="Дата окончания голосования" required>
+                                        <input type="datetime-local" class="form-control" value="{{date('d.m.Y H:i', strtotime($omitted->end_date))}}" name="end_date" placeholder="Дата окончания голосования" required>
                                         <small class="form-control-feedback">Введите дату подведения итогов голосования (больше или равна дате окончания голосования)</small>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="control-label">Дата подведения итогов голосования</label>
-                                        <input type="text" class="form-control" value="{{date('d.m.Y H:i', strtotime($omitted->total_date))}}" name="total_date" placeholder="Дата подведения итогов голосования" required>
+                                        <input type="datetime-local" class="form-control" value="{{date('d.m.Y H:i', strtotime($omitted->total_date))}}" name="total_date" placeholder="Дата подведения итогов голосования" required>
                                         <small class="form-control-feedback">Введите дату подведения итогов голосования</small>
                                     </div>
                                 </div>

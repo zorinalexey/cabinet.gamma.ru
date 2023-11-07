@@ -125,7 +125,7 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td colspan="6" style="padding: 0;">
+                                        <td colspan="8" style="padding: 0;">
                                             <div style="display: none; padding: 1rem;"
                                                  id="omitted_info_{{$omitted->id}}"
                                                  onclick="viewUserInfo({{$omitted->id}})">

@@ -5,15 +5,6 @@
     <script src="/js/jquery.maskedinput.min.js"></script>
     <script>
         count = 1;
-        $(function () {
-            $('input[name="start_date"]').mask("99.99.9999 99:99");
-        });
-        $(function () {
-            $('input[name="end_date"]').mask("99.99.9999 99:99");
-        });
-        $(function () {
-            $('input[name="total_date"]').mask("99.99.9999 99:99");
-        });
 
         function remove(block) {
             count--;
@@ -121,21 +112,21 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="control-label">Дата начала голосования</label>
-                                        <input type="text" class="form-control" name="start_date" required>
+                                        <input type="datetime-local" class="form-control" name="start_date" required>
                                         <small class="form-control-feedback">Введите дату начала голосования (меньше текущей даты)</small>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="control-label">Дата окончания голосования</label>
-                                        <input type="text" class="form-control" name="end_date" required>
+                                        <input type="datetime-local" class="form-control" name="end_date" required>
                                         <small class="form-control-feedback">Введите дату окончания голосования (больше даты начала голосования и текущей даты)</small>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="control-label">Дата подведения итогов голосования</label>
-                                        <input type="text" class="form-control" name="total_date" required>
+                                        <input type="datetime-local" class="form-control" name="total_date" required>
                                         <small class="form-control-feedback">Введите дату подведения итогов голосования (больше или равна дате окончания голосования)</small>
                                     </div>
                                 </div>
