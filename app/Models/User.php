@@ -237,7 +237,7 @@ final class User extends AuthUser
         }
         $check->user_id = $this->id;
         $check->check = false;
-        if (NotValidPassport::where('series', $passport->series)->where('number', $passport->number)->first()) {
+        if ($passport && NotValidPassport::where('series', $passport->series)->where('number', $passport->number)->first()) {
             $check->check = true;
         }
         $check->save();
@@ -273,13 +273,13 @@ final class User extends AuthUser
         $fio = mb_strtoupper($this->lastname.' '.$this->name.' '.$this->patronymic);
         $regAddr = $this->address_registration()->address ?? null;
         $factAddr = $this->address_fact()->address ?? null;
-        $checker = FedSfmBase::where('data', 'LIKE', '%'.$fio.'%'.$this->passport->series.' '.$this->passport->number.'%')
+
+        if ($this->passport && $checker = FedSfmBase::where('data', 'LIKE', '%'.$fio.'%'.$this->passport->series.' '.$this->passport->number.'%')
             ->orWhere('data', 'LIKE', '%'.$fio.'%'.$regAddr.'%')
             ->orWhere('data', 'LIKE', '%'.$fio.'%'.$factAddr.'%')
             ->orWhere('data', 'LIKE', '%'.$fio.'%'.$this->passport->series.' '.$this->passport->number.'%'.$regAddr.'%')
             ->orWhere('data', 'LIKE', '%'.$fio.'%'.$this->passport->series.' '.$this->passport->number.'%'.$factAddr.'%')
-            ->first();
-        if ($checker) {
+            ->first()) {
             $check->check = $checker->remark;
         }
         $check->save();
@@ -314,13 +314,16 @@ final class User extends AuthUser
         }
         $check->user_id = $this->id;
         $check->check = null;
-        $data = $this->lastname.' '.$this->name.' '.$this->patronymic.' ';
-        $data .= date('d.m.Y', strtotime($this->birth_date)).' ';
-        $data .= $this->passport->series.' '.$this->passport->number;
-        if ($checker = P639Base::where('data', mb_strtoupper($data))->first()) {
-            $check->check = $checker->remark;
+        if($this->passport){
+            $data = $this->lastname.' '.$this->name.' '.$this->patronymic.' ';
+            $data .= date('d.m.Y', strtotime($this->birth_date)).' ';
+            $data .= $this->passport->series.' '.$this->passport->number;
+
+            if ($checker = P639Base::where('data', mb_strtoupper($data))->first()) {
+                $check->check = $checker->remark;
+            }
+            $check->save();
         }
-        $check->save();
 
         return CheckerP639::where('user_id', $this->id)->first();
     }

@@ -67,7 +67,7 @@ $(function () {
     $('.floating-labels .form-control').on('focus blur', function (e) {
         $(this).parents('.form-group').toggleClass('focused', (e.type === 'focus' || this.value.length > 0));
     }).trigger('blur');
-
+ 
     // ==============================================================
     //tooltip
     // ==============================================================
@@ -85,7 +85,7 @@ $(function () {
     // Perfact scrollbar
     // ==============================================================
     $('.scroll-sidebar, .right-side-panel, .message-center, .right-sidebar').perfectScrollbar();
-	$('#chat, #msg, #comment, #todo').perfectScrollbar();
+	$('#chat, #msg, #comment, #todo').perfectScrollbar(); 
     // ==============================================================
     // Resize all elements
     // ==============================================================

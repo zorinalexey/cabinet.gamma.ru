@@ -274,21 +274,21 @@
                                     <div class="form-group">
                                         <label class="control-label">Серия паспорта</label>
                                         <input type="number" class="form-control" id="doc_series" name="series"
-                                               placeholder="Введите серию паспорта" required value="{{$user->passport->series}}">
+                                               placeholder="Введите серию паспорта" required value="{{$user->passport->series ?? null}}">
                                         <small class="form-control-feedback">Введите серию паспорта</small>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="control-label">Номер паспорта</label>
-                                        <input type="number" class="form-control" id="doc_number" name="number" placeholder="Введите номер паспорта" required value="{{$user->passport->number}}">
+                                        <input type="number" class="form-control" id="doc_number" name="number" placeholder="Введите номер паспорта" required value="{{$user->passport->number ?? null}}">
                                         <small class="form-control-feedback">Введите номер паспорта</small>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="control-label">Когда выдан</label>
-                                        <input type="text" class="form-control" id="doc_when_issued" name="when_issued" placeholder="Введите дату выдачи паспорта" required value="{{date('d.m.Y', strtotime($user->passport->when_issued))}}">
+                                        <input type="text" class="form-control" id="doc_when_issued" name="when_issued" placeholder="Введите дату выдачи паспорта" required value="{{date('d.m.Y', strtotime($user->passport->when_issued ?? null))}}">
                                         <small class="form-control-feedback">Введите дату выдачи паспорта</small>
                                     </div>
                                 </div>
@@ -296,7 +296,7 @@
                                     <div class="form-group">
                                         <label class="control-label">Код подразделения</label>
                                         <input type="text" class="form-control" name="division_code"
-                                               placeholder="Введите код подразделения" required value="{{$user->passport->division_code}}">
+                                               placeholder="Введите код подразделения" required value="{{$user->passport->division_code ?? null}}">
                                         <small class="form-control-feedback">Введите код подразделения</small>
                                     </div>
                                 </div>
@@ -304,7 +304,7 @@
                                     <div class="form-group">
                                         <label class="control-label">Кем выдан</label>
                                         <input style="width: 100%; height: 80px" type="text" class="form-control" name="issued_by"
-                                               placeholder="Введите кем выдан паспорт" required value="{{$user->passport->issued_by}}">
+                                               placeholder="Введите кем выдан паспорт" required value="{{$user->passport->issued_by ?? null}}">
                                         <small class="form-control-feedback">Введите кем выдан паспорт</small>
                                     </div>
                                 </div>

@@ -110,13 +110,13 @@
                                                                 <div>Телефон : {{$user->phone}}</div>
                                                                 <div>Email : {{$user->email}}</div>
                                                                 <h4>Паспорт</h4>
-                                                                <div>Серия : {{$user->passport->series}}</div>
-                                                                <div>Номер : {{$user->passport->number}}</div>
-                                                                <div>Кем выдан : {{$user->passport->issued_by}}</div>
+                                                                <div>Серия : {{$user->passport->series ?? null}}</div>
+                                                                <div>Номер : {{$user->passport->number ?? null}}</div>
+                                                                <div>Кем выдан : {{$user->passport->issued_by ?? null}}</div>
                                                                 <div>Когда выдан
-                                                                    : {{date('d.m.Y', strtotime($user->passport->when_issued))}}</div>
+                                                                    : {{date('d.m.Y', strtotime($user->passport->when_issued ?? null))}}</div>
                                                                 <div>Код подразделения
-                                                                    : {{$user->passport->division_code}}</div>
+                                                                    : {{$user->passport->division_code ?? null}}</div>
                                                             </div>
                                                             @php
                                                                 $inn = $user->inn->number ?? null;
