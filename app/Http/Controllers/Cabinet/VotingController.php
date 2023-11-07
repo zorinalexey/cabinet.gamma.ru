@@ -44,23 +44,9 @@ class VotingController extends Controller
         ]);
         $omitted = Omitted::find($data['omitted']);
         $user = Auth::user();
-        $fund = false;
-        foreach ($user->funds as $item) {
-            if ($item->id === $omitted->fund->id) {
-                $fund = $item;
-                break;
-            }
-        }
         OmittedService::saveVoting($request, $user, $omitted);
-        $paper_ballot_link = DocumentService::createBlankBulletin($user, $omitted, true);
-        $bladeVars = [
-            'omitted' => $omitted,
-            'user' => $user,
-            'fund' => $fund,
-            'paper_ballot_link' => $paper_ballot_link,
-            'vote' => OmittedService::getVote($user, $omitted),
-        ];
+        DocumentService::createBlankBulletin($user, $omitted, true);
 
-        return view('front.voting', $bladeVars);
+        return redirect()->to(route('omitted'));
     }
 }

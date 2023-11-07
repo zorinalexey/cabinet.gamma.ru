@@ -26,6 +26,21 @@ final class DocumentService
 
     public static ?User $user = null;
 
+    public const DATE = [
+        '01' => 'января',
+        '02' => 'февраля',
+        '03' => 'марта',
+        '04' => 'апреля',
+        '05' => 'мая',
+        '06' => 'июня',
+        '07' => 'июля',
+        '08' => 'августа',
+        '09' => 'сентября',
+        '10' => 'октября',
+        '11' => 'ноября',
+        '12' => 'декабря',
+    ];
+
     private static ?string $doc_number = null;
 
     /**
@@ -116,7 +131,7 @@ final class DocumentService
         $section->addTextBreak();
         $text = $section->addTextRun();
         $text->addText('Название фонда: ', ['bold' => true]);
-        $text->addText($omitted->fund->name);
+        $text->addText($omitted->fund->name .' (далее – Фонд)');
         $text->addTextBreak();
         $text->addText('Полное фирменное наименование управляющей компании фонда: ', ['bold' => true]);
         $text->addText('Общество с ограниченной ответственностью Управляющая компания «Гамма Групп».');
@@ -125,13 +140,12 @@ final class DocumentService
         $text->addText('заочное голосование.');
         $text->addTextBreak();
         $text->addText('Дата подведения итогов заседания инвестиционного комитета: ', ['bold' => true]);
-        $text->addText(date('d.m.Y', strtotime($omitted->total_date)));
+        $text->addText(self::getDate($omitted->total_date));
         $text->addTextBreak();
         $text->addText('Дата окончания приема заполненных бюллетеней для голосования: ', ['bold' => true]);
         $text->addText(
             'до '.date('H:i', strtotime($omitted->end_date)).
-            ' по новосибирскому времени «'.date('d', strtotime($omitted->end_date)).
-            '» '.date('m.Y', strtotime($omitted->end_date)).' г.'
+            ' по новосибирскому времени ' . self::getDate($omitted->end_date).' г.'
         );
         $text->addTextBreak();
         $text->addText('Почтовый адрес, по которому должны направляться заполненные бюллетени для голосования: ', ['bold' => true]);
@@ -230,6 +244,27 @@ final class DocumentService
         }
         $text->addText($date);
 
+        if (is_string($sign)) {
+            $section->addTextBreak(5);
+            $table = $section->addTable([
+                'borderColor' => '2333A5',
+                'borderSize' => 3,
+            ]);
+            $row = $table->addRow();
+            $text = $row->addCell(9800, ['align' => 'center', 'valign' => 'center'])->addTextRun(['align' => 'center']);
+            $text->addText('ДОКУМЕНТ ПОДПИСАН ЭЛЕКТРОННОЙ ПОДПИСЬЮ', ['color' => '2333A5'], ['align' => 'center', 'valign' => 'center']);
+            $row = $table->addRow();
+            $text = $row->addCell(4600,)->addTextRun();
+            $text->addText('Подписант', ['color' => '2333A5']);
+            $text->addTextBreak();
+            $text->addText($user->lastname.' '.$user->name.' '.$user->patronymic, ['color' => '2333A5']);
+            $text = $row->addCell(1800,)->addTextRun();
+            $text->addText($sign, ['color' => '2333A5'], ['align' => 'center', 'valign' => 'center']);
+            $text = $row->addCell(3400,)->addTextRun();
+            $text->addText('Дата подписи', ['color' => '2333A5']);
+            $text->addTextBreak();
+            $text->addText(date('d.m.Y H:i:s'). '  (GMT +3)', ['color' => '2333A5']);
+        }
         $document_name = mb_strtoupper('Бюллетень голосования "'.$omitted->name.'"');
         $config = config('company_details');
         $path = $config['root_catalog'].'/public/storage/user_'.$user->id.
@@ -340,5 +375,14 @@ final class DocumentService
         }
 
         return null;
+    }
+
+    public static function getDate(string $date):string
+    {
+        $newDate = '«'.date('d', strtotime($date)). '» ';
+        $newDate .= self::DATE[date('m', strtotime($date))]. ' ';
+        $newDate .= date('Y', strtotime($date));
+
+        return $newDate;
     }
 }

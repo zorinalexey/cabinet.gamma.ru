@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Http\Services\UserService;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -132,11 +133,18 @@ final class Omitted extends Model
         $users = [];
         foreach ($fund->users as $item) {
             $user = User::find($item->user_id);
-            if (UserService::getOmittebAccess($item, $fund)) {
+            if (UserService::getOmittebAccess($item, $fund) && (($bulleten = $this->getUserBulletin($item->user_id)) && $bulleten->search_hash)) {
                 $users[] = $user;
             }
         }
 
         return $users;
+    }
+
+    public function getUserBulletin(int $userId): Model|Builder|null
+    {
+        $hash = $userId.'_omitted_'.$this->id;
+
+        return UserDocument::query()->where('search_hash', $hash)->first();
     }
 }

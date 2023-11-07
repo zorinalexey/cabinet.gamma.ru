@@ -18,7 +18,7 @@ final class DocumentController extends Controller
 {
     public function list(): Application|Factory|View|App
     {
-        $documents = Auth::user()->documents;
+        $documents = Auth::user()->documents()->where('search_hash', 'NOT LIKE', '%omitted%')->get();
 
         return view('front.document_list', compact('documents'));
     }

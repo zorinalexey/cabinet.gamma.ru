@@ -3,15 +3,14 @@
 
 @section('content')
     <div class="content-body content-documents">
-        <h1 class="main-heading documents-heading">@yield('title')</h1>
+        <h1 class="main-heading documents-heading">
+            <a href="{{$document->path}}" target="_blank">{{$document->name}}</a>
+        </h1>
         <div class="item item-center">
             <p class="item-description documents-description">
                 Для подписания документов на ваш телефон будет отправлено смс с кодом, вводя который вы подтверждаете
                 указанные вами сведения и подписываете документы
             </p>
-            <div class="item-actions doc-wrapper">
-                <p class="action-name">{{$document->name}}</p>
-            </div>
             <div class="item-actions">
                 <form method="POST">
                     @csrf
