@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\LoginController as AdminLoginController;
 use App\Http\Controllers\Admin\MainController;
 use App\Http\Controllers\Admin\MyProfileController;
+use App\Http\Controllers\Admin\OmittedController as AdminOmittedController;
 use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\Api\FnsController;
 use App\Http\Controllers\Api\FundController as ApiFundController;
@@ -21,6 +22,7 @@ use App\Http\Controllers\Cabinet\SearchController;
 use App\Http\Controllers\Cabinet\VotingController;
 use App\Http\Middleware\Guest;
 use App\Http\Middleware\NoLogin;
+use App\Models\Omitted;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -95,7 +97,9 @@ Route::get('/logout', [LoginController::class, 'logOut'])->middleware('web')->na
 // Админ панель
 Route::middleware(['auth', 'admin', 'web'])->prefix('admin')->group(function () {
 
-    Route::get('omitted/generate/protocol/{omitted}', )->name('omitted.protocol.gen');
+    Route::get('omitted/generate/protocol/{omitted}', function (Omitted $omitted){
+        return (new AdminOmittedController())->generateProtocol($omitted);
+    })->name('omitted.protocol.gen');
 
     Route::get('{part}/upload/{id}', function (string $part, int $id) {
         $class = '\\App\\Http\\Controllers\\Admin\\'.ucfirst($part).'Controller';

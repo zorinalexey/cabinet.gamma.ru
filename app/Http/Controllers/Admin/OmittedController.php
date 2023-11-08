@@ -140,4 +140,9 @@ final class OmittedController extends Controller
 
         return redirect()->back();
     }
+
+    public function generateProtocol(Omitted $omitted)
+    {
+        dump($omitted);
+    }
 }

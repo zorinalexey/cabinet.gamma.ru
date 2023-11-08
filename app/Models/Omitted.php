@@ -26,15 +26,7 @@ final class Omitted extends Model
      *
      * @var array<int, string>
      */
-    protected $fillable = [
-        'name',
-        'fund_id',
-        'is_public',
-        'start_date',
-        'end_date',
-        'total_date',
-    ];
-
+    protected $guarded = [];
     /**
      * Фонд голосования
      */
