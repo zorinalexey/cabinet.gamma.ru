@@ -136,7 +136,8 @@ final class User extends AuthUser
     public function getNoSignDocuments(): array
     {
         $docs = [];
-        foreach ($this->documents as $document) {
+        $documents = $this->documents()->documents()->where('search_hash', 'NOT LIKE', '%omitted%')->get();
+        foreach ($documents as $document) {
             if ($document->is_sign && ! $document->sign_status) {
                 $docs[] = $document;
             }
