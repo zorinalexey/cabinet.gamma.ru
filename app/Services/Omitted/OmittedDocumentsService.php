@@ -126,12 +126,12 @@ final class OmittedDocumentsService implements OmittedDocumentsServiceInterface
         $section->addTextBreak(3);
         $section->addText("Генеральный Директор {$config['company_name']}   ___".random_int(100000, 999999)."___/ {$config['short_office_holder']} /");
 
-        $docxFile = $config['root_catalog'] . '/storage/app/public/omitteds/' . $omitted->id . '/' . Str::slug($document_name, '_') . '.docx';
+        $docxFile = storage_path().'/app/public/omitteds/' . $omitted->id . '/' . Str::slug($document_name, '_') . '.docx';
         $protocol = $omitted->protocol;
         $data = [
             'omitted_id' => $omitted->id,
             'name' => $document_name,
-            'docx' => str_replace([$config['root_catalog'], '/app/public'], '', $docxFile),
+            'docx' => '/storage'.str_replace([storage_path(), '/app/public'], '', $docxFile),
             'pdf' => str_replace('/storage/app/public/', '', $document::toPdf($docxFile, false)),
         ];
 
