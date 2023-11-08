@@ -95,6 +95,8 @@ Route::get('/logout', [LoginController::class, 'logOut'])->middleware('web')->na
 // Админ панель
 Route::middleware(['auth', 'admin', 'web'])->prefix('admin')->group(function () {
 
+    Route::get('omitted/generate/protocol/{omitted}', )->name('omitted.protocol.gen');
+
     Route::get('{part}/upload/{id}', function (string $part, int $id) {
         $class = '\\App\\Http\\Controllers\\Admin\\'.ucfirst($part).'Controller';
         if (class_exists($class) && method_exists($class, 'upload')) {

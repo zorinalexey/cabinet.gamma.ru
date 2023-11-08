@@ -264,6 +264,7 @@
                                                     </div>
                                                     <hr>
                                                 @endforeach
+                                                <a href="{{route('omitted.protocol.gen', $omitted->id)}}">Сформировать протокол голосования</a>
                                             </div>
                                         </td>
                                     </tr>
