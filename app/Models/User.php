@@ -128,7 +128,7 @@ final class User extends AuthUser
         return 0;
     }
 
-    public function documents()
+    public function documents():HasMany
     {
         return $this->hasMany(UserDocument::class, 'user_id', 'id');
     }
@@ -136,7 +136,7 @@ final class User extends AuthUser
     public function getNoSignDocuments(): array
     {
         $docs = [];
-        $documents = $this->documents()->documents()->where('search_hash', 'NOT LIKE', '%omitted%')->get();
+        $documents = $this->documents()->where('search_hash', 'NOT LIKE', '%omitted%')->get();
         foreach ($documents as $document) {
             if ($document->is_sign && ! $document->sign_status) {
                 $docs[] = $document;
