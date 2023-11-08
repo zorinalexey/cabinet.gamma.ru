@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Http\Services\UserService;
+use Hamcrest\Core\HasToString;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -149,5 +150,10 @@ final class Omitted extends Model
         $hash = $userId.'_omitted_'.$this->id;
 
         return UserDocument::query()->where('search_hash', $hash)->first();
+    }
+
+    public function protocol():HasOne
+    {
+        return $this->hasOne(OmittedProtocol::class, 'omitted_id', 'id');
     }
 }

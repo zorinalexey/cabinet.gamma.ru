@@ -142,9 +142,13 @@ final class OmittedController extends Controller
         return redirect()->back();
     }
 
-    public function generateProtocol(Omitted $omitted)
+    public function generateProtocol(Omitted $omitted): RedirectResponse|null
     {
         $service = new OmittedDocumentsService();
-        dump($service->generateProtocol($omitted));
+        if($service->generateProtocol($omitted)){
+            return back();
+        }
+
+        abort(404);
     }
 }
