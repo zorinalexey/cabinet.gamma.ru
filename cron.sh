@@ -6,6 +6,7 @@ PHP_PATH="/usr/bin/php8.2"
 
 USER="www-data"
 
+# shellcheck disable=SC2164
 cd "$SCRIPT_PATH"
 
 echo "$SCRIPT_PATH"
@@ -28,9 +29,9 @@ echo 'Обновление пакетов composer завершено'
 $PHP_PATH artisan migrate
 $PHP_PATH artisan config:clear
 $PHP_PATH artisan route:clear
-$PHP_PATH artisan config:cache
-$PHP_PATH artisan route:cache
-$PHP_PATH artisan storage:link
+#$PHP_PATH artisan config:cache
+#$PHP_PATH artisan route:cache
+#$PHP_PATH artisan storage:link
 
 echo "Запуск выполнения команд по расписанию"
 $PHP_PATH artisan schedule:run

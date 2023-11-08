@@ -282,7 +282,7 @@ final class DocumentService
     /**
      * Заголовок для документов УК
      */
-    private static function gammaHeader(): Section
+    public static function gammaHeader(): Section
     {
         $config = config('company_details');
         $doc = new PhpWord();
@@ -299,7 +299,7 @@ final class DocumentService
         return $section;
     }
 
-    public static function toPdf(string $path): string
+    public static function toPdf(string $path, bool $deleteOriginal = true): string
     {
         $config = config('company_details');
         $pdfPath = str_replace('.docx', '.pdf', $path);
@@ -320,7 +320,10 @@ final class DocumentService
         if (is_file($pdfPath)) {
             $storeFile = str_replace([$config['root_catalog'], '/public/storage/'], '', $pdfPath);
             if (Storage::disk('local')->put($storeFile, file_get_contents($pdfPath))) {
-                unlink($path);
+                if($deleteOriginal){
+                    unlink($path);
+                }
+
                 return Storage::disk('local')->url($storeFile);
             }
         }

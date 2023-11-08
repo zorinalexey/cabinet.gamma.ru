@@ -2,17 +2,19 @@
 
 namespace App\Providers;
 
+use App\Services\Omitted\OmittedDocumentsService;
+use App\Services\Omitted\OmittedDocumentsServiceInterface;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
 
-class AppServiceProvider extends ServiceProvider
+final class AppServiceProvider extends ServiceProvider
 {
     /**
      * Register any application services.
      */
     public function register(): void
     {
-
+        $this->app->singleton(OmittedDocumentsServiceInterface::class, OmittedDocumentsService::class);
     }
 
     /**
