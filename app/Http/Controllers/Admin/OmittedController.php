@@ -7,6 +7,7 @@ use App\Http\Services\OmittedService;
 use App\Models\Fund;
 use App\Models\Omitted;
 use App\Models\Voting;
+use App\Services\Omitted\OmittedDocumentsService;
 use Illuminate\Contracts\Foundation\Application as App;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -143,6 +144,7 @@ final class OmittedController extends Controller
 
     public function generateProtocol(Omitted $omitted)
     {
-        dump($omitted);
+        $service = new OmittedDocumentsService();
+        dump($service->generateProtocol($omitted));
     }
 }

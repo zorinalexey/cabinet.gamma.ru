@@ -9,4 +9,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class OmittedProtocol extends Model
 {
     use HasFactory, SoftDeletes;
+
+    protected $guarded = [];
+
+    protected $dates = ['deleted_at'];
 }

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -15,20 +16,7 @@ final class Voting extends Model
 
     protected $dates = ['deleted_at'];
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
-    protected $fillable = [
-        'omitted_id',
-        'fund_id',
-        'other_conditions',
-        'type_transaction',
-        'parties_transaction',
-        'subject_transaction',
-        'cost_transaction',
-    ];
+    protected $guarded = [];
 
     /**
      * Ответы на вопрос голосования
@@ -36,6 +24,24 @@ final class Voting extends Model
     public function answers(): HasMany
     {
         return $this->hasMany(Answer::class, 'voting_id', 'id');
+    }
+
+    public function getVotesAgainst():int
+    {
+        $answers = Answer::query()->where('omitted_id', $this->omitted_id)
+            ->where('voting_id', $this->id)
+            ->where('answer', '=', 0)
+            ->get();
+        return count($answers);
+    }
+
+    public function getVotesFor():int
+    {
+        $answers = Answer::query()->where('omitted_id', $this->omitted_id)
+            ->where('voting_id', $this->id)
+            ->where('answer', '>', 0)
+            ->get();
+        return count($answers);
     }
 
     /**

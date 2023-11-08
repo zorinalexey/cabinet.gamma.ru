@@ -119,12 +119,23 @@ final class Omitted extends Model
         return $data;
     }
 
+    public function getCountUserPif(User $user):int
+    {
+        foreach ($user->funds as $fund){
+            if($fund->id === $this->fund->id){
+                return $fund->count_pif;
+            }
+        }
+
+        return 0;
+    }
+
     public function getUsers(): array
     {
         $fund = Fund::find($this->fund_id);
         $users = [];
         foreach ($fund->users as $item) {
-            $user = User::find($item->user_id);
+            $user = User::query()->find($item->user_id);
             if (UserService::getOmittebAccess($item, $fund) && (($bulleten = $this->getUserBulletin($item->user_id)) && $bulleten->search_hash)) {
                 $users[] = $user;
             }
