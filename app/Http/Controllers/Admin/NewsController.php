@@ -45,7 +45,7 @@ final class NewsController extends Controller
         }
         $post->save();
 
-        return redirect(route('admin_index', ['news']));
+        return redirect(route('admin.post.list'));
     }
 
     /**
@@ -70,7 +70,7 @@ final class NewsController extends Controller
         }
         $post->save();
 
-        return redirect(route('admin_index', ['news']));
+        return redirect(route('admin.post.list'));
     }
 
     /**
@@ -81,7 +81,7 @@ final class NewsController extends Controller
         $post = News::find($id);
         $post->delete();
 
-        return redirect(route('admin_index', ['news']));
+        return redirect(route('admin.post.list'));
     }
 
     /**
@@ -92,7 +92,7 @@ final class NewsController extends Controller
         $post = News::withTrashed()->find($id);
         $post->forceDelete();
 
-        return redirect(route('admin_index', ['news']));
+        return redirect(route('admin.post.list'));
     }
 
     /**

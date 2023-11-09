@@ -9,7 +9,7 @@
         <div class="col-md-7 align-self-center text-right">
             <div class="d-flex justify-content-end align-items-center">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{route('admin_main')}}">Админ-панель</a></li>
+                    <li class="breadcrumb-item"><a href="{{route('admin.main')}}">Админ-панель</a></li>
                     <li class="breadcrumb-item active">Новый фонд</li>
                 </ol>
             </div>
@@ -58,7 +58,7 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-body">
-                    <form action="{{route('admin_store', ['funds'])}}" method="POST">
+                    <form action="{{route('admin.fund.store')}}" method="POST">
                         @csrf
                         <div class="form-body">
                             <h3 class="card-title">Создание нового фонда</h3>
@@ -68,7 +68,7 @@
                                     <div class="form-group">
                                         <label class="control-label">Название фонда</label>
                                         <input type="text" class="form-control" name="name"
-                                               placeholder="Введите название нового фонда">
+                                               placeholder="Введите название нового фонда" required>
                                         <small class="form-control-feedback">Введите название нового фонда</small>
                                     </div>
                                 </div>
@@ -77,8 +77,8 @@
                                         <label class="control-label">Доступность</label>
                                         <input type="hidden" name="qualification_text" id="qualification_text">
                                         <select class="form-control custom-select" name="qualification_value"
-                                                onchange="setQualificationValue(this);">
-                                            <option value="1" checked id="qualification_text_1">Для не квалифицированных
+                                                onchange="setQualificationValue(this);" required>
+                                            <option value="1" selected id="qualification_text_1">Для не квалифицированных
                                                 инвесторов
                                             </option>
                                             <option value="2" id="qualification_text_2">Для квалифицированных
@@ -100,7 +100,7 @@
                                                      onclick="setUser({{$user->id}})">
                                                 <span id="user_access_{{$user->id}}">
                                                     <a target="_blank"
-                                                       href="{{route('admin_show', ['users', $user->id])}}">{{$user->lastname}} {{$user->name}} {{$user->patronymic}}</a>
+                                                       href="{{route('admin.user.show', $user->id)}}">{{$user->lastname}} {{$user->name}} {{$user->patronymic}}</a>
                                                 </span>
                                                     <input name="access_users[]" id="user_{{$user->id}}"
                                                            value="{{$user->id}}" type="checkbox">
@@ -117,8 +117,8 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="control-label">Статус фонда</label>
-                                        <select class="form-control custom-select" name="status">
-                                            <option value="1" checked>Действующий</option>
+                                        <select class="form-control custom-select" name="status"  required>
+                                            <option value="1" selected>Действующий</option>
                                             <option value="2">Приостановлен</option>
                                             <option value="3">Закрыт</option>
                                         </select>
@@ -128,7 +128,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="control-label">Параметры формирования ИК</label>
-                                        <input type="number" class="form-control" value="0" name="omitted_min_percent">
+                                        <input type="number" class="form-control" value="0" min="0" name="omitted_min_percent"  required>
                                         <small class="form-control-feedback">Введите минимальное значение в
                                             процентах</small>
                                     </div>
@@ -138,8 +138,8 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="control-label">Количество паёв фонда</label>
-                                        <input value="0" type="number" class="form-control" name="current_count_pif"
-                                               placeholder="Введите количество паёв фонда">
+                                        <input value="1" min="1" type="number" class="form-control" name="current_count_pif"
+                                               placeholder="Введите количество паёв фонда"  required>
                                         <small class="form-control-feedback">Введите количество паёв фонда</small>
                                     </div>
                                 </div>
@@ -148,7 +148,7 @@
                                         <label class="control-label">Стоимость одного пая фонда</label>
                                         <input value="0" type="number" step="any" class="form-control"
                                                name="current_cost_one_pif"
-                                               placeholder="Введите стоимость одного пая фонда">
+                                               placeholder="Введите стоимость одного пая фонда"  required min="0">
                                         <small class="form-control-feedback">Введите стоимость одного пая фонда</small>
                                     </div>
                                 </div>
@@ -159,7 +159,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="control-label">Правила фонда</label>
-                                        <textarea class="form-control" name="rules" placeholder="Введите правила фонда">Правила Фонда №1848 зарегистрированы ЦБ РФ 01.2022 г. Правила Фонда №117 согласованы 02.2022 г.</textarea>
+                                        <textarea class="form-control" name="rules" placeholder="Введите правила фонда" required>Правила Фонда №1848 зарегистрированы ЦБ РФ 01.2022 г. Правила Фонда №117 согласованы 02.2022 г.</textarea>
                                         <small class="form-control-feedback">Введите правила фонда</small>
                                     </div>
                                 </div>
@@ -167,14 +167,14 @@
                                     <div class="form-group">
                                         <label class="control-label">Политика фонда</label>
                                         <textarea class="form-control" name="policy"
-                                                  placeholder="Введите политику фонда">Инвестиции преимущественно в ликвидные российские акции с высоким потенциалом роста.</textarea>
+                                                  placeholder="Введите политику фонда" required>Инвестиции преимущественно в ликвидные российские акции с высоким потенциалом роста.</textarea>
                                         <small class="form-control-feedback">Введите политику фонда</small>
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label class="control-label">Предназначение фонда</label>
-                                        <textarea class="form-control" name="destiny"
+                                        <textarea class="form-control" name="destiny" required
                                                   placeholder="Введите предназначение фонда">Фонд предназначен для не квалифицированных инвесторов, инвестиционные паи которого не ограничены в обороте</textarea>
                                         <small class="form-control-feedback">Введите предназначение фонда</small>
                                     </div>
@@ -184,13 +184,13 @@
                         <h3 class="box-title m-t-40">Описание</h3>
                         <hr>
                         <div class="col-md-12">
-                            <textarea id="editor" name="desc"></textarea>
+                            <textarea id="editor" name="desc" required></textarea>
                         </div>
                         <hr>
                         <div class="form-actions">
                             <button type="submit" class="btn btn-success"><i class="fa fa-check"></i> Сохранить</button>
                             <button type="reset" class="btn btn-info"> Очистить все</button>
-                            <a href="{{route('admin_index', ['funds'])}}" type="button"
+                            <a href="{{url()->previous()}}" type="button"
                                class="btn btn-inverse">Назад</a>
                         </div>
                     </form>

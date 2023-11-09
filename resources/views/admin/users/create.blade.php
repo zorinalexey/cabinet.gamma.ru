@@ -141,7 +141,7 @@
         <div class="col-md-7 align-self-center text-right">
             <div class="d-flex justify-content-end align-items-center">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{route('admin_main')}}">Админ-панель</a></li>
+                    <li class="breadcrumb-item"><a href="{{route('admin.main')}}">Админ-панель</a></li>
                     <li class="breadcrumb-item active">Новый пользователь</li>
                 </ol>
             </div>
@@ -151,11 +151,14 @@
 
 
 @section('content')
+    @php
+        $minDate = date('Y-m-d', strtotime('-18 years'));
+    @endphp
     <div class="row">
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-body">
-                    <form action="{{route('admin_store', ['users'])}}" method="POST">
+                    <form action="{{route('admin.user.store')}}" method="POST">
                         @csrf
                         <div class="form-body">
                             <h3 class="card-title">Основная информация</h3>
@@ -189,7 +192,7 @@
                                     <div class="form-group">
                                         <label class="control-label">Дата рождения</label>
                                         <input type="date" class="form-control" id="birth_date" name="birth_date"
-                                               placeholder="Введите дату рождения" required>
+                                               placeholder="Введите дату рождения" value="{{$minDate}}" max="{{$minDate}}" required>
                                         <small class="form-control-feedback">Введите дату рождения</small>
                                     </div>
                                 </div>
@@ -281,7 +284,7 @@
                                     <div class="form-group">
                                         <label class="control-label">Когда выдан</label>
                                         <input type="date" class="form-control" id="doc_when_issued" name="when_issued"
-                                               placeholder="Введите дату выдачи паспорта" required>
+                                               placeholder="Введите дату выдачи паспорта"  value="{{$minDate}}" max="{{$minDate}}" required>
                                         <small class="form-control-feedback">Введите дату выдачи паспорта</small>
                                     </div>
                                 </div>
@@ -350,7 +353,7 @@
                         <div class="form-actions">
                             <button type="submit" class="btn btn-success"><i class="fa fa-check"></i> Сохранить</button>
                             <button type="reset" class="btn btn-info"> Очистить все</button>
-                            <a href="{{route('admin_index', ['users'])}}" type="button"
+                            <a href="{{route('admin.user.list')}}" type="button"
                                class="btn btn-inverse">Назад</a>
                         </div>
                     </form>

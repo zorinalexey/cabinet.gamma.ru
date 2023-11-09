@@ -10,7 +10,7 @@
         <div class="col-md-7 align-self-center text-right">
             <div class="d-flex justify-content-end align-items-center">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{route('admin_main')}}">Админ-панель</a></li>
+                    <li class="breadcrumb-item"><a href="{{route('admin.main')}}">Админ-панель</a></li>
                     <li class="breadcrumb-item active">@yield('title')</li>
                 </ol>
             </div>
@@ -53,10 +53,10 @@
                                 @foreach($active_docs as $doc)
                                     <tr>
                                         <td>
-                                            <a href="{{route('admin_upload', ['documents', $doc->id])}}">{{$doc->name}}</a>
+                                            <a href="{{route('admin.document.upload',  $doc->id)}}">{{$doc->name}}</a>
                                             <div>
                                                 Документ инвестора :
-                                                <a href="{{route('admin_show', ['users', $doc->user->id])}}" target="_blank">
+                                                <a href="{{route('admin.user.show', $doc->user->id)}}" target="_blank">
                                                     {{$doc->user->lastname.' '.$doc->user->name.' '.$doc->user->patronymic}}
                                                 </a>
                                             </div>
@@ -73,7 +73,7 @@
                                         </td>
                                         <td>{{date('d.m.Y', strtotime($doc->created_at))}} </td>
                                         <td class="text-nowrap">
-                                            <a href="{{route('admin_destroy', ['documents', $doc->id])}}" data-toggle="tooltip" data-original-title="Удалить в корзину">
+                                            <a href="{{route('admin.user.destroy', $doc->id)}}" data-toggle="tooltip" data-original-title="Удалить в корзину">
                                                 <i class="mdi mdi-delete-forever"></i>
                                             </a>
                                         </td>

@@ -9,10 +9,10 @@
         <div class="col-md-7 align-self-center text-right">
             <div class="d-flex justify-content-end align-items-center">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{route('admin_main')}}">Админ-панель</a></li>
+                    <li class="breadcrumb-item"><a href="{{route('admin.main')}}">Админ-панель</a></li>
                     <li class="breadcrumb-item active">Страницы</li>
                 </ol>
-                <a href="{{route('admin_create', ['pages'])}}" type="button" class="btn btn-info d-none d-lg-block m-l-15">
+                <a href="{{route('admin.page.create')}}" type="button" class="btn btn-info d-none d-lg-block m-l-15">
                     <i class="fa fa-plus-circle"></i>
                     Создать новую страницу
                 </a>
@@ -77,7 +77,7 @@
                             </table>
                             {{ $active_pages->links() }}
                         @else
-                            Страницы отсутствуют. Создайте <a href="{{route('admin_create', ['pages'])}}">новую страницу</a>
+                            Страницы отсутствуют. Создайте <a href="{{route('admin.page.create')}}">новую страницу</a>
                         @endif
                     </div>
                     <div class="tab-pane  p-20" id="profile2" role="tabpanel">

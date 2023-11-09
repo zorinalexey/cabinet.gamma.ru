@@ -10,7 +10,7 @@
         <div class="col-md-7 align-self-center text-right">
             <div class="d-flex justify-content-end align-items-center">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{route('admin_main')}}">Админ-панель</a></li>
+                    <li class="breadcrumb-item"><a href="{{route('admin.main')}}">Админ-панель</a></li>
                     <li class="breadcrumb-item active">Главная</li>
                 </ol>
             </div>
@@ -68,7 +68,7 @@
                                     @endphp
                                     <tr onclick="viewUserInfo({{$user->id}})" style="cursor: pointer">
                                         <td>
-                                            <a href="{{route('admin_show', ['users', $user->id])}}">
+                                            <a href="{{route('admin.user.show', $user->id)}}">
                                                 {{$user->lastname}} {{$user->name}} {{$user->patronymic}}
                                             </a>
                                             <div>
@@ -82,12 +82,12 @@
                                             @include('admin.users.checker.checkGrop')
                                         </td>
                                         <td class="text-nowrap">
-                                            <a href="{{route('admin_user_check', $user->id)}}" data-toggle="tooltip"
+                                            <a href="{{route('admin.user.check', $user->id)}}" data-toggle="tooltip"
                                                data-original-title="Перепроверить"><i class="mdi mdi-update"></i> </a>
-                                            <a href="{{route('admin_edit', ['users', $user->id])}}"
+                                            <a href="{{route('admin.user.edit', $user->id)}}"
                                                data-toggle="tooltip" data-original-title="Изменить"><i
                                                     class="fas fa-edit"></i> </a>
-                                            <a href="{{route('admin_destroy', ['users', $user->id])}}"
+                                            <a href="{{route('admin.user.destroy', $user->id)}}"
                                                data-toggle="tooltip" data-original-title="Удалить в корзину"> <i
                                                     class="mdi mdi-delete-forever"></i> </a>
                                         </td>
@@ -162,7 +162,7 @@
                             </table>
                             {{ $collection->links() }}
                         @else
-                            Пользователи отсутствуют. Создайте <a href="{{route('admin_create', ['users'])}}">нового
+                            Пользователи отсутствуют. Создайте <a href="{{route('admin.user.create')}}">нового
                                 пользователя</a>
                         @endif
                     </div>

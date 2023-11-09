@@ -10,7 +10,7 @@
         <div class="col-md-7 align-self-center text-right">
             <div class="d-flex justify-content-end align-items-center">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{route('admin_main')}}">Админ-панель</a></li>
+                    <li class="breadcrumb-item"><a href="{{route('admin.main')}}">Админ-панель</a></li>
                     <li class="breadcrumb-item active">@yield('title')</li>
                 </ol>
             </div>
@@ -23,7 +23,7 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-body">
-                    <form action="{{route('admin_store', ['tech'])}}" method="POST" enctype="multipart/form-data">
+                    <form action="{{route('admin.tech.store')}}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="form-body">
                             <h3 class="card-title">Загрузка информационных баз</h3>
@@ -63,7 +63,7 @@
                         <div class="form-actions">
                             <button type="submit" class="btn btn-success"><i class="fa fa-check"></i> Загрузить</button>
                             <button type="reset" class="btn btn-info"> Очистить все</button>
-                            <a href="{{route('admin_index', ['main'])}}" type="button" class="btn btn-inverse">На главную</a>
+                            <a href="{{route('admin.main')}}" type="button" class="btn btn-inverse">На главную</a>
                         </div>
                     </form>
                 </div>

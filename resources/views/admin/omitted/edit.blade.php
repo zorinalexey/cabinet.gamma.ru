@@ -73,8 +73,8 @@
         <div class="col-md-7 align-self-center text-right">
             <div class="d-flex justify-content-end align-items-center">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{route('admin_main')}}">Админ-панель</a></li>
-                    <li class="breadcrumb-item"><a href="{{route('admin_index', ['omitted'])}}">Инвестиционный
+                    <li class="breadcrumb-item"><a href="{{route('admin.main')}}">Админ-панель</a></li>
+                    <li class="breadcrumb-item"><a href="{{route('admin.omitted.list')}}">Инвестиционный
                             комитет</a></li>
                     <li class="breadcrumb-item active">@yield('title')</li>
                 </ol>
@@ -89,7 +89,7 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-body">
-                    <form action="{{route('admin_update', ['omitted', $omitted->id])}}" method="POST"
+                    <form action="{{route('admin.omitted.update', $omitted->id)}}" method="POST"
                           enctype="multipart/form-data">
                         @csrf
                         <div class="form-body">
@@ -103,7 +103,7 @@
                                         <small class="form-control-feedback">Введите название голосования</small>
                                     </div>
                                 </div>
-                                <div class="col-md-12">
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="control-label">Решение о проведении голосования</label>
                                         <input type="file" class="form-control" name="file" placeholder="Выберите файл решения о проведении голосования">
@@ -122,24 +122,24 @@
                                         <small class="form-control-feedback">Выберите фонд голосования</small>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label class="control-label">Дата начала голосования</label>
-                                        <input type="datetime-local" class="form-control" value="{{date('d.m.Y H:i', strtotime($omitted->start_date))}}" name="start_date" placeholder="Дата начала голосования" required>
+                                        <input type="datetime-local" class="form-control" value="{{date('Y-m-d\TH:i', strtotime($omitted->start_date))}}" name="start_date" placeholder="Дата начала голосования" required>
                                         <small class="form-control-feedback">Введите дату начала голосования (меньше текущей даты)</small>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label class="control-label">Дата окончания голосования</label>
-                                        <input type="datetime-local" class="form-control" value="{{date('d.m.Y H:i', strtotime($omitted->end_date))}}" name="end_date" placeholder="Дата окончания голосования" required>
+                                        <input type="datetime-local" class="form-control" value="{{date('Y-m-d\TH:i', strtotime($omitted->end_date))}}" name="end_date" placeholder="Дата окончания голосования" required>
                                         <small class="form-control-feedback">Введите дату подведения итогов голосования (больше или равна дате окончания голосования)</small>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label class="control-label">Дата подведения итогов голосования</label>
-                                        <input type="datetime-local" class="form-control" value="{{date('d.m.Y H:i', strtotime($omitted->total_date))}}" name="total_date" placeholder="Дата подведения итогов голосования" required>
+                                        <input type="datetime-local" class="form-control" value="{{date('Y-m-d\TH:i', strtotime($omitted->total_date))}}" name="total_date" placeholder="Дата подведения итогов голосования" required>
                                         <small class="form-control-feedback">Введите дату подведения итогов голосования</small>
                                     </div>
                                 </div>
@@ -201,7 +201,7 @@
                         <div class="form-actions">
                             <button type="submit" class="btn btn-success"><i class="fa fa-check"></i> Сохранить</button>
                             <button type="reset" class="btn btn-info"> Очистить все</button>
-                            <a href="{{route('admin_index', ['omitted'])}}" type="button"
+                            <a href="{{url()->previous()}}" type="button"
                                class="btn btn-inverse">Назад</a>
                         </div>
                     </form>

@@ -11,7 +11,7 @@
         <div class="col-md-7 align-self-center text-right">
             <div class="d-flex justify-content-end align-items-center">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{route('admin_main')}}">Админ-панель</a></li>
+                    <li class="breadcrumb-item"><a href="{{route('admin.main')}}">Админ-панель</a></li>
                     <li class="breadcrumb-item active">@yield('title')</li>
                 </ol>
             </div>
@@ -57,10 +57,10 @@
                             @foreach($new_files as $file)
                                 <tr>
                                     <td>
-                                        <a href="{{route('admin_upload', ['infinitum', $file->id])}}" target="_blank">{{$file->name}}</a>
+                                        <a href="{{route('admin.infinitum.upload', $file->id)}}" target="_blank">{{$file->name}}</a>
                                         <div>
                                             Инвестор:
-                                            <a href="{{route('admin_show', ['users', $file->user->id])}}" target="_blank">
+                                            <a href="{{route('admin.user.show', $file->user->id)}}" target="_blank">
                                             {{$file->user->lastname.' '.$file->user->name.' '.$file->user->patronymic.' '}}
                                             </a>
                                         </div>
@@ -69,7 +69,7 @@
                                         {{date('d.m.Y H:i:s', strtotime($file->created_at))}}
                                     </td>
                                     <td class="text-nowrap">
-                                        <a href="{{route('admin_destroy', ['infinitum', $file->id])}}" data-toggle="tooltip" data-original-title="Удалить в корзину">
+                                        <a href="{{route('admin.infinitum.destroy', $file->id)}}" data-toggle="tooltip" data-original-title="Удалить в корзину">
                                             <i class="mdi mdi-delete-forever"></i>
                                         </a>
                                     </td>
@@ -93,10 +93,10 @@
                             @foreach($download_files as $file)
                                 <tr>
                                     <td>
-                                        <a href="{{route('admin_upload', ['infinitum', $file->id])}}" target="_blank">{{$file->name}}</a>
+                                        <a href="{{route('admin.infinitum.upload', $file->id)}}" target="_blank">{{$file->name}}</a>
                                         <div>
                                             Инвестор:
-                                            <a href="{{route('admin_show', ['users', $file->user->id])}}" target="_blank">
+                                            <a href="{{route('admin.user.show', $file->user->id)}}" target="_blank">
                                                 {{$file->user->lastname.' '.$file->user->name.' '.$file->user->patronymic.' '}}
                                             </a>
                                         </div>
@@ -108,7 +108,7 @@
                                         {{$file->download}}
                                     </td>
                                     <td class="text-nowrap">
-                                        <a href="{{route('admin_destroy', ['infinitum', $file->id])}}" data-toggle="tooltip" data-original-title="Удалить в корзину">
+                                        <a href="{{route('admin.infinitum.destroy', $file->id)}}" data-toggle="tooltip" data-original-title="Удалить в корзину">
                                             <i class="mdi mdi-delete-forever"></i>
                                         </a>
                                     </td>
@@ -134,7 +134,7 @@
                                         {{$file->name}}
                                         <div>
                                             Инвестор:
-                                            <a href="{{route('admin_show', ['users', $file->user->id])}}" target="_blank">
+                                            <a href="{{route('admin.user.show', $file->user->id)}}" target="_blank">
                                                 {{$file->user->lastname.' '.$file->user->name.' '.$file->user->patronymic.' '}}
                                             </a>
                                         </div>
@@ -143,10 +143,10 @@
                                         {{date('d.m.Y H:i:s', strtotime($file->created_at))}}
                                     </td>
                                     <td class="text-nowrap">
-                                        <a href="{{route('admin_restore', ['infinitum', $file->id])}}" data-toggle="tooltip" data-original-title="Восстановить">
+                                        <a href="{{route('admin.infinitum.restore', $file->id)}}" data-toggle="tooltip" data-original-title="Восстановить">
                                             <i class="mdi mdi-backup-restore"></i>
                                         </a>
-                                        <a href="{{route('admin_delete', ['infinitum', $file->id])}}" data-toggle="tooltip" data-original-title="Удалить в корзину">
+                                        <a href="{{route('admin.infinitum.delete', $file->id)}}" data-toggle="tooltip" data-original-title="Удалить в корзину">
                                             <i class="mdi mdi-delete-forever"></i>
                                         </a>
                                     </td>

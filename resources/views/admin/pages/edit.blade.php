@@ -9,8 +9,8 @@
         <div class="col-md-7 align-self-center text-right">
             <div class="d-flex justify-content-end align-items-center">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{route('admin_main')}}">Админ-панель</a></li>
-                    <li class="breadcrumb-item"><a href="{{route('admin_index', ['news'])}}">Страницы</a></li>
+                    <li class="breadcrumb-item"><a href="{{route('admin.main')}}">Админ-панель</a></li>
+                    <li class="breadcrumb-item"><a href="{{route('admin.post.create')}}">Страницы</a></li>
                     <li class="breadcrumb-item active">Редактировать страницу</li>
                 </ol>
             </div>

@@ -10,10 +10,10 @@
         <div class="col-md-7 align-self-center text-right">
             <div class="d-flex justify-content-end align-items-center">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{route('admin_main')}}">Админ-панель</a></li>
+                    <li class="breadcrumb-item"><a href="{{route('admin.main')}}">Админ-панель</a></li>
                     <li class="breadcrumb-item active">Фонды</li>
                 </ol>
-                <a href="{{route('admin_create', ['funds'])}}" type="button"
+                <a href="{{route('admin.fund.create')}}" type="button"
                    class="btn btn-info d-none d-lg-block m-l-15"><i class="fa fa-plus-circle"></i> Создать фонд</a>
             </div>
         </div>
@@ -58,7 +58,7 @@
                                 @foreach($active_funds as $fund)
                                     <tr>
                                         <td>
-                                            <a href="{{route('admin_show', ['funds', $fund->id])}}">{{$fund->name}}</a>
+                                            <a href="{{route('admin.fund.show', $fund->id)}}">{{$fund->name}}</a>
                                         </td>
                                         <td>
                                             @if($fund->status === 1)
@@ -74,10 +74,10 @@
                                         <td>{{$fund->current_cost_one_pif}} ₽</td>
                                         <td>{{$fund->last_cost_one_pif}} ₽</td>
                                         <td class="text-nowrap">
-                                            <a href="{{route('admin_edit', ['funds', $fund->id])}}"
+                                            <a href="{{route('admin.fund.edit', $fund->id)}}"
                                                data-toggle="tooltip" data-original-title="Изменить"><i
                                                     class="fas fa-edit"></i> </a>
-                                            <a href="{{route('admin_destroy', ['funds', $fund->id])}}"
+                                            <a href="{{route('admin.fund.destroy', $fund->id)}}"
                                                data-toggle="tooltip" data-original-title="Удалить в корзину"> <i
                                                     class="mdi mdi-delete-forever"></i> </a>
                                         </td>
@@ -87,7 +87,7 @@
                             </table>
                             {{ $active_funds->links() }}
                         @else
-                            Фонды отсутствуют. Создайте <a href="{{route('admin_create', ['funds'])}}">новый фонд</a>
+                            Фонды отсутствуют. Создайте <a href="{{route('admin.fund.create')}}">новый фонд</a>
                         @endif
                     </div>
                     <div class="tab-pane  p-20" id="profile2" role="tabpanel">
@@ -108,7 +108,7 @@
                                 @foreach($delete_funds as $fund)
                                     <tr>
                                         <td>
-                                            <a href="{{route('admin_show', ['funds', $fund->id])}}">{{$fund->name}}</a>
+                                            <a href="{{route('admin.fund.show', $fund->id)}}">{{$fund->name}}</a>
                                         </td>
                                         <td>
                                             @if($fund->status === 1)
@@ -124,11 +124,11 @@
                                         <td>{{$fund->current_cost_one_pif}} ₽</td>
                                         <td>{{date('d.m.Y', strtotime($fund->deleted_at))}} </td>
                                         <td class="text-nowrap">
-                                            <a href="{{route('admin_restore', ['funds', $fund->id])}}"
+                                            <a href="{{route('admin.fund.restore', $fund->id)}}"
                                                data-toggle="tooltip" data-original-title="Восстановить">
                                                 <i class="mdi mdi-backup-restore"></i>
                                             </a>
-                                            <a href="{{route('admin_delete', ['funds', $fund->id]).'#profile2'}}"
+                                            <a href="{{route('admin.fund.delete', $fund->id).'#profile2'}}"
                                                data-toggle="tooltip" data-original-title="Удалить полностью">
                                                 <i class="mdi mdi-delete-forever"></i>
                                             </a>

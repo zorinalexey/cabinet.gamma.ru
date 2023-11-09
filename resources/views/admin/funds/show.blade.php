@@ -10,16 +10,16 @@
             <div class="d-flex justify-content-end align-items-center">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item">
-                        <a href="{{route('admin_main')}}">Админ-панель</a>
+                        <a href="{{route('admin.main')}}">Админ-панель</a>
                     </li>
                     <li class="breadcrumb-item active">
-                        <a href="{{route('admin_index', ['funds'])}}">Все фонды</a>
+                        <a href="{{url()->previous()}}">Все фонды</a>
                     </li>
                     <li class="breadcrumb-item active">
                         {{$fund->name}}
                     </li>
                 </ol>
-                <a href="{{route('admin_edit', ['funds', $fund->id])}}" type="button"
+                <a href="{{route('admin.fund.edit', $fund->id)}}" type="button"
                    class="btn btn-info d-none d-lg-block m-l-15"><i class="fa fa-plus-circle"></i> Редактировать
                     фонд</a>
             </div>

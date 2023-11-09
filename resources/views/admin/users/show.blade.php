@@ -11,16 +11,16 @@
             <div class="d-flex justify-content-end align-items-center">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item">
-                        <a href="{{route('admin_main')}}">Админ-панель</a>
+                        <a href="{{route('admin.main')}}">Админ-панель</a>
                     </li>
                     <li class="breadcrumb-item active">
-                        <a href="{{route('admin_index', ['users'])}}">Все пользователи</a>
+                        <a href="{{route('admin.user.list')}}">Все пользователи</a>
                     </li>
                     <li class="breadcrumb-item active">
                         {{$user->lastname}} {{$user->name}} {{$user->patronymic}}
                     </li>
                 </ol>
-                <a href="{{route('admin_edit', ['users', $user->id])}}" type="button"
+                <a href="{{route('admin.user.edit', $user->id)}}" type="button"
                    class="btn btn-info d-none d-lg-block m-l-15"><i class="fa fa-plus-circle"></i> Редактировать
                     информацию пользователя</a>
             </div>
@@ -39,10 +39,9 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form method="POST" action="{{route('admin_add_user_fund')}}">
+                <form method="POST" action="{{route('admin.user.fund.add', $user->id)}}">
                     <div class="modal-body">
                         @csrf
-                        <input type="hidden" name="user_id" value="{{$user->id}}">
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label class="control-label">Фонды </label>
@@ -84,11 +83,9 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <form method="POST" action="{{route('admin_edit_user_count_pif')}}">
+                    <form method="POST" action="{{route('admin.user.fund.edit', [$user->id, $fund->id])}}">
                         <div class="modal-body">
                             @csrf
-                            <input type="hidden" name="user_id" value="{{$user->id}}">
-                            <input type="hidden" name="fund_id" value="{{$fund->fund->id}}">
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label class="control-label">Количество паёв</label>
@@ -315,7 +312,7 @@
                                                data-target="#editPifCount_{{$fund->id}}">
                                                 <i class="fas fa-edit"></i>
                                             </a>
-                                            <a href="{{route('admin_drop_user_fund', [$fund->id])}}"
+                                            <a href="{{route('admin.user.fund.drop', [$user->id, $fund->id])}}"
                                                title="Удалить фонд">
                                                 <i class="mdi mdi-delete-forever"></i>
                                             </a>

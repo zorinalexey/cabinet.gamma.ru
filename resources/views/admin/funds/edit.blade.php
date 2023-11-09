@@ -9,7 +9,7 @@
         <div class="col-md-7 align-self-center text-right">
             <div class="d-flex justify-content-end align-items-center">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{route('admin_main')}}">Админ-панель</a></li>
+                    <li class="breadcrumb-item"><a href="{{route('admin.main')}}">Админ-панель</a></li>
                     <li class="breadcrumb-item active">{{$fund->name}}</li>
                 </ol>
             </div>
@@ -63,7 +63,7 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-body">
-                    <form action="{{route('admin_update', ['funds', $fund->id])}}" method="POST">
+                    <form action="{{route('admin.fund.update', $fund->id)}}" method="POST">
                         @csrf
                         <div class="form-body">
                             <h3 class="card-title">{{$fund->name}}</h3>
@@ -110,7 +110,7 @@
                                                      onclick="setUser({{$user->id}})">
                                                 <span id="user_access_{{$user->id}}">
                                                     <a target="_blank"
-                                                       href="{{route('admin_show', ['users', $user->id])}}">{{$user->lastname}} {{$user->name}} {{$user->patronymic}}</a>
+                                                       href="{{route('admin.user.show', $user->id)}}">{{$user->lastname}} {{$user->name}} {{$user->patronymic}}</a>
                                                 </span>
                                                     <input name="access_users[]" id="user_{{$user->id}}"
                                                            value="{{$user->id}}" type="checkbox"
@@ -234,7 +234,7 @@
                         <div class="form-actions">
                             <button type="submit" class="btn btn-success"><i class="fa fa-check"></i> Сохранить</button>
                             <button type="reset" class="btn btn-info"> Очистить все</button>
-                            <a href="{{route('admin_index', ['funds'])}}" type="button"
+                            <a href="{{url()->previous()}}" type="button"
                                class="btn btn-inverse">Назад</a>
                         </div>
                     </form>

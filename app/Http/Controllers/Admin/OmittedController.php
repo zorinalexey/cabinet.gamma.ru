@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\OmittedCreateRequest;
+use App\Http\Requests\OmittedUpdateRequest;
 use App\Http\Services\OmittedService;
 use App\Models\Fund;
 use App\Models\Omitted;
@@ -31,7 +33,7 @@ final class OmittedController extends Controller
     /**
      * Сохранить
      */
-    public function store(Request $request): RedirectResponse
+    public function store(OmittedCreateRequest $request): RedirectResponse
     {
         $data = OmittedService::omitted($request);
         $omitted = Omitted::create($data);
@@ -78,9 +80,8 @@ final class OmittedController extends Controller
     /**
      * Редактировать
      */
-    public function edit(string $id): View|Application|Factory|App
+    public function edit(Omitted $omitted): View|Application|Factory|App
     {
-        $omitted = Omitted::find($id);
         $funds = Fund::all();
         $count = count($omitted->votings);
 
@@ -90,10 +91,10 @@ final class OmittedController extends Controller
     /**
      * Сохранить изменения
      */
-    public function update(Request $request, string $id): RedirectResponse
+    public function update(OmittedUpdateRequest $request, Omitted $omitted)#: RedirectResponse
     {
-        $omitted = Omitted::find($id);
-        $data = OmittedService::omitted($request, $omitted);
+        dump($request->validated());
+        /**
         $omitted->update($data);
         $votings = OmittedService::votings($request);
         foreach ($votings as $voting_id => $values) {
@@ -108,14 +109,14 @@ final class OmittedController extends Controller
         }
 
         return redirect(route('admin_index', ['omitted']));
+        */
     }
 
     /**
      * Мягкое удаление
      */
-    public function destroy(string $id): RedirectResponse
+    public function destroy(Omitted $omitted): RedirectResponse
     {
-        $omitted = Omitted::find($id);
         $omitted->delete();
 
         return redirect(route('admin_index', ['omitted']));

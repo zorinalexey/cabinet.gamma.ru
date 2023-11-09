@@ -3,7 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Services\FundService;
+use App\Http\Requests\FundCreateRequest;
+use App\Http\Requests\FundUpdateRequest;
 use App\Models\Fund;
 use App\Models\User;
 use App\Models\UserFund;
@@ -12,7 +13,7 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use JsonException;
 
 final class FundsController extends Controller
@@ -30,15 +31,19 @@ final class FundsController extends Controller
 
     /**
      * Сохранить
-     *
-     * @throws JsonException
      */
-    public function store(Request $request): RedirectResponse
+    public function store(FundCreateRequest $request): RedirectResponse
     {
-        $data = FundService::getCreateFund($request);
-        Fund::create($data);
+        $data = $request->validated();
+        if (!isset($data['current_cost_one_pif'])) {
+            $data['current_cost_one_pif'] = 0;
+        }
 
-        return redirect(route('admin_index', ['funds']));
+        if (Fund::query()->create($data)) {
+            return redirect(route('admin.fund.list'));
+        }
+
+        abort(500);
     }
 
     /**
@@ -54,17 +59,16 @@ final class FundsController extends Controller
     /**
      * Посмотреть
      */
-    public function show(string $id): View|Application|Factory|App
+    public function show(Fund $fund): View|Application|Factory|App
     {
-        return view('admin.funds.show', ['fund' => Fund::find($id)]);
+        return view('admin.funds.show', compact('fund'));
     }
 
     /**
      * Редактировать
      */
-    public function edit(string $id): View|Application|Factory|App
+    public function edit(Fund $fund): View|Application|Factory|App
     {
-        $fund = Fund::find($id);
         $fund->access_users = json_decode($fund->access_users) ?: [];
         $users = User::all();
 
@@ -73,33 +77,37 @@ final class FundsController extends Controller
 
     /**
      * Сохранить изменения
-     *
-     * @throws JsonException
      */
-    public function update(Request $request, string $id): RedirectResponse
+    public function update(FundUpdateRequest $request, Fund $fund): RedirectResponse
     {
-        $fund = Fund::find($id);
-        $data = FundService::getEditFund($request);
-        $fund->update($data);
 
-        return redirect(route('admin_index', ['funds']));
+        $data = $request->validated();
+
+        foreach ($data as $k => $v) {
+            if (empty($v)) {
+                Arr::pull($data, $k);
+            }
+        }
+
+        if ($fund->update($data)) {
+            return redirect(route('admin.fund.list'));
+        }
+
+        abort(500);
     }
 
     /**
      * Мягкое удаление
      */
-    public function destroy(string $id): RedirectResponse
+    public function destroy(Fund $fund): RedirectResponse
     {
-        $fund = Fund::find($id);
-        if ($fund) {
-            $funds = $fund->users;
-            foreach ($funds as $user_fund) {
-                $user_fund->delete();
-            }
-            $fund->delete();
+        foreach ($fund->users as $user_fund) {
+            $user_fund->delete();
         }
 
-        return redirect(route('admin_index', ['funds']));
+        $fund->delete();
+
+        return redirect(route('admin.fund.list'));
     }
 
     /**
@@ -116,7 +124,7 @@ final class FundsController extends Controller
             $fund->forceDelete();
         }
 
-        return redirect(route('admin_index', ['funds']));
+        return redirect(route('admin.fund.list'));
     }
 
     /**

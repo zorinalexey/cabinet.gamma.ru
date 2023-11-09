@@ -10,10 +10,10 @@
         <div class="col-md-7 align-self-center text-right">
             <div class="d-flex justify-content-end align-items-center">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{route('admin_main')}}">Админ-панель</a></li>
+                    <li class="breadcrumb-item"><a href="{{route('admin.main')}}">Админ-панель</a></li>
                     <li class="breadcrumb-item active">Пользователи</li>
                 </ol>
-                <a href="{{route('admin_create', ['users'])}}" type="button"
+                <a href="{{route('admin.user.create')}}" type="button"
                    class="btn btn-info d-none d-lg-block m-l-15"><i class="fa fa-plus-circle"></i> Создать нового
                     пользователя</a>
             </div>
@@ -83,7 +83,7 @@
                                     @endphp
                                     <tr onclick="viewUserInfo({{$user->id}})" style="cursor: pointer">
                                         <td>
-                                            <a href="{{route('admin_show', ['users', $user->id])}}">
+                                            <a href="{{route('admin.user.show', $user->id)}}">
                                                 {{$user->lastname}} {{$user->name}} {{$user->patronymic}}
                                             </a>
                                             <div>
@@ -97,12 +97,12 @@
                                             @include('admin.users.checker.checkGrop')
                                         </td>
                                         <td class="text-nowrap">
-                                            <a href="{{route('admin_user_check', $user->id)}}" data-toggle="tooltip"
+                                            <a href="{{route('admin.user.check', $user->id)}}" data-toggle="tooltip"
                                                data-original-title="Перепроверить"><i class="mdi mdi-update"></i> </a>
-                                            <a href="{{route('admin_edit', ['users', $user->id])}}"
+                                            <a href="{{route('admin.user.edit', $user->id)}}"
                                                data-toggle="tooltip" data-original-title="Изменить"><i
                                                     class="fas fa-edit"></i> </a>
-                                            <a href="{{route('admin_destroy', ['users', $user->id])}}" data-toggle="tooltip" data-original-title="Удалить в корзину">
+                                            <a href="{{route('admin.user.destroy', $user->id)}}" data-toggle="tooltip" data-original-title="Удалить в корзину">
                                                 <i class="mdi mdi-delete-forever"></i>
                                             </a>
                                         </td>
@@ -125,13 +125,13 @@
                                                                 <div>Телефон : {{$user->phone}}</div>
                                                                 <div>Email : {{$user->email}}</div>
                                                                 <h4>Паспорт</h4>
-                                                                <div>Серия : {{$user->passport->series}}</div>
-                                                                <div>Номер : {{$user->passport->number}}</div>
-                                                                <div>Кем выдан : {{$user->passport->issued_by}}</div>
+                                                                <div>Серия : {{$user->passport->series??null}}</div>
+                                                                <div>Номер : {{$user->passport->number??null}}</div>
+                                                                <div>Кем выдан : {{$user->passport->issued_by??null}}</div>
                                                                 <div>Когда выдан
-                                                                    : {{date('d.m.Y', strtotime($user->passport->when_issued))}}</div>
+                                                                    : {{date('d.m.Y', strtotime($user->passport->when_issued??null))}}</div>
                                                                 <div>Код подразделения
-                                                                    : {{$user->passport->division_code}}</div>
+                                                                    : {{$user->passport->division_code??null}}</div>
                                                             </div>
                                                             @php
                                                                 $inn = $user->inn->number ?? null;
@@ -177,7 +177,7 @@
                             </table>
                             {{ $activeCollection->links() }}
                         @else
-                            Пользователи отсутствуют. Создайте <a href="{{route('admin_create', ['users'])}}">нового
+                            Пользователи отсутствуют. Создайте <a href="{{route('admin.user.create')}}">нового
                                 пользователя</a>
                         @endif
                     </div>
@@ -197,7 +197,7 @@
                                 @foreach($delete_users as $user)
                                     <tr>
                                         <td>
-                                            <a href="{{route('admin_show', ['users', $user->id])}}">{{$user->name}}</a>
+                                            <a href="{{route('admin.user.show', $user->id)}}">{{$user->name}}</a>
                                             <div>
                                                 {{date('d.m.Y в H:i', strtotime((string)$user->created_at))}}
                                             </div>
@@ -225,11 +225,11 @@
                                             </div>
                                         </td>
                                         <td class="text-nowrap">
-                                            <a href="{{route('admin_restore', ['users', $user->id])}}"
+                                            <a href="{{route('admin.user.restore', $user->id)}}"
                                                data-toggle="tooltip" data-original-title="Восстановить">
                                                 <i class="mdi mdi-backup-restore"></i>
                                             </a>
-                                            <a href="{{route('admin_delete', ['users', $user->id]).'#profile2'}}"
+                                            <a href="{{route('admin.user.delete', $user->id).'#profile2'}}"
                                                data-toggle="tooltip" data-original-title="Удалить полностью">
                                                 <i class="mdi mdi-delete-forever"></i>
                                             </a>

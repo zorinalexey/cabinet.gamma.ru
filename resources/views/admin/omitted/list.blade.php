@@ -8,10 +8,10 @@
         <div class="col-md-7 align-self-center text-right">
             <div class="d-flex justify-content-end align-items-center">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{route('admin_main')}}">Админ-панель</a></li>
+                    <li class="breadcrumb-item"><a href="{{route('admin.main')}}">Админ-панель</a></li>
                     <li class="breadcrumb-item active">Инвестиционный комитет</li>
                 </ol>
-                <a href="{{route('admin_create', ['omitted'])}}" type="button"
+                <a href="{{route('admin.omitted.create')}}" type="button"
                    class="btn btn-info d-none d-lg-block m-l-15"><i class="fa fa-plus-circle"></i> Создать новый
                     опрос</a>
             </div>
@@ -83,7 +83,7 @@
                                             {{$omitted->name}}
                                         </td>
                                         <td>
-                                            <a href="{{route('admin_show', ['funds', $omitted->fund_id])}}" target="_blank">
+                                            <a href="{{route('admin.fund.show', $omitted->fund_id)}}" target="_blank">
                                                 {{$omitted->fund->name}}
                                             </a>
                                         </td>
@@ -116,10 +116,10 @@
                                             @endif
                                         </td>
                                         <td class="text-nowrap">
-                                            <a href="{{route('admin_edit', ['omitted', $omitted->id])}}"
+                                            <a href="{{route('admin.omitted.edit', $omitted->id)}}"
                                                data-toggle="tooltip" data-original-title="Изменить"><i
                                                     class="fas fa-edit"></i> </a>
-                                            <a href="{{route('admin_destroy', ['omitted', $omitted->id])}}"
+                                            <a href="{{route('admin.omitted.destroy', $omitted->id)}}"
                                                data-toggle="tooltip" data-original-title="Удалить в корзину"> <i
                                                     class="mdi mdi-delete-forever"></i> </a>
                                         </td>
@@ -204,7 +204,7 @@
                                                                 <div class="card-body">
                                                                     <div class="d-flex flex-row">
                                                                         <div class="m-l-10 align-self-center">
-                                                                            <a href="{{route('admin_show', ['users', $user->id])}}"
+                                                                            <a href="{{route('admin.user.show', $user->id)}}"
                                                                                target="_blank">
                                                                                 {{$user->lastname}} {{$user->name}} {{$user->patronymic}}
                                                                             </a>
@@ -282,9 +282,9 @@
                                                             PDF
                                                         </button>
                                                     </a>
-                                                    <a href="{{route('omitted.protocol.gen', $omitted->id)}}"><button type="button" class="btn btn-success">Сформировать новый протокол голосования</button></a>
+                                                    <a href="{{route('admin.omitted.protocol.gen', $omitted->id)}}"><button type="button" class="btn btn-success">Сформировать новый протокол голосования</button></a>
                                                 @else
-                                                    <a href="{{route('omitted.protocol.gen', $omitted->id)}}"><button type="button" class="btn btn-success">Сформировать протокол голосования</button></a>
+                                                    <a href="{{route('admin.omitted.protocol.gen', $omitted->id)}}"><button type="button" class="btn btn-success">Сформировать протокол голосования</button></a>
                                                 @endif
                                             </div>
                                         </td>

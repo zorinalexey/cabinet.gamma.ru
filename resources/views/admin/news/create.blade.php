@@ -9,8 +9,8 @@
         <div class="col-md-7 align-self-center text-right">
             <div class="d-flex justify-content-end align-items-center">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{route('admin_main')}}">Админ-панель</a></li>
-                    <li class="breadcrumb-item"><a href="{{route('admin_index', ['news'])}}">Новости</a></li>
+                    <li class="breadcrumb-item"><a href="{{route('admin.main')}}">Админ-панель</a></li>
+                    <li class="breadcrumb-item"><a href="{{route('admin.post.create')}}">Новости</a></li>
                     <li class="breadcrumb-item active">Новый пост</li>
                 </ol>
             </div>
@@ -30,7 +30,7 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-body">
-                    <form action="{{route('admin_store', ['news'])}}" method="POST">
+                    <form action="{{route('admin.post.store')}}" method="POST">
                         @csrf
                         <div class="form-body">
                             <div class="col-md-12">

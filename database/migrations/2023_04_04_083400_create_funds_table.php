@@ -25,7 +25,7 @@ return new class() extends Migration
             $table->text('destiny')->nullable();
             $table->integer('current_count_pif');
             $table->integer('last_count_pif')->default(0);
-            $table->float('current_cost_one_pif', 12, 2);
+            $table->float('current_cost_one_pif', 12, 2)->default(0);
             $table->float('last_cost_one_pif', 12, 2)->default(0);
             $table->softDeletes();
             $table->timestamps();

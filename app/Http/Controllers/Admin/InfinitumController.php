@@ -28,11 +28,11 @@ class InfinitumController extends Controller
     /**
      * Мягкое удаление
      */
-    public function destroy(string $id): RedirectResponse
+    public function destroy(Infinitum $infinitum): RedirectResponse
     {
-        Infinitum::find($id)->delete();
+        $infinitum->delete();
 
-        return redirect(route('admin_index', ['infinitum']));
+        return redirect(route('admin.infinitum.list'));
     }
 
     /**
@@ -45,7 +45,7 @@ class InfinitumController extends Controller
             $file->forceDelete();
         }
 
-        return redirect(route('admin_index', ['infinitum']));
+        return redirect(route('admin.infinitum.list'));
     }
 
     /**
@@ -61,16 +61,15 @@ class InfinitumController extends Controller
     /**
      * @return void|null
      */
-    public function upload(int $id)
+    public function upload(Infinitum $infinitum)
     {
-        $file = Infinitum::find($id);
-        if ($file && Storage::drive('local')->exists($file->path)) {
-            $xml = Storage::drive('local')->path($file->path);
+        if ($infinitum && Storage::drive('local')->exists($infinitum->path)) {
+            $xml = Storage::drive('local')->path($infinitum->path);
             if ($this->downloadFile($xml)) {
-                $file->download++;
-                $file->save();
+                $infinitum->download++;
+                $infinitum->save();
 
-                return redirect()->route('admin_index', ['infinitum']);
+                return redirect()->route(url()->previous());
             }
         }
         abort(404);

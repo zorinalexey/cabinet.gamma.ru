@@ -22,27 +22,27 @@
                 <div class="row pt-3">\n\
                     <div class="col-md-12">\n\
                         <label class="control-label">' + count + ' вид сделки</label>\n\
-                        <textarea type="text" class="form-control" name="votings[' + count + '][type_transaction]" required></textarea>\n\
+                        <textarea type="text" class="form-control" name="votings[][type_transaction]" required></textarea>\n\
                         <small class="form-control-feedback">Введите вид сделки</small>\n\
                     </div>\n\
                     <div class="col-md-6">\n\
                         <label class="control-label">Прочие условия голосования</label>\n\
-                        <textarea class="form-control" name="votings[' + count + '][other_conditions]"></textarea>\n\
+                        <textarea class="form-control" name="votings[][other_conditions]"></textarea>\n\
                         <small class="form-control-feedback">Укажите прочие условия о проведении голосования</small>\n\
                     </div>\n\
                     <div class="col-md-6"><!-- comment -->\n\
                         <label class="control-label">Стороны по сделке</label>\n\
-                        <textarea type="text" class="form-control" name="votings[' + count + '][parties_transaction]" required></textarea>\n\
+                        <textarea type="text" class="form-control" name="votings[][parties_transaction]" required></textarea>\n\
                         <small class="form-control-feedback">Введите стороны по сделке</small>\n\
                     </div>\n\
                     <div class="col-md-6"><!-- comment -->\n\
                         <label class="control-label">Предмет сделки</label>\n\
-                        <textarea type="text" class="form-control" name="votings[' + count + '][subject_transaction]" required></textarea>\n\
+                        <textarea type="text" class="form-control" name="votings[][subject_transaction]" required></textarea>\n\
                         <small class="form-control-feedback">Введите предмет сделки</small>\n\
                     </div>\n\
                     <div class="col-md-6"><!-- comment -->\n\
                         <label class="control-label">Цена сделки</label>\n\
-                        <textarea type="text" class="form-control" name="votings[' + count + '][cost_transaction]" required></textarea>\n\
+                        <textarea type="text" class="form-control" name="votings[][cost_transaction]" required></textarea>\n\
                         <small class="form-control-feedback">Введите стоимость сделки</small>\n\
                     </div>\n\
                     <div class="col-md-4">\n\
@@ -61,8 +61,8 @@
         <div class="col-md-7 align-self-center text-right">
             <div class="d-flex justify-content-end align-items-center">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{route('admin_main')}}">Админ-панель</a></li>
-                    <li class="breadcrumb-item"><a href="{{route('admin_index', ['omitted'])}}">Инвестиционный
+                    <li class="breadcrumb-item"><a href="{{route('admin.main')}}">Админ-панель</a></li>
+                    <li class="breadcrumb-item"><a href="{{route('admin.omitted.list')}}">Инвестиционный
                             комитет</a></li>
                     <li class="breadcrumb-item active">@yield('title')</li>
                 </ol>
@@ -77,7 +77,7 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-body">
-                    <form action="{{route('admin_store', ['omitted'])}}" method="POST" enctype="multipart/form-data">
+                    <form action="{{route('admin.omitted.store')}}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="form-body">
                             <h3 class="card-title">Новое голосование</h3>
@@ -90,7 +90,7 @@
                                         <small class="form-control-feedback">Введите название голосования</small>
                                     </div>
                                 </div>
-                                <div class="col-md-12">
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="control-label">Решение о проведении голосования</label>
                                         <input type="file" class="form-control" name="file" placeholder="Выберите файл решения о проведении голосования" required>
@@ -109,24 +109,24 @@
                                         <small class="form-control-feedback">Выберите фонд голосования</small>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label class="control-label">Дата начала голосования</label>
-                                        <input type="datetime-local" class="form-control" name="start_date" required>
+                                        <input type="datetime-local" class="form-control" name="start_date" value="{{date('Y-m-d\TH:i')}}" required>
                                         <small class="form-control-feedback">Введите дату начала голосования (меньше текущей даты)</small>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label class="control-label">Дата окончания голосования</label>
-                                        <input type="datetime-local" class="form-control" name="end_date" required>
+                                        <input type="datetime-local" class="form-control" name="end_date" value="{{date('Y-m-d\TH:i', strtotime('+10 days'))}}" required>
                                         <small class="form-control-feedback">Введите дату окончания голосования (больше даты начала голосования и текущей даты)</small>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label class="control-label">Дата подведения итогов голосования</label>
-                                        <input type="datetime-local" class="form-control" name="total_date" required>
+                                        <input type="datetime-local" class="form-control" name="total_date" value="{{date('Y-m-d\TH:i', strtotime('+12 days'))}}" required>
                                         <small class="form-control-feedback">Введите дату подведения итогов голосования (больше или равна дате окончания голосования)</small>
                                     </div>
                                 </div>
@@ -139,27 +139,27 @@
                                     <div class="row pt-3">
                                         <div class="col-12">
                                             <label class="control-label">Вид сделки</label>
-                                            <textarea type="text" class="form-control" name="votings[1][type_transaction]" required></textarea>
+                                            <textarea type="text" class="form-control" name="votings[][type_transaction]" required></textarea>
                                             <small class="form-control-feedback">Введите вид сделки</small>
                                         </div>
                                         <div class="col-md-6">
                                             <label class="control-label">Прочие условия голосования</label>
-                                            <textarea type="text" class="form-control" name="votings[1][other_conditions]"></textarea>
+                                            <textarea type="text" class="form-control" name="votings[][other_conditions]"></textarea>
                                             <small class="form-control-feedback">Укажите прочие условия о проведении голосования</small>
                                         </div>
                                         <div class="col-md-6">
                                             <label class="control-label">Стороны по сделке</label>
-                                            <textarea type="text" class="form-control" name="votings[1][parties_transaction]" required></textarea>
+                                            <textarea type="text" class="form-control" name="votings[][parties_transaction]" required></textarea>
                                             <small class="form-control-feedback">Введите стороны по сделке</small>
                                         </div>
                                         <div class="col-md-6">
                                             <label class="control-label">Предмет сделки</label>
-                                            <textarea type="text" class="form-control" name="votings[1][subject_transaction]" required></textarea>
+                                            <textarea type="text" class="form-control" name="votings[][subject_transaction]" required></textarea>
                                             <small class="form-control-feedback">Введите предмет сделки</small>
                                         </div>
                                         <div class="col-md-6">
                                             <label class="control-label">Цена сделки</label>
-                                            <textarea type="text" class="form-control" name="votings[1][cost_transaction]" required></textarea>
+                                            <textarea type="text" class="form-control" name="votings[][cost_transaction]" required></textarea>
                                             <small class="form-control-feedback">Введите стоимость сделки</small>
                                         </div>
                                     </div>
@@ -175,7 +175,7 @@
                         <div class="form-actions">
                             <button type="submit" class="btn btn-success"><i class="fa fa-check"></i> Сохранить</button>
                             <button type="reset" class="btn btn-info"> Очистить все</button>
-                            <a href="{{route('admin_index', ['omitted'])}}" type="button" class="btn btn-inverse">Назад</a>
+                            <a href="{{url()->previous()}}" type="button" class="btn btn-inverse">Назад</a>
                         </div>
                     </form>
                 </div>

@@ -78,13 +78,17 @@ class OmittedService
             'start_date' => ['required'],
             'end_date' => ['required'],
             'total_date' => ['required'],
-            'file' => ['required'],
+            'file' => ['nullable'],
         ]);
         unset($data['_token']);
-        $data['start_date'] = date('Y-m-d H:i:s', strtotime(str_replace(',', '', $data['start_date'])));
-        $data['end_date'] = date('Y-m-d H:i:s', strtotime(str_replace(',', '', $data['end_date'])));
-        $data['total_date'] = date('Y-m-d H:i:s', strtotime(str_replace(',', '', $data['total_date'])));
-        if ($data['file'] && $omitted) {
+
+        $search = [',', 'T'];
+        $replace = ['', ' '];
+
+        $data['start_date'] = date('Y-m-d H:i:s', strtotime(str_replace($search, $replace, $data['start_date'])));
+        $data['end_date'] = date('Y-m-d H:i:s', strtotime(str_replace($search, $replace, $data['end_date'])));
+        $data['total_date'] = date('Y-m-d H:i:s', strtotime(str_replace($search, $replace,  $data['total_date'])));
+        if (isset($data['file']) && $data['file'] && $omitted) {
             $path = config('company_details')['root_catalog'].'/storage/app/omitteds/'.$omitted->id.'/'.$_FILES['file']['full_path'];
             $dir = dirname($path);
             if (! is_dir($dir) && ! mkdir($dir, 0777, true) && ! is_dir($dir)) {

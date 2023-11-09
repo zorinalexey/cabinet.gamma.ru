@@ -9,10 +9,10 @@
         <div class="col-md-7 align-self-center text-right">
             <div class="d-flex justify-content-end align-items-center">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{route('admin_main')}}">Админ-панель</a></li>
+                    <li class="breadcrumb-item"><a href="{{route('admin.main')}}">Админ-панель</a></li>
                     <li class="breadcrumb-item active">Новости</li>
                 </ol>
-                <a href="{{route('admin_create', ['news'])}}" type="button" class="btn btn-info d-none d-lg-block m-l-15">
+                <a href="{{route('admin.post.create')}}" type="button" class="btn btn-info d-none d-lg-block m-l-15">
                     <i class="fa fa-plus-circle"></i>
                     Создать новый пост
                 </a>
@@ -77,7 +77,7 @@
                             </table>
                             {{ $active_news->links() }}
                         @else
-                            Посты отсутствуют. Создайте <a href="{{route('admin_create', ['news'])}}">новый пост</a>
+                            Посты отсутствуют. Создайте <a href="{{route('admin.post.create')}}">новый пост</a>
                         @endif
                     </div>
                     <div class="tab-pane  p-20" id="profile2" role="tabpanel">
