@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\NewsCreateRequest;
+use App\Http\Requests\NewsUpdateRequest;
 use App\Http\Services\NewsService;
 use App\Models\News;
 use Illuminate\Contracts\Foundation\Application as App;
@@ -11,6 +13,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 final class NewsController extends Controller
 {
@@ -36,24 +39,25 @@ final class NewsController extends Controller
     /**
      * Сохранить
      */
-    public function store(Request $request): RedirectResponse
+    public function store(NewsCreateRequest $request): RedirectResponse
     {
-        $data = NewsService::post($request);
-        $post = new News();
-        foreach ($data as $key => $value) {
-            $post->$key = $value;
-        }
-        $post->save();
 
-        return redirect(route('admin.post.list'));
+        $data = $request->validated();
+        $data['alias'] = Str::slug($data['title'], '_');
+
+        if(News::query()->create($data)){
+            return redirect(route('admin.post.list'));
+        }
+
+        abort(500);
     }
 
     /**
      * Редактировать
      */
-    public function edit(string $id): View|Application|Factory|App
+    public function edit(News $news): View|Application|Factory|App
     {
-        $post = News::find($id);
+        $post = $news;
 
         return view('admin.news.edit', compact('post'));
     }
@@ -61,27 +65,28 @@ final class NewsController extends Controller
     /**
      * Сохранить изменения
      */
-    public function update(Request $request, string $id): RedirectResponse
+    public function update(NewsUpdateRequest $request, News $news): RedirectResponse
     {
-        $post = News::find($id);
-        $data = NewsService::post($request);
-        foreach ($data as $key => $value) {
-            $post->$key = $value;
-        }
-        $post->save();
+        $data = $request->validated();
+        $data['alias'] = Str::slug($data['title'], '_');
 
-        return redirect(route('admin.post.list'));
+        if($news->update($data)){
+            return redirect(route('admin.post.list'));
+        }
+
+        abort(500);
     }
 
     /**
      * Мягкое удаление
      */
-    public function destroy(string $id): RedirectResponse
+    public function destroy(News $news): RedirectResponse
     {
-        $post = News::find($id);
-        $post->delete();
+        if($news->delete()){
+            return redirect(url()->previous());
+        }
 
-        return redirect(route('admin.post.list'));
+        abort(500);
     }
 
     /**

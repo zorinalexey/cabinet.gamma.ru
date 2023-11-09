@@ -22,7 +22,8 @@ class NewsCreateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'title' => 'string|required',
+            'content' => 'string|required',
         ];
     }
 }

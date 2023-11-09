@@ -65,9 +65,9 @@
                                         <td>{{date('d.m.Y', strtotime($page->created_at))}}</td>
                                         <td>{{date('d.m.Y', strtotime($page->updated_at))}}</td>
                                         <td class="text-nowrap">
-                                            <a href="{{route('admin_edit', ['pages', $page->id])}}" data-toggle="tooltip"
+                                            <a href="{{route('admin.page.edit', $page->id)}}" data-toggle="tooltip"
                                                data-original-title="Изменить"><i class="fas fa-edit"></i> </a>
-                                            <a href="{{route('admin_destroy', ['pages', $page->id])}}"
+                                            <a href="{{route('admin.page.destroy', $page->id)}}"
                                                data-toggle="tooltip" data-original-title="Удалить в корзину"> <i
                                                     class="mdi mdi-delete-forever"></i> </a>
                                         </td>
@@ -104,11 +104,11 @@
                                         <td>{{date('d.m.Y', strtotime($page->created_at))}}</td>
                                         <td>{{date('d.m.Y', strtotime($page->updated_at))}}</td>
                                         <td class="text-nowrap">
-                                            <a href="{{route('admin_restore', ['pages', $page->id])}}"
+                                            <a href="{{route('admin.page.restore', $page->id)}}"
                                                data-toggle="tooltip" data-original-title="Восстановить">
                                                 <i class="mdi mdi-backup-restore"></i>
                                             </a>
-                                            <a href="{{route('admin_delete', ['pages', $page->id]).'#profile2'}}"
+                                            <a href="{{route('admin.page.delete', $page->id).'#profile2'}}"
                                                data-toggle="tooltip" data-original-title="Удалить полностью">
                                                 <i class="mdi mdi-delete-forever"></i>
                                             </a>

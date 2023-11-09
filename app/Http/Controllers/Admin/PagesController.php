@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StaticPageCreateRequest;
+use App\Http\Requests\StaticPageUpdateRequest;
 use App\Models\StaticPage;
 use Illuminate\Contracts\Foundation\Application as App;
 use Illuminate\Contracts\View\Factory;
@@ -36,30 +38,24 @@ final class PagesController extends Controller
     /**
      * Сохранить
      */
-    public function store(Request $request): RedirectResponse
+    public function store(StaticPageCreateRequest $request): RedirectResponse
     {
-        $data = $request->validate([
-            '_token' => ['required'],
-            'title' => ['required'],
-            'content' => ['required'],
-        ]);
-        unset($data['_token']);
+        $data = $request->validated();
         $data['alias'] = Str::slug($data['title'], '_');
-        $page = new StaticPage();
-        foreach ($data as $key => $value) {
-            $page->$key = $value;
-        }
-        $page->save();
 
-        return redirect(route('admin_index', ['pages']));
+        if(StaticPage::query()->create($data)){
+            return redirect(route('admin.page.list'));
+        }
+
+        abort(500);
     }
 
     /**
      * Редактировать
      */
-    public function edit(string $id): View|Application|Factory|App
+    public function edit(StaticPage $staticPage): View|Application|Factory|App
     {
-        $page = StaticPage::find($id);
+        $page = $staticPage;
 
         return view('admin.pages.edit', compact('page'));
     }
@@ -67,35 +63,28 @@ final class PagesController extends Controller
     /**
      * Сохранить изменения
      */
-    public function update(Request $request, string $id): RedirectResponse
+    public function update(StaticPageUpdateRequest $request, StaticPage $staticPage): RedirectResponse
     {
-        $page = StaticPage::find($id);
-        $data = $request->validate([
-            '_token' => ['required'],
-            'title' => ['required'],
-            'content' => ['required'],
-        ]);
-        unset($data['_token']);
+        $data = $request->validated();
         $data['alias'] = Str::slug($data['title'], '_');
-        foreach ($data as $key => $value) {
-            $page->$key = $value;
-        }
-        $page->save();
 
-        return redirect(route('admin_index', ['pages']));
+        if($staticPage->update($data)){
+            return redirect(route('admin.page.list'));
+        }
+
+        abort(500);
     }
 
     /**
      * Мягкое удаление
      */
-    public function destroy(string $id): RedirectResponse
+    public function destroy(StaticPage $staticPage): RedirectResponse
     {
-        $page = StaticPage::find($id);
-        if ($page) {
-            $page->delete();
+        if($staticPage->delete()){
+            return redirect(route('admin.page.list'));
         }
 
-        return redirect(route('admin_index', ['pages']));
+        abort(500);
     }
 
     /**
@@ -108,7 +97,7 @@ final class PagesController extends Controller
             $page->forceDelete();
         }
 
-        return redirect(route('admin_index', ['pages']));
+        return redirect(route('admin.page.list'));
     }
 
     /**

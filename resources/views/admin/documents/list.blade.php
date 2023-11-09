@@ -53,7 +53,7 @@
                                 @foreach($active_docs as $doc)
                                     <tr>
                                         <td>
-                                            <a href="{{route('admin.document.upload',  $doc->id)}}">{{$doc->name}}</a>
+                                            <a href="{{$doc->path}}" target="_blank">{{$doc->name}}</a>
                                             <div>
                                                 Документ инвестора :
                                                 <a href="{{route('admin.user.show', $doc->user->id)}}" target="_blank">
@@ -73,7 +73,7 @@
                                         </td>
                                         <td>{{date('d.m.Y', strtotime($doc->created_at))}} </td>
                                         <td class="text-nowrap">
-                                            <a href="{{route('admin.user.destroy', $doc->id)}}" data-toggle="tooltip" data-original-title="Удалить в корзину">
+                                            <a href="{{route('admin.document.destroy', $doc->id)}}" data-toggle="tooltip" data-original-title="Удалить в корзину">
                                                 <i class="mdi mdi-delete-forever"></i>
                                             </a>
                                         </td>
@@ -101,7 +101,7 @@
                                 @foreach($delete_docs as $doc)
                                     <tr>
                                         <td>
-                                            <a href="{{route('admin_show', ['documents', $doc->id])}}">{{$doc->name}}</a>
+                                            <a href="{{route('admin.document.list')}}">{{$doc->name}}</a>
                                             <div>
                                                 Документ инвестора {{$doc->user->lastname.' '.$doc->user->name.' '.$doc->user->patronymic}}
                                             </div>
@@ -111,7 +111,7 @@
                                         </td>
                                         <td>{{date('d.m.Y', strtotime($doc->deleted_at))}} </td>
                                         <td class="text-nowrap">
-                                            <a href="{{route('admin_restore', ['documents', $doc->id])}}"
+                                            <a href="{{route('admin.document.restore', $doc->id)}}"
                                                data-toggle="tooltip" data-original-title="Восстановить">
                                                 <i class="mdi mdi-backup-restore"></i>
                                             </a>

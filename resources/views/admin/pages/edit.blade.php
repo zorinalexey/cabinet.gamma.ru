@@ -30,7 +30,7 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-body">
-                    <form action="{{route('admin_update', ['pages', $page->id])}}" method="POST">
+                    <form action="{{route('admin.page.update', $page->id)}}" method="POST">
                         @csrf
                         <div class="form-body">
                             <input type="hidden" name="id" value="{{$page->id}}">

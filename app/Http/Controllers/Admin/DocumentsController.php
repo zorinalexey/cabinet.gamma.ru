@@ -42,22 +42,6 @@ final class DocumentsController extends Controller
     }
 
     /**
-     * @return void|null
-     */
-    public function upload(int $id)
-    {
-        $file = UserDocument::find($id);
-        $path = str_replace('storage/', '', $file->path);
-        if ($file && Storage::drive('local')->exists($path)) {
-            $xml = Storage::drive('local')->path($path);
-            if ($this->downloadFile($xml)) {
-                return redirect()->route('admin_index', ['documents']);
-            }
-        }
-        abort(404);
-    }
-
-    /**
      * Восстановить запись
      */
     public function restoreModel(int $id): RedirectResponse
@@ -70,10 +54,12 @@ final class DocumentsController extends Controller
     /**
      * Мягкое удаление
      */
-    public function destroy(string $id): RedirectResponse
+    public function destroy(UserDocument $document): RedirectResponse
     {
-        UserDocument::find($id)->delete();
+        if($document->delete()){
+            return redirect(url()->previous());
+        }
 
-        return redirect(route('admin_index', ['documents']));
+        abort(500);
     }
 }

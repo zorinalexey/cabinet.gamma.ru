@@ -31,7 +31,7 @@ final class LoginController extends Controller
             Auth::login($user);
             $request->session()->regenerate();
 
-            return redirect(route('admin_main'));
+            return redirect(route('admin.main'));
         }
 
         return abort(403);

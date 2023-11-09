@@ -27,7 +27,7 @@
     <div class="login-register">
         <div class="login-box card">
             <div class="card-body">
-                <form class="form-horizontal form-material" id="loginform" action="{{ route('admin_auth') }}"
+                <form class="form-horizontal form-material" id="loginform" action="{{ route('admin.auth') }}"
                       method="POST">
                     @csrf
                     <h3 class="text-center m-b-20">Вход в панель администратора</h3>

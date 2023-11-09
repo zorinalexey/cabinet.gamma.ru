@@ -13,6 +13,12 @@ final class StaticPage extends Model
 
     protected $dates = ['deleted_at'];
 
+    protected $fillable = [
+        'title',
+        'alias',
+        'content'
+    ];
+
     public function short_content(): string
     {
         $content = preg_replace('~<(.+)>~', '', $this->content);

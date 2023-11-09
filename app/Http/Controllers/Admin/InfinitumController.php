@@ -10,8 +10,9 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Storage;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
-class InfinitumController extends Controller
+final class InfinitumController extends Controller
 {
     /**
      * Просмотр списка
@@ -59,19 +60,20 @@ class InfinitumController extends Controller
     }
 
     /**
-     * @return void|null
+     * @param Infinitum $infinitum
+     * @return BinaryFileResponse
      */
-    public function upload(Infinitum $infinitum)
+    public function upload(Infinitum $infinitum): BinaryFileResponse
     {
-        if ($infinitum && Storage::drive('local')->exists($infinitum->path)) {
-            $xml = Storage::drive('local')->path($infinitum->path);
-            if ($this->downloadFile($xml)) {
-                $infinitum->download++;
-                $infinitum->save();
+        $disk = Storage::drive('local');
 
-                return redirect()->route(url()->previous());
-            }
+        if(($path = $disk->path($infinitum->path)) && $disk->exists($path)){
+            $infinitum->download++;
+            $infinitum->save();
+
+            return response()->download($path, basename($path));
         }
+
         abort(404);
     }
 }

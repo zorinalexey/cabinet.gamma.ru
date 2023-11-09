@@ -17,7 +17,7 @@ class Controller extends BaseController
     /**
      * @return void
      */
-    protected function downloadFile($file)
+    protected function downloadFile($file): bool
     {
         if (file_exists($file)) {
             if (ob_get_level()) {
@@ -39,7 +39,7 @@ class Controller extends BaseController
         return false;
     }
 
-    protected function uploadFile(string $fileName, string $tmpFile)
+    protected function uploadFile(string $fileName, string $tmpFile): bool
     {
         $dir = dirname($fileName);
         if (! is_dir($dir) && ! mkdir($dir, 0777, true) && ! is_dir($dir)) {
