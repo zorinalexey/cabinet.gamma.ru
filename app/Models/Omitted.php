@@ -116,10 +116,10 @@ final class Omitted extends Model
                 $data['false']++;
             }
         }
-        if ($data['true']) {
+        if ($data['true'] && $cuntVoitings > 0) {
             $data['true'] = round($data['true'] / $cuntVoitings * 100, 2);
         }
-        if ($data['false']) {
+        if ($data['false'] && $cuntVoitings > 0) {
             $data['false'] = round($data['false'] / $cuntVoitings * 100, 2);
         }
 

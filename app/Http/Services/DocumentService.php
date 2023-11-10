@@ -304,6 +304,9 @@ final class DocumentService
         $config = config('company_details');
         $pdfPath = str_replace('.docx', '.pdf', $path);
         try {
+            if(file_exists($path)){
+                unlink($path);
+            }
             $dir = dirname($path);
             if (! is_dir($dir) && ! mkdir($dir, 0777, true) && ! is_dir($dir)) {
                 throw new RuntimeException(sprintf('Directory "%s" was not created', $dir));

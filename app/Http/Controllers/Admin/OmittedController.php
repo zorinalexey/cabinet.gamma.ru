@@ -167,6 +167,8 @@ final class OmittedController extends Controller
     public function delete(string $id): RedirectResponse
     {
         $omitted = Omitted::withTrashed()->find($id);
+        $omitted->documents()->forceDelete();
+        $omitted->votings()->forceDelete();
         $omitted->forceDelete();
 
         return redirect(route('admin.omitted.list'));
