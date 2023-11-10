@@ -10,15 +10,62 @@ use App\Models\Fund;
 use App\Models\Omitted;
 use App\Models\Voting;
 use App\Services\Omitted\OmittedDocumentsService;
+use Exception;
 use Illuminate\Contracts\Foundation\Application as App;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 final class OmittedController extends Controller
 {
+    private static function sync(Omitted $omitted, array $data):bool
+    {
+
+        foreach ($data['votings'] as $key => $value){
+            $data['votings'][$key]['omitted_id'] = $omitted->id;
+            $data['votings'][$key]['fund_id'] = $omitted->fund->id;
+        }
+
+        $voitingSync = $omitted->votings()->sync($data['votings']);
+
+        if(isset($data['file'])){
+            $file = $data['file'];
+
+            $name = "Решение о проведении голосования №{$omitted->id}";
+            $filePath = "/storage/omitteds/{$omitted->id}/".Str::slug($name, '_').'.'.preg_replace('~^(.+)\.(\w{2,5})$~ui', '$2', $_FILES['file']['name']);
+            $dir = public_path().dirname($filePath);
+
+            if(!is_dir($dir) && !mkdir($dir, 0777, true) && !is_dir($dir)) {
+                throw new \RuntimeException(sprintf('Directory "%s" was not created', $dir));
+            }
+
+            if(file_put_contents(public_path().$filePath, $file->getContent())){
+                $docSync = $omitted->documents()->sync([['link' => $filePath, 'name' => $name]]);
+
+                if($docSync && $voitingSync){
+                    return true;
+                }
+
+                return false;
+            }
+        }
+
+        if($voitingSync){
+            return true;
+        }
+
+        return  false;
+    }
+
     /**
      * Просмотр списка
      */
@@ -35,15 +82,21 @@ final class OmittedController extends Controller
      */
     public function store(OmittedCreateRequest $request): RedirectResponse
     {
-        $data = OmittedService::omitted($request);
-        $omitted = Omitted::create($data);
-        OmittedService::omitted($request, $omitted);
-        foreach (OmittedService::votings($request) as $voting) {
-            $data = self::getVotingData($voting, $data, $omitted);
-            Voting::create($data);
+        $data = $request->validated();
+
+        try {
+            return DB::transaction(static function () use ($data){
+                if(($omitted = Omitted::query()->create($data)) && self::sync($omitted, $data)){
+                    return redirect(route('admin.omitted.list'));
+                }
+
+                return redirect()->back();
+            });
+        }catch (Exception $e){
+
         }
 
-        return redirect(route('admin_index', ['omitted']));
+        abort(500);
     }
 
     /**
@@ -54,19 +107,6 @@ final class OmittedController extends Controller
         $funds = Fund::all();
 
         return view('admin.omitted.create', compact('funds'));
-    }
-
-    private static function getVotingData(mixed $values, array $data, $omitted): array
-    {
-        $data['type_transaction'] = $values['type_transaction'];
-        $data['parties_transaction'] = $values['parties_transaction'];
-        $data['subject_transaction'] = $values['subject_transaction'];
-        $data['cost_transaction'] = $values['cost_transaction'];
-        $data['other_conditions'] = $values['other_conditions'];
-        $data['omitted_id'] = $omitted->id;
-        $data['fund_id'] = $omitted['fund_id'];
-
-        return $data;
     }
 
     /**
@@ -93,23 +133,22 @@ final class OmittedController extends Controller
      */
     public function update(OmittedUpdateRequest $request, Omitted $omitted)#: RedirectResponse
     {
-        dump($request->validated());
-        /**
-        $omitted->update($data);
-        $votings = OmittedService::votings($request);
-        foreach ($votings as $voting_id => $values) {
-            $data = self::getVotingData($values, $data, $omitted);
-            $votingModel = Voting::where('omitted_id', $omitted->id)
-                ->where('id', $voting_id)->first();
-            if ($votingModel) {
-                $votingModel->update($data);
-            } else {
-                Voting::create($data);
-            }
+
+        $data = $request->validated();
+
+        try {
+            return DB::transaction(static function () use ($omitted, $data) {
+                if(($omitted->update($data)) && self::sync($omitted, $data)){
+                    return redirect(route('admin.omitted.list'));
+                }
+
+                return redirect()->back();
+            });
+        }catch (Exception $e){
+
         }
 
-        return redirect(route('admin_index', ['omitted']));
-        */
+        abort(500);
     }
 
     /**
@@ -119,7 +158,7 @@ final class OmittedController extends Controller
     {
         $omitted->delete();
 
-        return redirect(route('admin_index', ['omitted']));
+        return redirect(route('admin.omitted.list'));
     }
 
     /**
@@ -130,7 +169,7 @@ final class OmittedController extends Controller
         $omitted = Omitted::withTrashed()->find($id);
         $omitted->forceDelete();
 
-        return redirect(route('admin_index', ['omitted']));
+        return redirect(route('admin.omitted.list'));
     }
 
     /**

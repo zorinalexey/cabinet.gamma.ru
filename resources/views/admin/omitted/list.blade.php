@@ -294,7 +294,7 @@
                             </table>
                             {{ $active_omitteds->links() }}
                         @else
-                            Опросы отсутствуют. Создайте <a href="{{route('admin_create', ['omitted'])}}">новый
+                            Опросы отсутствуют. Создайте <a href="{{route('admin.post.create')}}">новый
                                 опрос</a>
                         @endif
                     </div>
@@ -317,12 +317,12 @@
                                 @foreach($delete_omitteds as $omitted)
                                     <tr>
                                         <td>
-                                            <a href="{{route('admin_show', ['omitted', $omitted->id])}}">
+                                            <a href="{{route('admin.omitted.show', $omitted->id)}}">
                                                 {{$omitted->name}}
                                             </a>
                                         </td>
                                         <td>
-                                            <a href="{{route('admin_show', ['funds', $omitted->fund_id])}}">{{$omitted->fund->name}}</a>
+                                            <a href="{{route('admin.fund.show', $omitted->fund_id)}}">{{$omitted->fund->name}}</a>
                                         </td>
                                         <td>
                                             {{$omitted->status()}}
@@ -340,11 +340,11 @@
                                             {{date('d.m.Y H:i:s', strtotime($omitted->deleted_at))}}
                                         </td>
                                         <td class="text-nowrap">
-                                            <a href="{{route('admin_restore', ['omitted', $omitted->id])}}"
+                                            <a href="{{route('admin.omitted.restore', $omitted->id)}}"
                                                data-toggle="tooltip" data-original-title="Восстановить">
                                                 <i class="mdi mdi-backup-restore"></i>
                                             </a>
-                                            <a href="{{route('admin_delete', ['omitted', $omitted->id]).'#tab2'}}"
+                                            <a href="{{route('admin.omitted.delete', $omitted->id).'#tab2'}}"
                                                data-toggle="tooltip" data-original-title="Удалить полностью">
                                                 <i class="mdi mdi-delete-forever"></i>
                                             </a>

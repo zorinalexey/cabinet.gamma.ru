@@ -11,6 +11,28 @@
             document.getElementById(block).remove();
         }
 
+        function setDecisionMakingCount(id, select){
+            let input = document.getElementById('decision_making-'+id);
+            let div = document.getElementById('decision_making_block-'+id);
+
+            if(select.value == 0){
+                div.style.display = 'none';
+                input.value = 0;
+                input.min = 0;
+            }else{
+                div.style.display = 'block';
+
+                let value = 1;
+
+                if(input.value > 1){
+                    value = input.value;
+                }
+
+                input.value = value;
+                input.min = 1;
+            }
+        }
+
         function addVoting() {
             count++;
             let block = document.getElementById('votings');
@@ -20,30 +42,42 @@
             newBlock.innerHTML = '\n\
                 <h5>' + count + ' вопрос голосования</h5>\n\
                 <div class="row pt-3">\n\
-                    <div class="col-md-12">\n\
+                    <div class="col-md-6">\n\
                         <label class="control-label">' + count + ' вид сделки</label>\n\
                         <textarea type="text" class="form-control" name="votings[][type_transaction]" required></textarea>\n\
                         <small class="form-control-feedback">Введите вид сделки</small>\n\
                     </div>\n\
                     <div class="col-md-6">\n\
                         <label class="control-label">Прочие условия голосования</label>\n\
-                        <textarea class="form-control" name="votings[][other_conditions]"></textarea>\n\
+                        <textarea class="form-control" name="votings[' + count + '][other_conditions]"></textarea>\n\
                         <small class="form-control-feedback">Укажите прочие условия о проведении голосования</small>\n\
                     </div>\n\
                     <div class="col-md-6"><!-- comment -->\n\
                         <label class="control-label">Стороны по сделке</label>\n\
-                        <textarea type="text" class="form-control" name="votings[][parties_transaction]" required></textarea>\n\
+                        <textarea type="text" class="form-control" name="votings[' + count + '][parties_transaction]" required></textarea>\n\
                         <small class="form-control-feedback">Введите стороны по сделке</small>\n\
                     </div>\n\
                     <div class="col-md-6"><!-- comment -->\n\
                         <label class="control-label">Предмет сделки</label>\n\
-                        <textarea type="text" class="form-control" name="votings[][subject_transaction]" required></textarea>\n\
+                        <textarea type="text" class="form-control" name="votings[' + count + '][subject_transaction]" required></textarea>\n\
                         <small class="form-control-feedback">Введите предмет сделки</small>\n\
                     </div>\n\
                     <div class="col-md-6"><!-- comment -->\n\
                         <label class="control-label">Цена сделки</label>\n\
-                        <textarea type="text" class="form-control" name="votings[][cost_transaction]" required></textarea>\n\
+                        <textarea type="text" class="form-control" name="votings[' + count + '][cost_transaction]" required></textarea>\n\
                         <small class="form-control-feedback">Введите стоимость сделки</small>\n\
+                    </div>\n\
+                    <div class="col-md-6">\n\
+                        <label class="control-label">Формат принятия решения</label>\n\
+                        <select class="form-control" name="votings[' + count + '][decision_making]" required onchange="setDecisionMakingCount(' + count + ', this)">\n\
+                            <option value="0" selected>Большенство голосов</option>\n\
+                            <option value="1">Минимальное количество голосов</option>\n\
+                        </select>\n\
+                        <small class="form-control-feedback">Выберите формат принятия решения</small>\n\
+                        <div style="display: none" id="decision_making_block-' + count + '">\n\
+                            <label class="control-label">Введите минимальное количество голосов</label>\n\
+                            <input id="decision_making-' + count + '" class="form-control" type="number" name="votings[' + count + '][decision_making_count]" value="0">\n\
+                        </div>\n\
                     </div>\n\
                     <div class="col-md-4">\n\
                         <a href="javascript:void(0)" onclick="remove(\'count-' + count + '\');" title="Удалить"> <i class="fas fa-trash"></i></a>\n\
@@ -137,30 +171,42 @@
                                 <div class="card-body">
                                     <h5>1 вопрос голосования</h5>
                                     <div class="row pt-3">
-                                        <div class="col-12">
+                                        <div class="col-6">
                                             <label class="control-label">Вид сделки</label>
-                                            <textarea type="text" class="form-control" name="votings[][type_transaction]" required></textarea>
+                                            <textarea type="text" class="form-control" name="votings[1][type_transaction]" required></textarea>
                                             <small class="form-control-feedback">Введите вид сделки</small>
                                         </div>
                                         <div class="col-md-6">
                                             <label class="control-label">Прочие условия голосования</label>
-                                            <textarea type="text" class="form-control" name="votings[][other_conditions]"></textarea>
+                                            <textarea type="text" class="form-control" name="votings[1][other_conditions]"></textarea>
                                             <small class="form-control-feedback">Укажите прочие условия о проведении голосования</small>
                                         </div>
                                         <div class="col-md-6">
                                             <label class="control-label">Стороны по сделке</label>
-                                            <textarea type="text" class="form-control" name="votings[][parties_transaction]" required></textarea>
+                                            <textarea type="text" class="form-control" name="votings[1][parties_transaction]" required></textarea>
                                             <small class="form-control-feedback">Введите стороны по сделке</small>
                                         </div>
                                         <div class="col-md-6">
                                             <label class="control-label">Предмет сделки</label>
-                                            <textarea type="text" class="form-control" name="votings[][subject_transaction]" required></textarea>
+                                            <textarea type="text" class="form-control" name="votings[1][subject_transaction]" required></textarea>
                                             <small class="form-control-feedback">Введите предмет сделки</small>
                                         </div>
                                         <div class="col-md-6">
                                             <label class="control-label">Цена сделки</label>
-                                            <textarea type="text" class="form-control" name="votings[][cost_transaction]" required></textarea>
+                                            <textarea type="text" class="form-control" name="votings[1][cost_transaction]" required></textarea>
                                             <small class="form-control-feedback">Введите стоимость сделки</small>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="control-label">Формат принятия решения</label>
+                                            <select class="form-control" name="votings[1][decision_making]" required onchange="setDecisionMakingCount(1, this)">
+                                                <option value="0" selected>Большенство голосов</option>
+                                                <option value="1">Минимальное количество голосов</option>
+                                            </select>
+                                            <small class="form-control-feedback">Выберите формат принятия решения</small>
+                                            <div style="display: none" id="decision_making_block-1">
+                                                <label class="control-label">Введите минимальное количество голосов</label>
+                                                <input id="decision_making-1" class="form-control" type="number" name="votings[1][decision_making_count]" value="0">
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

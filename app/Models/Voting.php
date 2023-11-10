@@ -16,7 +16,17 @@ final class Voting extends Model
 
     protected $dates = ['deleted_at'];
 
-    protected $guarded = [];
+    protected $fillable = [
+        'fund_id',
+        'omitted_id',
+        'type_transaction',
+        'parties_transaction',
+        'subject_transaction',
+        'cost_transaction',
+        'other_conditions',
+        'decision_making',
+        'decision_making_count',
+    ];
 
     /**
      * Ответы на вопрос голосования

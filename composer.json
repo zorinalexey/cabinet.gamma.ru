@@ -11,6 +11,8 @@
         "free2one/php-accessor": "~0.4",
         "guzzlehttp/guzzle": "^7.2",
         "kilylabs/qr-payment-php": "^0.1.0",
+        "korridor/laravel-has-many-merged": "^1",
+        "korridor/laravel-has-many-sync": "^2.0",
         "laravel/framework": "^10.0",
         "laravel/sanctum": "^3.2",
         "laravel/socialite": "^5.0",

@@ -6,6 +6,28 @@
     <script>
         count = {{$count}};
 
+        function setDecisionMakingCount(id, select){
+            let input = document.getElementById('decision_making-'+id);
+            let div = document.getElementById('decision_making_block-'+id);
+
+            if(select.value == 0){
+                div.style.display = 'none';
+                input.value = 0;
+                input.min = 0;
+            }else{
+                div.style.display = 'block';
+
+                let value = 1;
+
+                if(input.value > 1){
+                    value = input.value;
+                }
+
+                input.value = value;
+                input.min = 1;
+            }
+        }
+
         function remove(id) {
             count--;
             document.getElementById('count-' + id).remove();
@@ -32,7 +54,7 @@
             newBlock.innerHTML = '\n\
                 <h5>' + count + ' вопрос голосования</h5>\n\
                 <div class="row pt-3">\n\
-                    <div class="col-md-12">\n\
+                    <div class="col-md-6">\n\
                         <label class="control-label">' + count + ' вид сделки</label>\n\
                         <textarea type="text" class="form-control" name="votings[' + count + '][type_transaction]" required></textarea>\n\
                         <small class="form-control-feedback">Введите вид сделки</small>\n\
@@ -49,13 +71,25 @@
                     </div>\n\
                     <div class="col-md-6"><!-- comment -->\n\
                         <label class="control-label">Предмет сделки</label>\n\
-                        <textarea type="text" class="form-control" name="votings[' + count + '][subject_transaction]"  required></textarea>\n\
+                        <textarea type="text" class="form-control" name="votings[' + count + '][subject_transaction]" required></textarea>\n\
                         <small class="form-control-feedback">Введите предмет сделки</small>\n\
                     </div>\n\
-                    <div class="col-md-6"><!-- comment -->\n\
+                    <div class="col-md-6">\n\
                         <label class="control-label">Цена сделки</label>\n\
-                        <input type="text" class="form-control" name="votings[' + count + '][cost_transaction]" value="" required>\n\
+                        <textarea type="text" class="form-control" name="votings[' + count + '][cost_transaction]" required></textarea>\n\
                         <small class="form-control-feedback">Введите стоимость сделки</small>\n\
+                    </div>\n\
+                    <div class="col-md-6">\n\
+                        <label class="control-label">Формат принятия решения</label>\n\
+                        <select class="form-control" name="votings[' + count + '][decision_making]" required onchange="setDecisionMakingCount(' + count + ', this)">\n\
+                            <option value="0" >Большенство голосов</option>\n\
+                            <option value="1" >Минимальное количество голосов</option>\n\
+                        </select>\n\
+                        <small class="form-control-feedback">Выберите формат принятия решения</small>\n\
+                        <div style="display: none" id="decision_making_block-' + count + '">\n\
+                            <label class="control-label">Введите минимальное количество голосов</label>\n\
+                            <input id="decision_making-' + count + '" class="form-control" type="number" name="votings[' + count + '][decision_making_count]" value="0">\n\
+                        </div>\n\
                     </div>\n\
                     <div class="col-md-4">\n\
                         <a href="javascript:void(0)" onclick="remove(\'count-' + count + '\');" title="Удалить"> <i class="fas fa-trash"></i></a>\n\
@@ -109,6 +143,11 @@
                                         <input type="file" class="form-control" name="file" placeholder="Выберите файл решения о проведении голосования">
                                         <small class="form-control-feedback">Выберите файл решения о проведении голосования</small>
                                     </div>
+                                    @if($omitted->documents)
+                                        <div>
+                                            <a target="_blank" href="{{$omitted->documents->link}}">{{$omitted->documents->name}}</a>
+                                        </div>
+                                    @endif
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
@@ -155,9 +194,10 @@
                                         $count++;
                                     @endphp
                                     <div class="card-body" id="count-{{$voting->id}}">
+                                        <input type="hidden" name="votings[{{$voting->id}}][id]" value="{{$voting->id}}">
                                         <h5>{{$count}} вопрос голосования</h5>
                                         <div class="row pt-3">
-                                            <div class="col-12">
+                                            <div class="col-6">
                                                 <label class="control-label">Вид сделки</label>
                                                 <textarea type="text" class="form-control" name="votings[{{$voting->id}}][type_transaction]" required>{{$voting->type_transaction}}</textarea>
                                                 <small class="form-control-feedback">Введите вид сделки</small>
@@ -178,9 +218,21 @@
                                                 <small class="form-control-feedback">Введите предмет сделки</small>
                                             </div>
                                             <div class="col-md-6">
-                                                <label class="control-label">Цена сделки</label>
+                                                <label class="control-label">Стоимость сделки</label>
                                                 <textarea type="text" class="form-control" name="votings[{{$voting->id}}][cost_transaction]" required>{{$voting->cost_transaction}}</textarea>
                                                 <small class="form-control-feedback">Введите стоимость сделки</small>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label class="control-label">Формат принятия решения</label>
+                                                <select class="form-control" name="votings[{{$voting->id}}][decision_making]" required onchange="setDecisionMakingCount({{$voting->id}}, this)">
+                                                    <option value="0" @selected($voting->decision_making === 0)>Большенство голосов</option>
+                                                    <option value="1" @selected($voting->decision_making === 1)>Минимальное количество голосов</option>
+                                                </select>
+                                                <small class="form-control-feedback">Выберите формат принятия решения</small>
+                                                <div style="display: none" id="decision_making_block-{{$voting->id}}">
+                                                    <label class="control-label">Введите минимальное количество голосов</label>
+                                                    <input id="decision_making-{{$voting->id}}" class="form-control" type="number" name="votings[{{$voting->id}}][decision_making_count]" value="{{$voting->decision_making_count??0}}">
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="col-md-4">

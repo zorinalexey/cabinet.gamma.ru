@@ -28,6 +28,10 @@ Route::prefix('omitted')->name('omitted.')->group(static function (){
         return (new OmittedController())->delete($id);
     })->name('delete');
 
+    Route::get('show/{omitted}', static function (Omitted $omitted){
+        return (new OmittedController())->show($omitted);
+    })->name('show');
+
     Route::get('destroy/{omitted}', static function(Omitted $omitted){
         return (new OmittedController())->destroy($omitted);
     })->name('destroy');

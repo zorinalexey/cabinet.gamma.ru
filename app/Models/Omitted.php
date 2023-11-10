@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Http\Services\UserService;
-use Hamcrest\Core\HasToString;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -27,7 +26,14 @@ final class Omitted extends Model
      *
      * @var array<int, string>
      */
-    protected $guarded = [];
+    protected $fillable = [
+        'name',
+        'fund_id',
+        'is_public',
+        'start_date',
+        'end_date',
+        'total_date'
+    ];
     /**
      * Фонд голосования
      */
